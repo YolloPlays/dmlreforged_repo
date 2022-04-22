@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "dmlreforged:block/simulation_chamber" },
+		"facing=south": { "model": "dmlreforged:block/simulation_chamber", "y": 180 },
+		"facing=west": { "model": "dmlreforged:block/simulation_chamber", "y": 270 },
+		"facing=east": { "model": "dmlreforged:block/simulation_chamber", "y": 90 }
+	}
+}

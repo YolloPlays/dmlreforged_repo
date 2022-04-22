@@ -1,0 +1,30 @@
+modLoader="javafml" 
+loaderVersion="[40,)" 
+license="MIT"
+
+[[mods]] 
+modId="dmlreforged" 
+version="${file.jarVersion}"  
+displayName="Deep Mob Learning" 
+logoFile="dmlreforged.png" 
+credits="Deep Mob Learning Authors" 
+authors="YolloPlays" 
+description='''
+A 1.18.2 port of the 1.12 Mod
+Deep Mob Learning
+'''
+
+[[dependencies.dmlreforged]]     
+    modId="forge"    
+    mandatory=true   
+    versionRange="[40,)"    
+    ordering="NONE"   
+    side="BOTH"
+
+
+[[dependencies.dmlreforged]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.2,1.19)"
+    ordering="NONE"
+    side="BOTH"
