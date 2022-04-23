@@ -8,8 +8,6 @@ import com.yollo.dmlreforged.common.util.container.slots.SlotSimulationChamber;
 import com.yollo.dmlreforged.common.util.container.sync.SimulationChamberContainerData;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -31,20 +29,15 @@ public class SimulationChamberContainer extends AbstractContainerMenu {
 	public static final int PRISTINE_SLOT = 3;
 	private final ContainerLevelAccess containerAccess;
 	public final ContainerData data;
-	public Container handler;
+	public IItemHandler handler;
 
 	// Client
 	public SimulationChamberContainer(int id, Inventory playerInv) {
-		this(id, playerInv, new SimpleContainer(4), BlockPos.ZERO, new SimpleContainerData(3));
-	}
-	
-	// Test 
-	public SimulationChamberContainer(int id, Inventory playerInv, Container container) {
-		this(id, playerInv, new SimpleContainer(4), BlockPos.ZERO, new SimpleContainerData(3));
+		this(id, playerInv, new ItemStackHandler(4), BlockPos.ZERO, new SimpleContainerData(3));
 	}
 
 	// Server
-	public SimulationChamberContainer(int pContainerId, Inventory pInventory, Container handler, BlockPos pPos,
+	public SimulationChamberContainer(int pContainerId, Inventory pInventory, IItemHandler handler, BlockPos pPos,
 			ContainerData data) {
 		super(ContainerInit.SIMULATION_CHAMBER.get(), pContainerId);
 		this.handler = handler;
@@ -72,7 +65,7 @@ public class SimulationChamberContainer extends AbstractContainerMenu {
 		}
 	}
 
-	private void addSlotsToHandler(Container handler) {
+	private void addSlotsToHandler(IItemHandler handler) {
 		addSlot(new SlotSimulationChamber(handler, DATA_MODEL_SLOT, -40, -35));
 		addSlot(new SlotSimulationChamber(handler, POLYMER_SLOT, 148, -29));
 		addSlot(new SlotSimulationChamber(handler, LIVING_SLOT, 168, -29));
@@ -108,16 +101,16 @@ public class SimulationChamberContainer extends AbstractContainerMenu {
 	}
 
 	public static MenuConstructor getServerContainer(BlockEntitySimulationChamber be, BlockPos pos) {
-		return (id, playerInv, player) -> new SimulationChamberContainer(id, playerInv, be, pos,
+		return (id, playerInv, player) -> new SimulationChamberContainer(id, playerInv, be.inventory, pos,
 				new SimulationChamberContainerData(be, 3));
 	}
 	
 	public ItemStack getDataModel() {
-		return handler.getItem(DATA_MODEL_SLOT);
+		return handler.getStackInSlot(DATA_MODEL_SLOT);
 	}
 	
 	public ItemStack getPolymerClay() {
-		return handler.getItem(POLYMER_SLOT);
+		return handler.getStackInSlot(POLYMER_SLOT);
 	}
 	
     private static boolean dataModelMatchesOutput(ItemStack stack, ItemStack output) {
@@ -131,25 +124,25 @@ public class SimulationChamberContainer extends AbstractContainerMenu {
     }
 
     public boolean outputIsFull() {
-        ItemStack stack = handler.getItem(LIVING_SLOT);
+        ItemStack stack = handler.getStackInSlot(LIVING_SLOT);
         if(stack.isEmpty()) {
             return false;
         }
 
-        boolean stackLimitReached = stack.getCount() == handler.getMaxStackSize();
-        boolean outputMatches = dataModelMatchesOutput(getDataModel(), handler.getItem(LIVING_SLOT));
+        boolean stackLimitReached = stack.getCount() == handler.getSlotLimit(LIVING_SLOT);
+        boolean outputMatches = dataModelMatchesOutput(getDataModel(), handler.getStackInSlot(LIVING_SLOT));
 
         return stackLimitReached || !outputMatches;
     }
     
     public boolean pristineIsFull() {
-        ItemStack stack = handler.getItem(PRISTINE_SLOT);
+        ItemStack stack = handler.getStackInSlot(PRISTINE_SLOT);
         if(stack.isEmpty()) {
             return false;
         }
 
-        boolean stackLimitReached = stack.getCount() == handler.getMaxStackSize();
-        boolean outputMatches = dataModelMatchesPristine(getDataModel(), handler.getItem(PRISTINE_SLOT));
+        boolean stackLimitReached = stack.getCount() == handler.getSlotLimit(PRISTINE_SLOT);
+        boolean outputMatches = dataModelMatchesPristine(getDataModel(), handler.getStackInSlot(PRISTINE_SLOT));
 
         return stackLimitReached || !outputMatches;
     }

@@ -4,14 +4,14 @@ import com.yollo.dmlreforged.common.items.ItemDataModel;
 import com.yollo.dmlreforged.common.items.init.ItemInit;
 import com.yollo.dmlreforged.common.util.container.SimulationChamberContainer;
 
-import net.minecraft.world.Container;
-import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.SlotItemHandler;
 
-public class SlotSimulationChamber extends Slot{
+public class SlotSimulationChamber extends SlotItemHandler{
 
-	public SlotSimulationChamber(Container handler, int index, int xPosition, int yPosition) {
+	public SlotSimulationChamber(IItemHandler handler, int index, int xPosition, int yPosition) {
 		super(handler, index, xPosition, yPosition);
 	}
 	

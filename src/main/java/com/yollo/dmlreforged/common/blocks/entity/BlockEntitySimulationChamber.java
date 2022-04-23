@@ -2,13 +2,9 @@ package com.yollo.dmlreforged.common.blocks.entity;
 
 import com.yollo.dmlreforged.common.energy.DeepEnergyStorage;
 import com.yollo.dmlreforged.common.items.init.BlockEntityInit;
-import com.yollo.dmlreforged.common.util.container.SimulationChamberContainer;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -36,7 +32,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity /*impleme
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag tag) {
+	protected void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
 		tag.putInt("energy", currentEnergy);
 		tag.putInt("simulationProgress", percentDone);
@@ -74,11 +70,6 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity /*impleme
 
 	public int getEnergy() {
 		return currentEnergy;
-	}
-
-	@Override
-	protected AbstractContainerMenu createMenu(int pContainerId, Inventory pInventory) {
-		return new SimulationChamberContainer(pContainerId, pInventory, this);
 	}
 
 }
