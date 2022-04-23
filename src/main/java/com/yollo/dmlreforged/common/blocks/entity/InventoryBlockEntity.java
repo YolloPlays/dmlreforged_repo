@@ -1,29 +1,22 @@
 package com.yollo.dmlreforged.common.blocks.entity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 
-public class InventoryBlockEntity extends BlockEntity {
+public abstract class InventoryBlockEntity extends RandomizableContainerBlockEntity {
 	public final int size;
 	protected int timer;
 	protected boolean requiresUpdate;
-
-	public final ItemStackHandler inventory;
-	protected LazyOptional<ItemStackHandler> handler;
-
+	private NonNullList<ItemStack> items;
+	
     public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int size) {
         super(type, pos, state);
         if (size <= 0) {
@@ -31,106 +24,53 @@ public class InventoryBlockEntity extends BlockEntity {
         }
         
         this.size = size;
-        this.inventory = createInventory();
-        this.handler = LazyOptional.of(() -> this.inventory);
+        this.items = NonNullList.<ItemStack>withSize(size, ItemStack.EMPTY);
     }
-    
-    public ItemStack extractItem(int slot) {
-        final int count = getItemInSlot(slot).getCount();
-        this.requiresUpdate = true;
-        return this.handler.map(inv -> inv.extractItem(slot, count, false)).orElse(ItemStack.EMPTY);
-    }
-    
+
+
     @Override
-    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.handler.cast()
-            : super.getCapability(cap, side);
-    }
-
-    public LazyOptional<ItemStackHandler> getHandler() {
-        return this.handler;
-    }
-
-    public ItemStack getItemInSlot(int slot) {
-        return this.handler.map(inv -> inv.getStackInSlot(slot)).orElse(ItemStack.EMPTY);
+    public int getContainerSize() {
+      return this.size;
     }
 
     @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
+    public NonNullList<ItemStack> getItems() {
+      return this.items;
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
-        return serializeNBT();
-    }
-    
-    @Override
-    public void handleUpdateTag(CompoundTag tag) {
-        super.handleUpdateTag(tag);
-        load(tag);
-    }
+    public void setItems(NonNullList<ItemStack> itemsIn) {
+      this.items = NonNullList.<ItemStack>withSize(this.size, ItemStack.EMPTY);
 
-    public ItemStack insertItem(int slot, ItemStack stack) {
-        final ItemStack copy = stack.copy();
-        stack.shrink(copy.getCount());
-        this.requiresUpdate = true;
-        return this.handler.map(inv -> inv.insertItem(slot, copy, false)).orElse(ItemStack.EMPTY);
-    }
-
-    @Override
-    public void invalidateCaps() {
-        super.invalidateCaps();
-        this.handler.invalidate();
-    }
-    
-    @Override
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.inventory.deserializeNBT(tag.getCompound("Inventory"));
-    }
-
-    @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-        super.onDataPacket(net, pkt);
-        handleUpdateTag(pkt.getTag());
-    }
-    
-    public void tick() {
-        this.timer++;
-        if (this.requiresUpdate && this.level != null) {
-            update();
-            this.requiresUpdate = false;
+      for (int i = 0; i < itemsIn.size(); i++) {
+        if (i < this.items.size()) {
+          this.getItems().set(i, itemsIn.get(i));
         }
+      }
     }
 
-    public void update() {
-        requestModelDataUpdate();
-        setChanged();
-        if (this.level != null) {
-            this.level.setBlockAndUpdate(this.worldPosition, getBlockState());
-        }
-    }
-    
-    @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.put("Inventory", this.inventory.serializeNBT());
-    }
-    
-    private ItemStackHandler createInventory() {
-        return new ItemStackHandler(this.size) {
-            @Override
-            public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                InventoryBlockEntity.this.update();
-                return super.extractItem(slot, amount, simulate);
-            }
+	@Override
+	protected Component getDefaultName() {
+		return TextComponent.EMPTY;
+	}
+	
+	  @Override
+	  public void load(CompoundTag compoundTag) {
+	    super.load(compoundTag);
 
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                InventoryBlockEntity.this.update();
-                return super.insertItem(slot, stack, simulate);
-            }
-        };
-    }
+	    this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+
+	    if (!this.tryLoadLootTable(compoundTag)) {
+	      ContainerHelper.loadAllItems(compoundTag, this.items);
+	    }
+	  }
+
+	  @Override
+	  public void saveAdditional(CompoundTag compoundTag) {
+	    super.saveAdditional(compoundTag);
+
+	    if (!this.trySaveLootTable(compoundTag)) {
+	      ContainerHelper.saveAllItems(compoundTag, this.items);
+	    }
+	  }
 }

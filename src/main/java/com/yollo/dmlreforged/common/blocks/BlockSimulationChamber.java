@@ -19,8 +19,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition.Builder;
@@ -47,13 +45,6 @@ public class BlockSimulationChamber extends HorizontalDirectionalBlock implement
 	public BlockState getStateForPlacement(BlockPlaceContext ctx) {
 		return defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
 	}
-	
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
-            BlockEntityType<T> beType) {
-        return level.isClientSide ? null
-                : (level0, pos, state0, blockEntity) -> ((BlockEntitySimulationChamber) blockEntity).tick();
-    }
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
@@ -64,9 +55,9 @@ public class BlockSimulationChamber extends HorizontalDirectionalBlock implement
 	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,
 			BlockHitResult pHit) {
 		if (!pLevel.isClientSide
-				&& pLevel.getBlockEntity(pPos) instanceof final BlockEntitySimulationChamber generator) {
+				&& pLevel.getBlockEntity(pPos) instanceof final BlockEntitySimulationChamber be) {
 			final MenuProvider container = new SimpleMenuProvider(
-					SimulationChamberContainer.getServerContainer(generator, pPos), TextComponent.EMPTY);
+					SimulationChamberContainer.getServerContainer(be, pPos), TextComponent.EMPTY);
 			NetworkHooks.openGui((ServerPlayer) pPlayer, container);
 		}
 		return InteractionResult.SUCCESS;
@@ -79,10 +70,10 @@ public class BlockSimulationChamber extends HorizontalDirectionalBlock implement
 			BlockEntity blockentity = pLevel.getBlockEntity(pPos);
 			if (blockentity instanceof BlockEntitySimulationChamber simChamber) {
 				System.out.println(!pState.is(pNewState.getBlock()));
-				for (int index = 0; index < simChamber.inventory.getSlots(); index++) {
-					if (!simChamber.inventory.getStackInSlot(index).isEmpty()) {
+				for (int index = 0; index < simChamber.getContainerSize(); index++) {
+					if (!simChamber.getItem(index).isEmpty()) {
 						pLevel.addFreshEntity(new ItemEntity(pLevel, pPos.getX() + 0.5D, pPos.getY() + 0.5D,
-								pPos.getZ() + 0.5D, simChamber.inventory.getStackInSlot(index)));
+								pPos.getZ() + 0.5D, simChamber.getItem(index)));
 					}
 				}
 			}
