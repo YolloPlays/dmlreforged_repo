@@ -5,11 +5,9 @@ import org.apache.commons.lang3.function.TriFunction;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.client.screen.DeepLearnerScreen;
 import com.yollo.dmlreforged.client.screen.SimulationChamberScreen;
-import com.yollo.dmlreforged.common.blocks.entity.BlockEntitySimulationChamber;
 import com.yollo.dmlreforged.common.items.init.BlockInit;
 import com.yollo.dmlreforged.common.items.init.ContainerInit;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -44,4 +42,3 @@ public class ClientHandler {
 		return IForgeMenuType.create(constructor::apply);
 	}
 }
-

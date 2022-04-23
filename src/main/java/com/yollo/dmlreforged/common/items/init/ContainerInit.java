@@ -1,6 +1,5 @@
 package com.yollo.dmlreforged.common.items.init;
 
-import com.google.common.base.Supplier;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.client.ClientHandler;
 import com.yollo.dmlreforged.common.util.container.DeepLearnerContainer;
