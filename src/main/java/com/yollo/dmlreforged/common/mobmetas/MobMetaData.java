@@ -24,8 +24,6 @@ public abstract class MobMetaData {
     protected ItemPristineMatter pristineMatter;
     protected String[] mobTrivia;
 
-    private String[] mobRegistryNames;
-
     public MobMetaData(String key, String name, String pluralName, int numberOfHearts, int interfaceScale, int interfaceOffsetX, int interfaceOffsetY, Item livingMatter, Item pristineMatter, String[] mobTrivia) {
         this.key = key;
         this.name = name;

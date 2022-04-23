@@ -5,7 +5,6 @@ import java.util.function.Supplier;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.init.ItemInit;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;

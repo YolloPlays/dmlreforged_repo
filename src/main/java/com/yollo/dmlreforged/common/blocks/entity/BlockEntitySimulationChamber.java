@@ -2,12 +2,9 @@ package com.yollo.dmlreforged.common.blocks.entity;
 
 import com.yollo.dmlreforged.common.energy.DeepEnergyStorage;
 import com.yollo.dmlreforged.common.items.init.BlockEntityInit;
-import net.minecraft.client.renderer.texture.Tickable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;

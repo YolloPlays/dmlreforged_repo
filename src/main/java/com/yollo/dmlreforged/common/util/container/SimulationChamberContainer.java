@@ -1,7 +1,6 @@
 package com.yollo.dmlreforged.common.util.container;
 
 import com.yollo.dmlreforged.common.blocks.entity.BlockEntitySimulationChamber;
-import com.yollo.dmlreforged.common.energy.DeepEnergyStorage;
 import com.yollo.dmlreforged.common.items.init.BlockInit;
 import com.yollo.dmlreforged.common.items.init.ContainerInit;
 import com.yollo.dmlreforged.common.util.DataModelHelper;
@@ -9,9 +8,6 @@ import com.yollo.dmlreforged.common.util.container.slots.SlotSimulationChamber;
 import com.yollo.dmlreforged.common.util.container.sync.SimulationChamberContainerData;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -22,7 +18,6 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 

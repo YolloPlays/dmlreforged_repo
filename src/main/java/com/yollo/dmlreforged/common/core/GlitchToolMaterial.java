@@ -4,9 +4,6 @@ import java.util.function.Supplier;
 
 import com.yollo.dmlreforged.common.items.init.ItemInit;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 

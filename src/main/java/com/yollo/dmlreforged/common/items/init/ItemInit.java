@@ -5,7 +5,6 @@ import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemDataModel;
 import com.yollo.dmlreforged.common.items.ItemDeepLearner;
 import com.yollo.dmlreforged.common.items.ItemGlitchArmor;
-import com.yollo.dmlreforged.common.items.ItemGlitchArmor.ItemGlitchHelmet;
 import com.yollo.dmlreforged.common.items.ItemGlitchFragment;
 import com.yollo.dmlreforged.common.items.ItemGlitchHeart;
 import com.yollo.dmlreforged.common.items.ItemGlitchIngot;

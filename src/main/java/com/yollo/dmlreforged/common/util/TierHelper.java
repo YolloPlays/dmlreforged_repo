@@ -3,7 +3,6 @@ package com.yollo.dmlreforged.common.util;
 import com.yollo.dmlreforged.DeepMobLearning;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 
