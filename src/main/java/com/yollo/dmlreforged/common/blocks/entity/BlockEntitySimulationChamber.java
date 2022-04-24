@@ -1,6 +1,5 @@
 package com.yollo.dmlreforged.common.blocks.entity;
 
-import java.util.HashMap;
 import java.util.Random;
 
 import com.yollo.dmlreforged.DeepMobLearning;
@@ -40,7 +39,6 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 	private LazyOptional<DeepEnergyStorage> energy;
     private String currentDataModelType = "";
     private MobMetaData mobMetaData;
-    private HashMap<String, String> simulationText = new HashMap<>();
     
 	public BlockEntitySimulationChamber(BlockPos pWorldPosition, BlockState pBlockState) {
 		super(BlockEntityInit.ENTITY_SIMULATION_CHAMBER.get(), pWorldPosition, pBlockState, 4);
@@ -61,13 +59,11 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 		tag.putInt("simulationProgress", percentDone);
 		tag.putBoolean("isCrafting", isCrafting);
 		tag.putBoolean("craftSuccess", byproductSuccess);
-		tag.put("simulationText", getNBTForSimulationText());
 	}
 
 	@Override
 	public void load(CompoundTag pTag) {
 		super.load(pTag);
-		setSimulationTextFromNBT(pTag.getCompound("simulationText"));
 		currentEnergy = pTag.contains("energy") ? pTag.getInt("energy") : 300000;
 		percentDone = pTag.contains("simulationProgress") ? pTag.getInt("simulationProgress") : 0;
 		isCrafting = pTag.contains("isCrafting") ? pTag.getBoolean("isCrafting") : isCrafting;
@@ -269,20 +265,5 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
     private static boolean dataModelMatchesPristine(ItemStack stack, ItemStack pristine) {
         Item pristineMatter = DataModelHelper.getMobMetaData(stack).getPristineMatter();
         return pristineMatter.getClass().equals(pristine.getItem().getClass());
-    }
-    
-    private CompoundTag getNBTForSimulationText() {
-        CompoundTag tag = new CompoundTag();
-        simulationText.forEach(tag::putString);
-        return tag;
-    }
-
-    private void setSimulationTextFromNBT(CompoundTag tag) {
-        simulationText.forEach((key, text) -> simulationText.put(key, tag.getString(key)));
-    }
-   
-    public void resetAnimations() {
-        new HashMap<>();
-        simulationText = new HashMap<>();
     }
 }
