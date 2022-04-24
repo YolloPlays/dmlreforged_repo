@@ -11,8 +11,8 @@ public class DeepEnergyStorage extends EnergyStorage{
 		this.blockEntity = be;
 	}
 	
-    public void setEnergy(int energy) {
-        this.energy = Math.max(0, Math.min(energy, this.capacity));
+    public void voidEnergy(int energyVoiding) {
+        this.energy = this.energy - energyVoiding;
     }
     
     @Override

@@ -48,17 +48,17 @@ public class BlockSimulationChamber extends HorizontalDirectionalBlock implement
 		return defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
 	}
 	
-    @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
-            BlockEntityType<T> beType) {
-        return level.isClientSide ? null
-                : (level0, pos, state0, blockEntity) -> ((BlockEntitySimulationChamber) blockEntity).tick();
-    }
-
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
 		return new BlockEntitySimulationChamber(pPos, pState);
 	}
+	
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
+        BlockEntityType<T> type) {
+        return level.isClientSide ? null
+            : (level0, pos, state0, blockEntity) -> ((BlockEntitySimulationChamber) blockEntity).tick(level0, (BlockEntitySimulationChamber) blockEntity);
+    }
 
 	@Override
 	public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand,

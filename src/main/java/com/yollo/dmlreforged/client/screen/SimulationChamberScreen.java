@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yollo.dmlreforged.DeepMobLearning;
@@ -42,7 +44,6 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
 		
 		this.animationList = new HashMap<>();
 		this.level = playerInv.player.level;
-		
 	}
 
 	@Override
@@ -164,14 +165,14 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             drawString(pose, font, "Pristine chance: " + DataModelHelper.getPristineChance(getMenu().getDataModel()) + "%", leftTopConsole, topStart + spacing * 3, 0xFFFFFF);
         }
 		
-		drawConsoleText(pose, left, top, spacing);
+		drawConsoleText(pose, spacing);
 
 	}
 
-    private void drawConsoleText(PoseStack pose, int left, int top, int spacing) {
+    private void drawConsoleText(PoseStack pose, int spacing) {
         String[] lines;
-        int leftStart = left;
-        int topStart = top+14;
+        int leftStart = getGuiLeft();
+        int topStart = getGuiTop()+14;
         if(getMenu().getDataModel().isEmpty() || DataModelHelper.getTier(getMenu().getDataModel()) == 0) {
             animateString(pose, "_", getAnimation("blinkingUnderline"), null, 16, true, leftStart, topStart, 0xFFFFFF);
         } else if(getMenu().getPolymerClay().isEmpty() /*&& !tile.isCrafting()*/) {
@@ -203,10 +204,12 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             animateString(pose, lines[1], a2, a1, 1, false, leftStart, topStart + spacing, 0xFFFFFF);
             animateString(pose, lines[2], a3, a2, 16, true, leftStart, topStart + (spacing * 2), 0xFFFFFF);
         } else /*if(tile.isCrafting())*/ {
+            updateSimulationText(getMenu().getDataModel(), this.menu.data.get(3));
+            
             drawString(pose, font, getMenu().data.get(0) + "%", leftStart+158, 140, 0x55FFFF);
 
             drawString(pose, font, getSimulationText("simulationProgressLine1"), leftStart, topStart, 0xFFFFFF);
-            drawString(pose, font, getSimulationText("simulationProgressLine1Version"), left + 124, topStart, 0xFFFFFF);
+            drawString(pose, font, getSimulationText("simulationProgressLine1Version"), leftStart + 102, topStart, 0xFFFFFF);
 
             drawString(pose, font, getSimulationText("simulationProgressLine2"), leftStart, topStart + spacing, 0xFFFFFF);
 
@@ -215,10 +218,11 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             drawString(pose, font, getSimulationText("simulationProgressLine5"), leftStart, topStart + (spacing * 4), 0xFFFFFF);
 
             drawString(pose, font, getSimulationText("simulationProgressLine6"), leftStart, topStart + (spacing * 5), 0xFFFFFF);
-            drawString(pose, font, getSimulationText("simulationProgressLine6Result"), left + 140, topStart + (spacing * 5), 0xFFFFFF);
+            drawString(pose, font, getSimulationText("simulationProgressLine6Result"), leftStart + 118, topStart + (spacing * 5), 0xFFFFFF);
 
             drawString(pose, font, getSimulationText("simulationProgressLine7"), leftStart, topStart + (spacing * 6), 0xFFFFFF);
-            drawString(pose, font, getSimulationText("blinkingDots1"), left + 128, topStart + (spacing * 6), 0xFFFFFF);
+            drawString(pose, font, getSimulationText("blinkingDots1"), getGuiLeft() + 109, topStart + (spacing * 6), 0xFFFFFF);
+            
         } /*else {
             animateString(pose, "_", getAnimation("blinkingUnderline"), null, 16, true, leftStart, top + 49, 0xFFFFFF);
         }*/
@@ -277,5 +281,64 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             simulationText.put(key, "");
             return simulationText.get(key);
         }
-    }	
+    }
+    
+    private String animate(String string, Animation anim, @Nullable Animation precedingAnim, int delayInTicks, boolean loop, Level world) {
+        if(precedingAnim != null) {
+            if (precedingAnim.hasFinished()) {
+                return anim.animate(string, delayInTicks, world.getGameTime(), loop);
+            } else {
+                return "";
+            }
+        }
+        return  anim.animate(string, delayInTicks, world.getGameTime(), loop);
+    }
+    
+    private void updateSimulationText(ItemStack stack, int succesInt) {
+		boolean byproductSuccess = succesInt == 1;
+		String[] lines = new String[] {
+                "> Launching runtime",
+                "v1.4.7",
+                "> Iteration #" + (DataModelHelper.getTotalSimulationCount(stack) + 1) + " started",
+                "> Loading model from chip memory",
+                "> Assessing threat level",
+                "> Engaged enemy",
+                "> Pristine procurement",
+                byproductSuccess ? "succeeded" : "failed",
+                "> Processing results",
+                "..."
+        };
+
+        String resultPrefix = byproductSuccess ? "§a" : "§c";
+
+        Animation aLine1 = getAnimation("simulationProgressLine1");
+        Animation aLine1Version = getAnimation("simulationProgressLine1Version");
+
+        Animation aLine2 = getAnimation("simulationProgressLine2");
+
+        Animation aLine3 = getAnimation("simulationProgressLine3");
+        Animation aLine4 = getAnimation("simulationProgressLine4");
+        Animation aLine5 = getAnimation("simulationProgressLine5");
+
+        Animation aLine6 = getAnimation("simulationProgressLine6");
+        Animation aLine6Result = getAnimation("simulationProgressLine6Result");
+
+        Animation aLine7 = getAnimation("simulationProgressLine7");
+        Animation aLine8 = getAnimation("blinkingDots1");
+
+        simulationText.put("simulationProgressLine1", animate(lines[0], aLine1, null, 1, false, level));
+        simulationText.put("simulationProgressLine1Version", "§6" + animate(lines[1], aLine1Version, aLine1, 1, false, level));
+
+        simulationText.put("simulationProgressLine2", animate(lines[2], aLine2, aLine1Version, 1, false, level));
+
+        simulationText.put("simulationProgressLine3", animate(lines[3], aLine3, aLine2, 2, false, level));
+        simulationText.put("simulationProgressLine4", animate(lines[4], aLine4, aLine3, 1, false, level));
+        simulationText.put("simulationProgressLine5", animate(lines[5], aLine5, aLine4, 2, false, level));
+
+        simulationText.put("simulationProgressLine6", animate(lines[6], aLine6, aLine5, 2, false, level));
+        simulationText.put("simulationProgressLine6Result", resultPrefix + animate(lines[7], aLine6Result, aLine6, 2, false, level));
+
+        simulationText.put("simulationProgressLine7", animate(lines[8], aLine7, aLine6Result, 1, false, level));
+        simulationText.put("blinkingDots1", animate(lines[9], aLine8, aLine7, 8, true, level));
+    }
 }

@@ -19,7 +19,6 @@ import net.minecraftforge.items.ItemStackHandler;
 public class InventoryBlockEntity extends BlockEntity {
 	public final int size;
 	protected int timer;
-	protected boolean requiresUpdate;
 
 	public final ItemStackHandler inventory;
 	protected LazyOptional<ItemStackHandler> handler;
@@ -33,12 +32,6 @@ public class InventoryBlockEntity extends BlockEntity {
         this.size = size;
         this.inventory = createInventory();
         this.handler = LazyOptional.of(() -> this.inventory);
-    }
-    
-    public ItemStack extractItem(int slot) {
-        final int count = getItemInSlot(slot).getCount();
-        this.requiresUpdate = true;
-        return this.handler.map(inv -> inv.extractItem(slot, count, false)).orElse(ItemStack.EMPTY);
     }
     
     @Override
@@ -71,13 +64,6 @@ public class InventoryBlockEntity extends BlockEntity {
         load(tag);
     }
 
-    public ItemStack insertItem(int slot, ItemStack stack) {
-        final ItemStack copy = stack.copy();
-        stack.shrink(copy.getCount());
-        this.requiresUpdate = true;
-        return this.handler.map(inv -> inv.insertItem(slot, copy, false)).orElse(ItemStack.EMPTY);
-    }
-
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
@@ -95,14 +81,6 @@ public class InventoryBlockEntity extends BlockEntity {
         super.onDataPacket(net, pkt);
         handleUpdateTag(pkt.getTag());
     }
-    
-    public void tick() {
-        this.timer++;
-        if (this.requiresUpdate && this.level != null) {
-            update();
-            this.requiresUpdate = false;
-        }
-    }
 
     public void update() {
         requestModelDataUpdate();
@@ -118,19 +96,13 @@ public class InventoryBlockEntity extends BlockEntity {
         tag.put("Inventory", this.inventory.serializeNBT());
     }
     
-    private ItemStackHandler createInventory() {
-        return new ItemStackHandler(this.size) {
-            @Override
-            public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                InventoryBlockEntity.this.update();
-                return super.extractItem(slot, amount, simulate);
-            }
-
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                InventoryBlockEntity.this.update();
-                return super.insertItem(slot, stack, simulate);
-            }
-        };
-    }
+	private ItemStackHandler createInventory() {
+	    return new ItemStackHandler(this.size) {
+	        @Override
+	        protected void onContentsChanged(int slot) {
+	        	InventoryBlockEntity.this.update();
+	        	super.onContentsChanged(slot);
+	        }
+	    };
+	}
 }

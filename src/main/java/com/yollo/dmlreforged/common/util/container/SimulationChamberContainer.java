@@ -33,7 +33,7 @@ public class SimulationChamberContainer extends AbstractContainerMenu {
 
 	// Client
 	public SimulationChamberContainer(int id, Inventory playerInv) {
-		this(id, playerInv, new ItemStackHandler(4), BlockPos.ZERO, new SimpleContainerData(3));
+		this(id, playerInv, new ItemStackHandler(4), BlockPos.ZERO, new SimpleContainerData(4));
 	}
 
 	// Server
@@ -102,7 +102,7 @@ public class SimulationChamberContainer extends AbstractContainerMenu {
 
 	public static MenuConstructor getServerContainer(BlockEntitySimulationChamber be, BlockPos pos) {
 		return (id, playerInv, player) -> new SimulationChamberContainer(id, playerInv, be.inventory, pos,
-				new SimulationChamberContainerData(be, 3));
+				new SimulationChamberContainerData(be, 4));
 	}
 	
 	public ItemStack getDataModel() {
