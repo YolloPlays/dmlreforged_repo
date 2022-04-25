@@ -39,6 +39,7 @@ public class DeepMobLearning {
     public static final int tier2=11;
     public static final int tier3=24;
     public static final int tier4=42;
+    public static int rfCostExtractionChamber = 256;
     public static final boolean isSootedRedstoneCraftingEnabled = true;
     
 
@@ -233,5 +234,184 @@ public class DeepMobLearning {
                 "minecraft:guardian",
         };
     }
+	
+	public static final String[] getPristineLoot(String name) {
+		if(name == "creeper") {
+			return LOOT.CREEPER;
+		}
+		else if(name == "blaze") {
+			return LOOT.BLAZE;
+		}		
+		else if(name == "dragon") {
+			return LOOT.DRAGON;
+		}
+		else if(name == "enderman") {
+			return LOOT.ENDERMAN;
+		}
+		else if(name == "ghast") {
+			return LOOT.GHAST;
+		}
+		else if(name == "skeleton") {
+			return LOOT.SKELETON;
+		}
+		else if(name == "slime") {
+			return LOOT.SLIME;
+		}
+		else if(name == "spider") {
+			return LOOT.SPIDER;
+		}
+		else if(name == "witch") {
+			return LOOT.WITCH;
+		}
+		else if(name == "wither") {
+			return LOOT.WITHER;
+		}
+		else if(name == "witherskeleton") {
+			return LOOT.WITHERSKELETON;
+		}
+		else if(name == "wither") {
+			return LOOT.WITHER;
+		}
+		else if(name == "shulker") {
+			return LOOT.SHULKER;
+		}
+		else if(name == "guardian") {
+			return LOOT.GUARDIAN;
+		}
+		else {
+			return LOOT.ZOMBIE;
+		}
+	}
+	
+	  public static final class LOOT {
+	        public static final String[] CREEPER = {
+	            "minecraft:gunpowder,64",
+	            "minecraft:skull,6"
+	        };
+
+	        public static final String[] BLAZE = {
+	            "minecraft:blaze_rod,22",
+	            "thermalfoundation:material,32",
+	        };
+
+	        public static final String[] DRAGON = {
+	            "minecraft:dragon_breath,32",
+	            "minecraft:dragon_egg,1",
+	            "draconicevolution:dragon_heart,1",
+	            "draconicevolution:draconium_dust,64"
+	        };
+
+	        public static final String[] ENDERMAN = {
+	            "minecraft:ender_pearl,6",
+	            "minecraft:end_crystal,1",
+	            "enderio:block_enderman_skull,2"
+	        };
+
+	        public static final String[] GHAST = {
+	            "minecraft:ghast_tear,8"
+	        };
+
+	        public static final String[] SKELETON = {
+	            "minecraft:bone,64",
+	            "minecraft:arrow,64",
+	            "minecraft:skull,6",
+	        };
+
+	        public static final String[] SLIME = {
+	            "minecraft:slime_ball,32",
+	        };
+
+	        public static final String[] SPIDER = {
+	            "minecraft:spider_eye,16",
+	            "minecraft:string,64",
+	            "minecraft:web,8",
+	        };
+
+	        public static final String[] THERMALELEMENTAL = {
+	            "thermalfoundation:material,16",
+	            "thermalfoundation:material,16",
+	            "minecraft:snowball,16",
+	            "thermalfoundation:material,8",
+	            "thermalfoundation:material,8",
+	            "thermalfoundation:material,8"
+	        };
+
+	        public static final String[] TINKERSLIME = {
+	            "tconstruct:edible,18",
+	            "tconstruct:edible,18",
+	            "tconstruct:edible,18",
+	            "tconstruct:slime_sapling,4",
+	            "tconstruct:slime_sapling,4",
+	            "tconstruct:slime_sapling,4",
+	        };
+
+	        public static final String[] TWILIGHTFOREST = {
+	            "twilightforest:naga_scale,16",
+	            "twilightforest:charm_of_life_1,2",
+	            "twilightforest:charm_of_keeping_1,2",
+	            "minecraft:paper,64",
+	            "minecraft:book,32",
+	        };
+
+	        public static final String[] TWILIGHTSWAMP = {
+	            "twilightforest:steeleaf_ingot,16",
+	            "twilightforest:ironwood_raw,8",
+	            "twilightforest:fiery_ingot,5",
+	            "twilightforest:hydra_chop,16",
+	            "minecraft:gold_ingot,22",
+	            "minecraft:red_mushroom,32",
+	            "minecraft:slime_ball,16"
+	        };
+
+	        public static final String[] TWILIGHTDARKWOOD = {
+	            "twilightforest:armor_shard_cluster,5",
+	            "twilightforest:carminite,16",
+	            "minecraft:diamond_ore,3",
+	            "minecraft:emerald_ore,2",
+	            "minecraft:fish,32"
+	        };
+
+	        public static final String[] TWILIGHTGLACIER = {
+	            "twilightforest:arctic_fur,16",
+	            "twilightforest:alpha_fur,8",
+	            "minecraft:packed_ice,16",
+	            "minecraft:feather,32",
+	            "twilightforest:charm_of_life_2,1",
+	            "twilightforest:charm_of_keeping_2,1",
+	        };
+
+	        public static final String[] WITCH = {
+	            "minecraft:redstone,32",
+	            "minecraft:glowstone_dust,32",
+	            "minecraft:sugar,64",
+	        };
+
+	        public static final String[] WITHERSKELETON = {
+	            "minecraft:skull,18",
+	            "minecraft:coal,64"
+	        };
+
+	        public static final String[] WITHER = {
+	            "minecraft:nether_star,3",
+	        };
+
+	        public static final String[] ZOMBIE = {
+	            "minecraft:rotten_flesh,64",
+	            "minecraft:iron_ingot,16",
+	            "minecraft:carrot,32",
+	            "minecraft:potato,32"
+	        };
+
+	        public static final String[] SHULKER = {
+	            "minecraft:shulker_shell,18",
+	            "minecraft:diamond,2"
+	        };
+
+	        public static final String[] GUARDIAN = {
+	            "minecraft:prismarine_shard,32",
+	            "minecraft:prismarine_crystals,32",
+	            "minecraft:fish,64"
+	        };
+	    }
 
 }

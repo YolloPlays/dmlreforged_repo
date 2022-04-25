@@ -116,7 +116,8 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
                 }
 
                 int rfTickCost = mobMetaData.getSimulationTickCost();
-                energyStorage.voidEnergy(rfTickCost);
+                //energyStorage.voidEnergy(rfTickCost);
+                currentEnergy = Math.max(currentEnergy - rfTickCost,0);
                 
                 // It takes 15 seconds to complete one cycle
 				if (ticks % ((DeepMobLearning.TICKS_TO_SECOND * 15) / 100) == 0) {
@@ -135,7 +136,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
                 return;
             } 
             
-            doStaggeredDiskSave(100);
+            //doStaggeredDiskSave(100);
         }
 	}
 	

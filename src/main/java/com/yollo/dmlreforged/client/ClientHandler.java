@@ -4,6 +4,7 @@ import org.apache.commons.lang3.function.TriFunction;
 
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.client.screen.DeepLearnerScreen;
+import com.yollo.dmlreforged.client.screen.ExtractionChamberScreen;
 import com.yollo.dmlreforged.client.screen.SimulationChamberScreen;
 import com.yollo.dmlreforged.common.items.init.BlockInit;
 import com.yollo.dmlreforged.common.items.init.ContainerInit;
@@ -29,11 +30,10 @@ public class ClientHandler {
 	{
         event.enqueueWork(() -> {
             MenuScreens.register(ContainerInit.DEEP_LEARNER.get(), DeepLearnerScreen::new);
+            MenuScreens.register(ContainerInit.SIMULATION_CHAMBER.get(), SimulationChamberScreen::new);
+            MenuScreens.register(ContainerInit.EXTRACTION_CHAMBER.get(), ExtractionChamberScreen::new);
         });
         
-        event.enqueueWork(() -> {
-            MenuScreens.register(ContainerInit.SIMULATION_CHAMBER.get(), SimulationChamberScreen::new);
-        });
 
         ItemBlockRenderTypes.setRenderLayer(BlockInit.SIMULATION_CHAMBER.get(), RenderType.solid());
     }

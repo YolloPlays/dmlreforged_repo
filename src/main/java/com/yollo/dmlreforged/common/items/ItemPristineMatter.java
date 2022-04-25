@@ -1,7 +1,10 @@
 package com.yollo.dmlreforged.common.items;
 
+import java.util.List;
+
 import com.yollo.dmlreforged.DeepMobLearning;
 
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 

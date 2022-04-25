@@ -1,5 +1,7 @@
 package com.yollo.dmlreforged.common.blocks.entity;
 
+import com.yollo.dmlreforged.common.util.BaseStackHandler;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -20,7 +22,7 @@ public class InventoryBlockEntity extends BlockEntity {
 	public final int size;
 	protected int timer;
 
-	public final ItemStackHandler inventory;
+	public final BaseStackHandler inventory;
 	protected LazyOptional<ItemStackHandler> handler;
 
     public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int size) {
@@ -96,8 +98,8 @@ public class InventoryBlockEntity extends BlockEntity {
         tag.put("Inventory", this.inventory.serializeNBT());
     }
     
-	private ItemStackHandler createInventory() {
-	    return new ItemStackHandler(this.size) {
+	private BaseStackHandler createInventory() {
+	    return new BaseStackHandler(this.size) {
 	        @Override
 	        protected void onContentsChanged(int slot) {
 	        	InventoryBlockEntity.this.update();

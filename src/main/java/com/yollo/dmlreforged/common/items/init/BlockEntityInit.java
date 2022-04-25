@@ -14,4 +14,8 @@ public class BlockEntityInit {
 	 public static final RegistryObject<BlockEntityType<BlockEntitySimulationChamber>> ENTITY_SIMULATION_CHAMBER = BLOCK_ENTITIES
 	            .register("simulation_chamber", () -> BlockEntityType.Builder
 	                    .of(BlockEntitySimulationChamber::new, BlockInit.SIMULATION_CHAMBER.get()).build(null));
+	 
+	 public static final RegistryObject<BlockEntityType<BlockEntitySimulationChamber>> ENTITY_EXTRACTION_CHAMBER = BLOCK_ENTITIES
+	            .register("extraction_chamber", () -> BlockEntityType.Builder
+	                    .of(BlockEntitySimulationChamber::new, BlockInit.EXTRACTION_CHAMBER.get()).build(null));
 }
