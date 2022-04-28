@@ -1,6 +1,6 @@
 package com.yollo.dmlreforged.common.util.container.slots;
 
-import com.yollo.dmlreforged.common.items.ItemDataModel;
+import com.yollo.dmlreforged.common.items.ItemPristineMatter;
 import com.yollo.dmlreforged.common.util.container.ExtractionChamberContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -16,12 +16,12 @@ public class SlotExtractionChamber extends SlotItemHandler{
 	@Override
 	public boolean mayPlace(ItemStack stack) {
 		Item item = stack.getItem();
-		if(getSlotIndex() == ExtractionChamberContainer.PRISTINE_SLOT) {
-			return !stack.isEmpty() && item instanceof ItemDataModel;
-		}
-		else {
-			return false;
-		}
+        switch(getSlotIndex()) {
+            case ExtractionChamberContainer.PRISTINE_SLOT:
+                return !stack.isEmpty() && item instanceof ItemPristineMatter;
+            default:
+                return false;
+        }
 	}
 
 }

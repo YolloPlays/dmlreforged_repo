@@ -31,7 +31,6 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 	public static final int LIVING_SLOT = 2;
 	public static final int PRISTINE_SLOT = 3;
 	public int percentDone = 0;
-	public int currentEnergy = 300000;
 	public DeepEnergyStorage energyStorage;
 	public int ticks = 0;
 	private boolean isCrafting = false;
@@ -55,7 +54,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 	@Override
 	protected void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
-		tag.putInt("energy", currentEnergy);
+		tag.putInt("energy", this.energyStorage.getEnergyStored());
 		tag.putInt("simulationProgress", percentDone);
 		tag.putBoolean("isCrafting", isCrafting);
 		tag.putBoolean("craftSuccess", byproductSuccess);
@@ -64,7 +63,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 	@Override
 	public void load(CompoundTag pTag) {
 		super.load(pTag);
-		currentEnergy = pTag.contains("energy") ? pTag.getInt("energy") : 300000;
+		this.energyStorage.setEnergy(pTag.contains("energy") ? pTag.getInt("energy") : 300000);
 		percentDone = pTag.contains("simulationProgress") ? pTag.getInt("simulationProgress") : 0;
 		isCrafting = pTag.contains("isCrafting") ? pTag.getBoolean("isCrafting") : isCrafting;
 		byproductSuccess = pTag.contains("craftSuccess") ? pTag.getBoolean("craftSuccess") : (isCrafting);
@@ -76,7 +75,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 	}
 	
 	private DeepEnergyStorage createEnergyStorage() {
-		return new DeepEnergyStorage(this, 2000000, 25600, 0, currentEnergy);
+		return new DeepEnergyStorage(this, 2000000, 25600, 0, 0);
 	}
 	
     public boolean isCrafting() {
@@ -88,7 +87,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 	}
 
 	public int getEnergy() {
-		return currentEnergy;
+		return this.energyStorage.getEnergyStored();
 	}
 
 	public void tick(Level pLevel, BlockEntitySimulationChamber be) {
@@ -117,7 +116,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 
                 int rfTickCost = mobMetaData.getSimulationTickCost();
                 //energyStorage.voidEnergy(rfTickCost);
-                currentEnergy = Math.max(currentEnergy - rfTickCost,0);
+                this.energyStorage.setEnergy(this.energyStorage.getEnergyStored() - rfTickCost);
                 
                 // It takes 15 seconds to complete one cycle
 				if (ticks % ((DeepMobLearning.TICKS_TO_SECOND * 15) / 100) == 0) {
@@ -140,7 +139,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
         }
 	}
 	
-    private void doStaggeredDiskSave(int divisor) {
+    /*private void doStaggeredDiskSave(int divisor) {
         if(ticks % divisor == 0) {
             if(currentEnergy != energyStorage.getEnergyStored()) {
                 // Save to disk every 5 seconds if energy changed
@@ -148,7 +147,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
                 setChanged();
             }
         }
-    }
+    }*/
 
 	private void startSimulation(BlockEntitySimulationChamber be) {
         isCrafting = true;

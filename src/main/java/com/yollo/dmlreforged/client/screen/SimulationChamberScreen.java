@@ -92,9 +92,12 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
 		List<Component> tooltip = new ArrayList<>();
 		final int energyStored = this.menu.data.get(1);
 		final int maxEnergy = this.menu.data.get(2);
+		
+		int x = pMouseX - getGuiLeft();
+        int y = pMouseY - getGuiTop();
 
-		if (64 <= pMouseY && pMouseY < 152) {
-			if (137 <= pMouseX && pMouseX < 146) {
+        if(11 <= y && y < 100) {
+            if(-15 <= x && x < -6) {
 				// Tooltip for data model data bar
 				if (!getMenu().getDataModel().isEmpty()) {
 					if (DataModelHelper
@@ -110,7 +113,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
 					tooltip.add(new TextComponent("Machine is missing a data model"));
 				}
 				renderComponentTooltip(pose, tooltip, pMouseX + 2, pMouseY + 2);
-			} else if (334 <= pMouseX && pMouseX < 343) {
+			} else if(182 <= x && x < 191) {
 				// Tooltip for energy
 				tooltip.add(new TextComponent(f.format(energyStored) + "/" + f.format(maxEnergy) + " RF"));
 				if (!getMenu().getDataModel().isEmpty()) {

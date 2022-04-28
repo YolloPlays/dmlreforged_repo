@@ -1,6 +1,7 @@
 package com.yollo.dmlreforged.common.items.init;
 
 import com.yollo.dmlreforged.DeepMobLearning;
+import com.yollo.dmlreforged.common.blocks.entity.BlockEntityExtractionChamber;
 import com.yollo.dmlreforged.common.blocks.entity.BlockEntitySimulationChamber;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -15,7 +16,7 @@ public class BlockEntityInit {
 	            .register("simulation_chamber", () -> BlockEntityType.Builder
 	                    .of(BlockEntitySimulationChamber::new, BlockInit.SIMULATION_CHAMBER.get()).build(null));
 	 
-	 public static final RegistryObject<BlockEntityType<BlockEntitySimulationChamber>> ENTITY_EXTRACTION_CHAMBER = BLOCK_ENTITIES
+	 public static final RegistryObject<BlockEntityType<BlockEntityExtractionChamber>> ENTITY_EXTRACTION_CHAMBER = BLOCK_ENTITIES
 	            .register("extraction_chamber", () -> BlockEntityType.Builder
-	                    .of(BlockEntitySimulationChamber::new, BlockInit.EXTRACTION_CHAMBER.get()).build(null));
+	                    .of(BlockEntityExtractionChamber::new, BlockInit.EXTRACTION_CHAMBER.get()).build(null));
 }

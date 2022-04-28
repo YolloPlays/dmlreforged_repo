@@ -45,11 +45,12 @@ public class BlockExtractionChamber extends HorizontalDirectionalBlock implement
 		return defaultBlockState().setValue(FACING, ctx.getHorizontalDirection().getOpposite());
 	}
 	
-	@Override
-	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState,
-			BlockEntityType<T> pBlockEntityType) {
-		return EntityBlock.super.getTicker(pLevel, pState, pBlockEntityType);
-	}
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
+        BlockEntityType<T> type) {
+        return level.isClientSide ? null
+            : (level0, pos, state0, blockEntity) -> ((BlockEntityExtractionChamber) blockEntity).tick(level0, (BlockEntityExtractionChamber) blockEntity);
+    }
 
 	@Override
 	public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
@@ -63,7 +64,7 @@ public class BlockExtractionChamber extends HorizontalDirectionalBlock implement
 				&& pLevel.getBlockEntity(pPos) instanceof final BlockEntityExtractionChamber generator) {
 			final MenuProvider container = new SimpleMenuProvider(
 					ExtractionChamberContainer.getServerContainer(generator, pPos), TextComponent.EMPTY);
-			NetworkHooks.openGui((ServerPlayer) pPlayer, container);
+			NetworkHooks.openGui((ServerPlayer) pPlayer, container, buf -> buf.writeBlockPos(pPos));
 		}
 		return InteractionResult.SUCCESS;
 	}

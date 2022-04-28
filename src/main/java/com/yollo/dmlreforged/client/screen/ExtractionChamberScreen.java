@@ -1,28 +1,44 @@
 package com.yollo.dmlreforged.client.screen;
 
 
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yollo.dmlreforged.DeepMobLearning;
+import com.yollo.dmlreforged.common.items.ItemPristineMatter;
+import com.yollo.dmlreforged.common.items.init.PacketHandler;
+import com.yollo.dmlreforged.common.network.ServerboundResultingItemPacket;
 import com.yollo.dmlreforged.common.util.MathHelper;
+import com.yollo.dmlreforged.common.util.Pagination;
 import com.yollo.dmlreforged.common.util.container.ExtractionChamberContainer;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraftforge.client.gui.widget.ExtendedButton;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionChamberContainer>{
 	
-	private Level level;
     private static final ResourceLocation base = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/extraction_chamber_base.png");
+    //private static final ResourceLocation extras = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/buttons/button_paginate.png");
     private static final ResourceLocation defaultGui = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/default_gui.png");
+	boolean elementsAdded = false;
+	public Pagination pageHandler = new Pagination(0, getLootFromPristine().size(), 9);
 
 	public ExtractionChamberScreen(ExtractionChamberContainer pMenu, Inventory pPlayerInventory, Component pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
-		this.level = pPlayerInventory.player.level;
 	}
 
 	@Override
@@ -34,7 +50,7 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 		RenderSystem.setShaderTexture(0, base);
-		blit(pose, left - 20, top - 36, 0, 0, 176, 83);
+		blit(pose, left , top , 0, 0, 176, 83);
 		
 		// Render current energy
         int energyBarHeight = MathHelper.ensureRange((int) ((float) this.menu.data.get(1) / (this.menu.data.get(2) - DeepMobLearning.rfCostExtractionChamber) * 53), 0, 53);
@@ -50,6 +66,132 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
 		RenderSystem.setShaderTexture(0, defaultGui);
 		blit(pose, left + 0, top + 111, 0, 0, 176, 90);
         
+		
+		NumberFormat f = NumberFormat.getNumberInstance(Locale.ENGLISH);
+		
+		final int progress = this.menu.data.get(0);
+		final int energyStored = this.menu.data.get(1);
+		final int maxEnergy = this.menu.data.get(2);
+		
+        int x = pMouseX - getGuiLeft();
+        int y = pMouseY - getGuiTop();
+        if(10 <= y && y < 63) {
+            if(6 <= x && x < 13) {
+                // Tooltip for energy
+            	List<Component> tooltip = new ArrayList<>();
+                tooltip.add(new TextComponent(f.format(energyStored) + "/" + f.format(maxEnergy) + " RF"));
+                tooltip.add(new TextComponent("Operational cost: " + f.format(DeepMobLearning.rfCostExtractionChamber) + " RF/t"));
+                renderComponentTooltip(pose, tooltip, pMouseX + 1, pMouseY - 11);
+            }
+        } 
+        if (23 <= y && y < 58) {
+        	if(84 <= x && x < 90) {
+				List<Component> tooltip = new ArrayList<>();
+	        	tooltip.add(new TextComponent(progress + "/" + 100));
+	            renderComponentTooltip(pose, tooltip, pMouseX + 1, pMouseY - 11);
+        	}
+        }
+        
+        if(!getPristine().isEmpty()) {
+        	renderLootList();
+        	if(!elementsAdded) {
+        		addRenderableWidget(new ExtendedButton(100, 100, 18, 18, new TextComponent("Te"), btn -> {
+        			PacketHandler.INSTANCE.sendToServer(new ServerboundResultingItemPacket(this.menu.pos, new ItemStack(Items.SLIME_BALL, 32)));
+        		}));
+        		this.elementsAdded = true;
+        	}
+        }
+	}
+
+    public ItemStack getPristine() {
+        return this.menu.getPristine();
+    }
+    
+    public ItemStack getItemFromList(int index) {
+        if(index >= 0 && index < getLootFromPristine().size()) {
+            return getLootFromPristine().get(index);
+        } else {
+            return ItemStack.EMPTY;
+        }
+    }
+    
+    public NonNullList<ItemStack> getLootFromPristine() {
+        ItemStack stack = getPristine();
+
+        if(stack.getItem() instanceof ItemPristineMatter pristine) {
+            return getLootTable(pristine.getMobKey());
+        } else {
+           return NonNullList.create();
+        }
+    }
+    
+    public static NonNullList<ItemStack> getLootTable(String key) {
+        NonNullList<ItemStack> list = NonNullList.create();
+
+        List<? extends String> toParseList;
+        toParseList = Arrays.asList(DeepMobLearning.getPristineLoot(key));
+
+        for (String line : toParseList) {
+            if (!getStackFromConfigLine(line).isEmpty()) {
+                list.add(getStackFromConfigLine(line));
+            }
+        }
+
+        return list;
+    }
+    
+    private static ItemStack getStackFromConfigLine(String line) {
+        String[] vals = line.split(",");
+
+        if (vals.length < 2) {
+            return ItemStack.EMPTY;
+        }
+
+
+        ResourceLocation itemLocation = new ResourceLocation(vals[0]);
+        int amount;
+
+        try {
+            amount = Integer.parseInt(vals[1]);
+        } catch (NumberFormatException e) {
+            System.out.println("Not a valid number for amount");
+            return ItemStack.EMPTY;
+        }
+
+
+        Item item = ForgeRegistries.ITEMS.getValue(itemLocation);
+        if(item != null) {
+            return new ItemStack(item, amount);
+        } else {
+            return ItemStack.EMPTY;
+        }
+    }
+    
+    
+    private void renderLootList() {
+    	int index = 0;
+    	for(int row = 0; row < 3; row++) {
+    		for(int column = 0; column < 3; column++) {
+    			renderItemStackWithCount(getItemFromList(index), getGuiLeft() + 18 * column, getGuiTop() * 18*row, getItemFromList(index).getCount());
+    			index++;
+    		}
+    	}
+    }
+    
+    private void renderItemStackWithCount(ItemStack stack, int x, int y, int count) {
+    	getMinecraft().getItemRenderer().renderAndDecorateItem(stack, x, y);
+    	getMinecraft().getItemRenderer().renderGuiItemDecorations(font, stack, x - 1, y - 1, count != 1 ? count + ""  : "");
+    }
+	
+	@Override
+	protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
+	}
+
+	@Override
+	public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
+		this.renderBackground(pPoseStack);
+		super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+		this.renderTooltip(pPoseStack, pMouseX, pMouseY);
 	}
 
 }

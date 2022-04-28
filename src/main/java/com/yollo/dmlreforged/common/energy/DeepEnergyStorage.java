@@ -10,14 +10,20 @@ public class DeepEnergyStorage extends EnergyStorage{
 		super(capacity, maxReceive, maxExtract, energy);
 		this.blockEntity = be;
 	}
-	
-    public void voidEnergy(int energyVoiding) {
-        this.energy = this.energy - energyVoiding;
+    
+    public void setEnergy(int pEnergy) {
+    	this.energy = Math.max(0, Math.min(pEnergy, this.capacity));
     }
     
     @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {
         this.blockEntity.setChanged();
         return super.receiveEnergy(maxReceive, simulate);
+    }
+    
+    @Override
+    public int extractEnergy(int maxExtract, boolean simulate) {
+    	this.blockEntity.setChanged();
+    	return super.extractEnergy(maxExtract, simulate);
     }
 }

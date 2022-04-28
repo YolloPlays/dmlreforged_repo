@@ -25,6 +25,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @EventBusSubscriber(modid = DeepMobLearning.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT) 
 public class ClientHandler {
+	
 	@SubscribeEvent
     public static void onFMLClientSetup(FMLClientSetupEvent event) 
 	{
@@ -33,7 +34,6 @@ public class ClientHandler {
             MenuScreens.register(ContainerInit.SIMULATION_CHAMBER.get(), SimulationChamberScreen::new);
             MenuScreens.register(ContainerInit.EXTRACTION_CHAMBER.get(), ExtractionChamberScreen::new);
         });
-        
 
         ItemBlockRenderTypes.setRenderLayer(BlockInit.SIMULATION_CHAMBER.get(), RenderType.solid());
     }

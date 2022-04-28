@@ -7,6 +7,7 @@ import com.yollo.dmlreforged.common.util.container.slots.SlotExtractionChamber;
 import com.yollo.dmlreforged.common.util.container.sync.ExtractionChamberContainerData;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -25,10 +26,11 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 	public final ContainerData data;
 	public IItemHandler handler;
 	public static final int PRISTINE_SLOT = 0;
-
+	public BlockPos pos;
+	
 	// Client
-	public ExtractionChamberContainer(int id, Inventory playerInv) {
-		this(id, playerInv, new ItemStackHandler(17), BlockPos.ZERO, new SimpleContainerData(3));
+	public ExtractionChamberContainer(int id, Inventory playerInv, FriendlyByteBuf buf) {
+		this(id, playerInv, new ItemStackHandler(17), buf.readBlockPos(), new SimpleContainerData(3));
 	}
 
 	// Server
@@ -38,8 +40,9 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 		this.handler = handler;
 		this.containerAccess = ContainerLevelAccess.create(pInventory.player.level, pPos);
 		this.data = data;
-		addInventorySlots(pInventory);
+		this.pos = pPos;
 		addSlotsToHandler(handler);
+		addInventorySlots(pInventory);
 		addDataSlots(data);
 	}
 
@@ -67,12 +70,14 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 			for (int column = 0; column < 4; column++) {
 				int x = 100 + column * 18;
 				int y = 7 + row * 18;
-				int index = column + row * 9 + 9;
+				int index = column + row + 1;
 				Slot slot = new SlotExtractionChamber(handler, index, x, y);
 				addSlot(slot);
 			}
 		}
 	}
+	
+	
 
 	@Override
 	public ItemStack quickMoveStack(Player player, int index) {
@@ -97,6 +102,10 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 		return retStack;
 	}
 	
+	public ItemStack getPristine() {
+		return handler.getStackInSlot(PRISTINE_SLOT);
+	}
+	
 	@Override
 	public boolean stillValid(Player pPlayer) {
 		return stillValid(this.containerAccess, pPlayer, BlockInit.EXTRACTION_CHAMBER.get());
@@ -106,5 +115,4 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 		return (id, playerInv, player) -> new ExtractionChamberContainer(id, playerInv, be.inventory, pos,
 				new ExtractionChamberContainerData(be, 3));
 	}
-
 }
