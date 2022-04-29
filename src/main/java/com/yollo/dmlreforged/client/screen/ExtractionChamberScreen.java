@@ -35,7 +35,6 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
     private static final ResourceLocation extras = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/buttons/button_select.png");
     private static final ResourceLocation defaultGui = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/default_gui.png");
 	boolean elementsAdded = false;
-	public Pagination pageHandler = new Pagination(0, getLootFromPristine().size(), 9);
 	private int startIndex;
 	private NonNullList<SelectButton> buttons = NonNullList.create();
 	private int selectedIndex;
