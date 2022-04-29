@@ -33,7 +33,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 	public int percentDone = 0;
 	public DeepEnergyStorage energyStorage;
 	public int ticks = 0;
-	private boolean isCrafting = false;
+	private boolean isCrafting;
 	private boolean byproductSuccess = false;
 	private LazyOptional<DeepEnergyStorage> energy;
     private String currentDataModelType = "";
@@ -94,7 +94,8 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
         ticks++;
         
         if(!pLevel.isClientSide) {
-            energyStorage.receiveEnergy(520, false);
+        	// Used for dev purpose due to not having an in-build generator.
+            //energyStorage.receiveEnergy(520, false);
             if(!isCrafting()) {
                 if(canStartSimulation()) {
                     startSimulation(be);
@@ -188,7 +189,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
     }
 
     private boolean canContinueSimulation() {
-        return hasDataModel() && DataModelHelper.getTier(getDataModel()) != 0;
+        return hasEnergyForSimulation() && hasDataModel() && DataModelHelper.getTier(getDataModel()) != 0;
     }
 
     private boolean dataModelTypeChanged() {

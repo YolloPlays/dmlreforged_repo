@@ -9,6 +9,7 @@ import java.util.Locale;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yollo.dmlreforged.DeepMobLearning;
+import com.yollo.dmlreforged.client.screen.buttons.SelectButton;
 import com.yollo.dmlreforged.common.items.ItemPristineMatter;
 import com.yollo.dmlreforged.common.items.init.PacketHandler;
 import com.yollo.dmlreforged.common.network.ServerboundResultingItemPacket;
@@ -16,6 +17,7 @@ import com.yollo.dmlreforged.common.util.MathHelper;
 import com.yollo.dmlreforged.common.util.Pagination;
 import com.yollo.dmlreforged.common.util.container.ExtractionChamberContainer;
 
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.NonNullList;
@@ -23,20 +25,24 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraftforge.client.gui.widget.ExtendedButton;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionChamberContainer>{
 	
     private static final ResourceLocation base = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/extraction_chamber_base.png");
-    //private static final ResourceLocation extras = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/buttons/button_paginate.png");
+    private static final ResourceLocation extras = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/buttons/button_select.png");
     private static final ResourceLocation defaultGui = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/default_gui.png");
 	boolean elementsAdded = false;
 	public Pagination pageHandler = new Pagination(0, getLootFromPristine().size(), 9);
-
+	private int startIndex;
+	private NonNullList<SelectButton> buttons = NonNullList.create();
+	private int selectedIndex;
+	private boolean tileSelectData;
+	
 	public ExtractionChamberScreen(ExtractionChamberContainer pMenu, Inventory pPlayerInventory, Component pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
 	}
@@ -45,6 +51,8 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
 	protected void renderBg(PoseStack pose, float pPartialTick, int pMouseX, int pMouseY) {
 		int left = getGuiLeft();
 		int top = getGuiTop();
+		selectedIndex = this.menu.data.get(3);
+		tileSelectData = this.menu.data.get(4)==1 ? true: false;
 		
 		// Render base
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -55,7 +63,7 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
 		// Render current energy
         int energyBarHeight = MathHelper.ensureRange((int) ((float) this.menu.data.get(1) / (this.menu.data.get(2) - DeepMobLearning.rfCostExtractionChamber) * 53), 0, 53);
         int energyBarOffset = 53 - energyBarHeight;
-        blit(pose, left + 183,  top + 12 + energyBarOffset, 0, 83, 7, energyBarHeight);
+        blit(pose, left + 6,  top + 10 + energyBarOffset, 0, 83, 7, energyBarHeight);
         
         // Render crafting progress
         int craftingBarHeight = (int) (((float) this.menu.data.get(0) / 50 * 36));
@@ -93,21 +101,80 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
         }
         
         if(!getPristine().isEmpty()) {
-        	renderLootList();
-        	if(!elementsAdded) {
-        		addRenderableWidget(new ExtendedButton(100, 100, 18, 18, new TextComponent("Te"), btn -> {
-        			PacketHandler.INSTANCE.sendToServer(new ServerboundResultingItemPacket(this.menu.pos, new ItemStack(Items.SLIME_BALL, 32)));
-        		}));
+    		renderLootList();
+    		if(!elementsAdded) {
+    			renderButtons();
         		this.elementsAdded = true;
+    		}
+        }
+        else {
+        	if(elementsAdded) {
+        		buttons.forEach((Button btn) -> {
+        			removeWidget(btn);
+        		});
+        		this.elementsAdded = false;
         	}
         }
 	}
 
-    public ItemStack getPristine() {
+    private ItemStack getPristine() {
         return this.menu.getPristine();
     }
     
-    public ItemStack getItemFromList(int index) {
+    private void renderButtons() {
+        for(int i = this.startIndex ; i < getLootFromPristine().size(); i++) {
+        	int l = i / 3 * 18;
+        	int resultingIndex = i;
+        	SelectButton btn;
+        	System.out.println(getLootFromPristine().size());
+        	if(selectedIndex == resultingIndex && tileSelectData) {
+        		btn = new SelectButton(getGuiLeft()+ 16 + i % 3 * 19, 8 + getGuiTop() + l, 18, 18, 0, 0, 18, 18, true, extras, button -> {
+            		if(!((SelectButton) button).isSelected()) {
+            			PacketHandler.INSTANCE.sendToServer(new ServerboundResultingItemPacket(this.menu.pos, getItemFromList(resultingIndex), resultingIndex, true));
+            			buttons.forEach((SelectButton buuton) -> {
+            				buuton.setSelected(false);
+            			});
+            			((SelectButton) button).selection();
+            		}
+            		else if(((SelectButton) button).isSelected()){
+            			PacketHandler.INSTANCE.sendToServer(new ServerboundResultingItemPacket(this.menu.pos, ItemStack.EMPTY, resultingIndex, false));
+            			((SelectButton) button).selection();
+            		}
+            		
+                });
+        	}
+        	else {
+        		btn = new SelectButton(getGuiLeft()+ 16 + i % 3 * 19, 8 + getGuiTop() + l, 18, 18, 0, 0, 18, 18, extras, button -> {
+            		if(!((SelectButton) button).isSelected()) {
+            			PacketHandler.INSTANCE.sendToServer(new ServerboundResultingItemPacket(this.menu.pos, getItemFromList(resultingIndex), resultingIndex, true));
+            			buttons.forEach((SelectButton buuton) -> {
+            				buuton.setSelected(false);
+            			});
+            			((SelectButton) button).selection();
+            		}
+            		else if(((SelectButton) button).isSelected()){
+            			PacketHandler.INSTANCE.sendToServer(new ServerboundResultingItemPacket(this.menu.pos, ItemStack.EMPTY, resultingIndex, false));
+            			((SelectButton) button).selection();
+            		}
+            		
+                });
+        	}
+        	buttons.add(btn);
+            addRenderableWidget(btn);
+         }
+     }
+    
+    private void renderLootList() {
+    	int index = 0;
+    	for(int row = 0; row < 3; row++) {
+    		for(int column = 0; column < 3; column++) {
+    			renderItemStackWithCount(getItemFromList(index), 17 + getGuiLeft() + 19 * column, 8+ getGuiTop() + 18 * row, getItemFromList(index).getCount());
+    			index++;
+    		}
+    	}
+    }
+    
+    private ItemStack getItemFromList(int index) {
         if(index >= 0 && index < getLootFromPristine().size()) {
             return getLootFromPristine().get(index);
         } else {
@@ -115,7 +182,7 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
         }
     }
     
-    public NonNullList<ItemStack> getLootFromPristine() {
+    private NonNullList<ItemStack> getLootFromPristine() {
         ItemStack stack = getPristine();
 
         if(stack.getItem() instanceof ItemPristineMatter pristine) {
@@ -125,7 +192,7 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
         }
     }
     
-    public static NonNullList<ItemStack> getLootTable(String key) {
+    private static NonNullList<ItemStack> getLootTable(String key) {
         NonNullList<ItemStack> list = NonNullList.create();
 
         List<? extends String> toParseList;
@@ -165,17 +232,6 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
         } else {
             return ItemStack.EMPTY;
         }
-    }
-    
-    
-    private void renderLootList() {
-    	int index = 0;
-    	for(int row = 0; row < 3; row++) {
-    		for(int column = 0; column < 3; column++) {
-    			renderItemStackWithCount(getItemFromList(index), getGuiLeft() + 18 * column, getGuiTop() * 18*row, getItemFromList(index).getCount());
-    			index++;
-    		}
-    	}
     }
     
     private void renderItemStackWithCount(ItemStack stack, int x, int y, int count) {

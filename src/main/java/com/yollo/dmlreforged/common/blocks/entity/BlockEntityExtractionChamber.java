@@ -24,8 +24,10 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
 	    public int ticks = 0;
 	    public int percentDone = 0;
 	    private String currentPristineMatter = "";
-	    public ItemStack resultingItem = ItemStack.EMPTY;
-	    public int energyCost = MathHelper.ensureRange(DeepMobLearning.rfCostExtractionChamber, 1, 18000);
+	    private ItemStack resultingItem = ItemStack.EMPTY;
+	    private int resultingIndex;
+	    private boolean selected;
+		public int energyCost = MathHelper.ensureRange(DeepMobLearning.rfCostExtractionChamber, 1, 18000);
 
 	public BlockEntityExtractionChamber(BlockPos pos, BlockState state) {
 		super(BlockEntityInit.ENTITY_EXTRACTION_CHAMBER.get(), pos, state, 17);
@@ -37,9 +39,6 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
 		return new DeepEnergyStorage(this, 1000000, 25600 , 0, 0);
 	}
 	
-
-    
-    
     public ItemStack getPristine() {
         return inventory.getStackInSlot(0);
     }
@@ -64,7 +63,7 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
     }
     
     private boolean canContinueCraft() {
-        return !resultingItem.isEmpty() && getPristine().getItem() instanceof ItemPristineMatter;
+        return !resultingItem.isEmpty() && getPristine().getItem() instanceof ItemPristineMatter && hasEnergyForNextTick();
     }
     
     private boolean canInsertItem() {
@@ -74,15 +73,19 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
     private boolean hasEnergyForNextTick() {
         return energyStorage.getEnergyStored() >= energyCost;
     }
-	
+    
     public void tick(Level pLevel, BlockEntityExtractionChamber be) {
         ticks++;
-
+        if(getPristine().isEmpty()) {
+        	this.selected = false;
+        	setResultingItem(ItemStack.EMPTY);
+        }
         if(!pLevel.isClientSide) {
+        	// Used for dev purpose due to not having an in-build generator.
+            //energyStorage.receiveEnergy(520, false);
             if(pristineChanged()) {
                 finishCraft(true);
-                //updatePageHandler(0);
-                
+
                 currentPristineMatter = ((ItemPristineMatter) getPristine().getItem()).getMobKey();
                 resultingItem = ItemStack.EMPTY;
                 update();
@@ -100,9 +103,8 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
                 }
 
                 if(hasEnergyForNextTick()) {
-    				if (ticks % ((DeepMobLearning.TICKS_TO_SECOND * 3) / 100) == 0) {
-    				    percentDone++;
-    				}
+                	this.energyStorage.setEnergy(this.energyStorage.getEnergyStored() - energyCost);
+                    percentDone++;
                 }
 
                 // Notify while crafting every 5sec, this is done more frequently when the container is open
@@ -110,10 +112,11 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
                     update();
                 }
 
-                if (percentDone == 100) {
+                if (percentDone == 50) {
                     finishCraft(false);
                 }
             }
+
             // Save to disk every 5 seconds if energy changed
             //doStaggeredDiskSave(100);
         }
@@ -129,23 +132,47 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
         }
     }*/
     
+    public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+    
     public void setResultingItem(ItemStack stack) {
     	this.resultingItem = stack;
     }
+    
+    public void setResultingIndex(int i) {
+    	this.resultingIndex = i;
+    }
+    
+    public int getResultingIndex() {
+		return resultingIndex;
+	}
     
     public void finishCraft(boolean abort) {
         isCrafting = false;
         percentDone = 0;
         if(!abort) {
-            ItemStack remainder = inventory.setInFirstAvailableSlot(resultingItem);
-            while (!remainder.isEmpty()) {
-                remainder = inventory.setInFirstAvailableSlot(remainder);
+            for(int i= 1; i<16+1; i++) {
+            	if(inventory.getStackInSlot(i).isEmpty()) {
+            		inventory.setStackInSlot(i, resultingItem);
+            		getPristine().shrink(1);
+            		setChanged();
+                    update();
+                    return;
+            	}
+            	else if(inventory.getStackInSlot(i) == resultingItem && inventory.getStackInSlot(i).getCount() + resultingItem.getCount()<=inventory.getStackInSlot(i).getMaxStackSize()) {
+            		inventory.setStackInSlot(i, new ItemStack(inventory.getStackInSlot(i).getItem(), inventory.getStackInSlot(i).getCount() + resultingItem.getCount()));
+            		getPristine().shrink(1);
+            		setChanged();
+                    update();
+                    return;
+            	}
             }
-
-            getPristine().shrink(1);
         }
-        setChanged();
-        update();
     }
 	
 	@Override
@@ -159,17 +186,22 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
 		super.saveAdditional(tag);
 		tag.putInt("energy", energyStorage.getEnergyStored());
 		tag.putInt("craftingProgress", percentDone);
+		tag.putInt("index", resultingIndex);
 		//tag.put("pageHandler", pageHandler.serializeNBT());
 		tag.put("resultingItem", resultingItem.serializeNBT());
 		tag.putBoolean("isCrafting", isCrafting);
+		tag.putBoolean("selected", selected);
 		tag.putString("currentPristine", currentPristineMatter);
 	}
 
 	@Override
 	public void load(CompoundTag pTag) {
 		super.load(pTag);
-		energyStorage.setEnergy(pTag.contains("energy") ? pTag.getInt("energy") : 0);
-		percentDone = pTag.contains("craftingProgress") ? pTag.getInt("craftingProgress") : 0;
+		energyStorage.setEnergy(pTag.getInt("energy"));
+		percentDone = pTag.getInt("craftingProgress");
+		resultingIndex = pTag.getInt("index");
+		isCrafting = pTag.getBoolean("isCrafting");
+		selected = pTag.getBoolean("selected");
 		//pageHandler.deserializeNBT(pTag.getCompound("pageHandler"));
 		resultingItem = ItemStack.of(pTag.getCompound("resultingItem"));
 		currentPristineMatter = pTag.contains("currentPristine") ? pTag.getString("currentPristine") : "";

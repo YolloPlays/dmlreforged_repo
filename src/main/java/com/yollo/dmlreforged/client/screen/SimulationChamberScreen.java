@@ -178,7 +178,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
         int topStart = getGuiTop()+14;
         if(getMenu().getDataModel().isEmpty() || DataModelHelper.getTier(getMenu().getDataModel()) == 0) {
             animateString(pose, "_", getAnimation("blinkingUnderline"), null, 16, true, leftStart, topStart, 0xFFFFFF);
-        } else if(getMenu().getPolymerClay().isEmpty() /*&& !tile.isCrafting()*/) {
+        } else if(getMenu().getPolymerClay().isEmpty() && this.menu.data.get(0) == 0) {
             lines = new String[] {"Cannot begin simulation", "Missing polymer medium", "_"};
             Animation a1 = getAnimation("inputSlotEmpty1");
             Animation a2 = getAnimation("inputSlotEmpty2");
@@ -188,7 +188,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             animateString(pose, lines[1], a2, a1, 1, false, leftStart, topStart + spacing, 0xFFFFFF);
             animateString(pose, lines[2], a3, a2, 16, true, leftStart, topStart + (spacing * 2), 0xFFFFFF);
 
-        } else if(getMenu().data.get(1) < (300 * DataModelHelper.getSimulationTickCost(getMenu().getDataModel())) /* && !tile.isCrafting()*/) {
+        } else if(getMenu().data.get(1) < (300 * DataModelHelper.getSimulationTickCost(getMenu().getDataModel())) && this.menu.data.get(0) == 0) {
             lines = new String[] {"Cannot begin simulation", "System energy levels critical", "_"};
             Animation a1 = getAnimation("lowEnergy1");
             Animation a2 = getAnimation("lowEnergy2");
@@ -197,7 +197,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             animateString(pose, lines[0], a1, null, 1, false, leftStart, topStart, 0xFFFFFF);
             animateString(pose, lines[1], a2, a1, 1, false, leftStart, topStart + spacing, 0xFFFFFF);
             animateString(pose, lines[2], a3, a2, 16, true, leftStart, topStart + (spacing * 2), 0xFFFFFF);
-        } else if(getMenu().outputIsFull() || getMenu().pristineIsFull()) {
+        } else if(getMenu().outputIsFull() || getMenu().pristineIsFull() && this.menu.data.get(0) == 0) {
             lines = new String[] {"Cannot begin simulation", "Output or pristine buffer is full", "_"};
             Animation a1 = getAnimation("outputSlotFilled1");
             Animation a2 = getAnimation("outputSlotFilled2");
@@ -206,7 +206,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             animateString(pose, lines[0], a1, null, 1, false, leftStart, topStart, 0xFFFFFF);
             animateString(pose, lines[1], a2, a1, 1, false, leftStart, topStart + spacing, 0xFFFFFF);
             animateString(pose, lines[2], a3, a2, 16, true, leftStart, topStart + (spacing * 2), 0xFFFFFF);
-        } else /*if(tile.isCrafting())*/ {
+        } else if(this.menu.data.get(0) > 0) {
             updateSimulationText(getMenu().getDataModel(), this.menu.data.get(3));
             
             drawString(pose, font, getMenu().data.get(0) + "%", leftStart+158, 140, 0x55FFFF);
@@ -226,9 +226,9 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             drawString(pose, font, getSimulationText("simulationProgressLine7"), leftStart, topStart + (spacing * 6), 0xFFFFFF);
             drawString(pose, font, getSimulationText("blinkingDots1"), getGuiLeft() + 109, topStart + (spacing * 6), 0xFFFFFF);
             
-        } /*else {
-            animateString(pose, "_", getAnimation("blinkingUnderline"), null, 16, true, leftStart, top + 49, 0xFFFFFF);
-        }*/
+        } else {
+            animateString(pose, "_", getAnimation("blinkingUnderline"), null, 16, true, leftStart, topStart + 49, 0xFFFFFF);
+        }
     }
 
 	@Override

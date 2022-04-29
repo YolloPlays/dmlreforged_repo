@@ -30,7 +30,7 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 	
 	// Client
 	public ExtractionChamberContainer(int id, Inventory playerInv, FriendlyByteBuf buf) {
-		this(id, playerInv, new ItemStackHandler(17), buf.readBlockPos(), new SimpleContainerData(3));
+		this(id, playerInv, new ItemStackHandler(17), buf.readBlockPos(), new SimpleContainerData(5));
 	}
 
 	// Server
@@ -65,14 +65,14 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 	
 	private void addSlotsToHandler(IItemHandler handler) {
 		addSlot(new SlotExtractionChamber(handler, PRISTINE_SLOT, 79, 62));
-		
+		int index = 1;
 		for (int row = 0; row < 4; row++) {
 			for (int column = 0; column < 4; column++) {
 				int x = 100 + column * 18;
 				int y = 7 + row * 18;
-				int index = column + row + 1;
 				Slot slot = new SlotExtractionChamber(handler, index, x, y);
 				addSlot(slot);
+				index++;
 			}
 		}
 	}
@@ -113,6 +113,6 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 
 	public static MenuConstructor getServerContainer(BlockEntityExtractionChamber be, BlockPos pos) {
 		return (id, playerInv, player) -> new ExtractionChamberContainer(id, playerInv, be.inventory, pos,
-				new ExtractionChamberContainerData(be, 3));
+				new ExtractionChamberContainerData(be, 5));
 	}
 }

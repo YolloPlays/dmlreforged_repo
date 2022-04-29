@@ -31,7 +31,7 @@ public class BaseStackHandler extends ItemStackHandler{
 
         for(int i = 0; i < size; i++) {
             if(getStackInSlot(i).isEmpty()) {
-                setStackInSlot(i, stack.copy());
+                setStackInSlot(i, stack);
                 return remainder;
             } else if(ItemHandlerHelper.canItemStacksStack(getStackInSlot(i), stack) && getStackInSlot(i).getCount() < getStackInSlot(i).getMaxStackSize()) {
                 ItemStack itemInSlot = getStackInSlot(i);
