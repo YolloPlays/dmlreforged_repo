@@ -41,8 +41,8 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 		this.containerAccess = ContainerLevelAccess.create(pInventory.player.level, pPos);
 		this.data = data;
 		this.pos = pPos;
-		addSlotsToHandler(handler);
 		addInventorySlots(pInventory);
+		addSlotsToHandler(handler);
 		addDataSlots(data);
 	}
 

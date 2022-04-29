@@ -17,17 +17,17 @@ import net.minecraftforge.energy.CapabilityEnergy;
 
 public class BlockEntityExtractionChamber extends InventoryBlockEntity{
 	
-	   public DeepEnergyStorage energyStorage;
+	public DeepEnergyStorage energyStorage;
 
-	    public boolean isCrafting = false;
-	    private LazyOptional<DeepEnergyStorage> energy;
-	    public int ticks = 0;
-	    public int percentDone = 0;
-	    private String currentPristineMatter = "";
-	    private ItemStack resultingItem = ItemStack.EMPTY;
-	    private int resultingIndex;
-	    private boolean selected;
-		public int energyCost = MathHelper.ensureRange(DeepMobLearning.rfCostExtractionChamber, 1, 18000);
+    public boolean isCrafting = false;
+    private LazyOptional<DeepEnergyStorage> energy;
+    public int ticks = 0;
+    public int percentDone = 0;
+    private String currentPristineMatter = "";
+    private ItemStack resultingItem = ItemStack.EMPTY;
+    private int resultingIndex;
+    private boolean selected;
+	public int energyCost = MathHelper.ensureRange(DeepMobLearning.rfCostExtractionChamber, 1, 18000);
 
 	public BlockEntityExtractionChamber(BlockPos pos, BlockState state) {
 		super(BlockEntityInit.ENTITY_EXTRACTION_CHAMBER.get(), pos, state, 17);
@@ -43,7 +43,6 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
         return inventory.getStackInSlot(0);
     }
     
-
 	public int getProgress() {
 		return percentDone;
 	}
@@ -76,6 +75,7 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
     
     public void tick(Level pLevel, BlockEntityExtractionChamber be) {
         ticks++;
+        //System.out.println(!resultingItem.isEmpty());
         if(getPristine().isEmpty()) {
         	this.selected = false;
         	setResultingItem(ItemStack.EMPTY);
@@ -85,9 +85,9 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
             //energyStorage.receiveEnergy(520, false);
             if(pristineChanged()) {
                 finishCraft(true);
-
+                this.selected = false;
                 currentPristineMatter = ((ItemPristineMatter) getPristine().getItem()).getMobKey();
-                resultingItem = ItemStack.EMPTY;
+                setResultingItem(ItemStack.EMPTY);
                 update();
                 return;
             }
@@ -108,7 +108,7 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
                 }
 
                 // Notify while crafting every 5sec, this is done more frequently when the container is open
-                if (ticks % (DeepMobLearning.TICKS_TO_SECOND * 5) == 0) {
+                if (ticks % (DeepMobLearning.TICKS_TO_SECOND * 15) == 0) {
                     update();
                 }
 
@@ -156,24 +156,17 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
         isCrafting = false;
         percentDone = 0;
         if(!abort) {
-            for(int i= 1; i<16+1; i++) {
-            	if(inventory.getStackInSlot(i).isEmpty()) {
-            		inventory.setStackInSlot(i, resultingItem);
-            		getPristine().shrink(1);
-            		setChanged();
-                    update();
-                    return;
-            	}
-            	else if(inventory.getStackInSlot(i) == resultingItem && inventory.getStackInSlot(i).getCount() + resultingItem.getCount()<=inventory.getStackInSlot(i).getMaxStackSize()) {
-            		inventory.setStackInSlot(i, new ItemStack(inventory.getStackInSlot(i).getItem(), inventory.getStackInSlot(i).getCount() + resultingItem.getCount()));
-            		getPristine().shrink(1);
-            		setChanged();
-                    update();
-                    return;
-            	}
+            ItemStack remainder = inventory.setInFirstAvailableSlot(resultingItem);
+            while (!remainder.isEmpty()) {
+                remainder = inventory.setInFirstAvailableSlot(remainder);
             }
+
+            getPristine().shrink(1);
         }
+        setChanged();
+        update();
     }
+    
 	
 	@Override
 	public void invalidateCaps() {

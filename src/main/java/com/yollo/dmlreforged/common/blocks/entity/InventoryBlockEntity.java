@@ -102,9 +102,11 @@ public class InventoryBlockEntity extends BlockEntity {
 	    return new BaseStackHandler(this.size) {
 	        @Override
 	        protected void onContentsChanged(int slot) {
-	        	InventoryBlockEntity.this.update();
+	        	update();
 	        	super.onContentsChanged(slot);
 	        }
+	        
+	        
 	    };
 	}
 }

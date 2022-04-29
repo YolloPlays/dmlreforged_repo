@@ -42,6 +42,7 @@ public class ServerboundResultingItemPacket {
 				eCham.setResultingItem(this.stack);
 				eCham.setResultingIndex(this.index);
 				eCham.setSelected(selected);
+				eCham.finishCraft(true);
 				eCham.update();
             }
         });

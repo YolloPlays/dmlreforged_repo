@@ -14,7 +14,6 @@ import com.yollo.dmlreforged.common.items.ItemPristineMatter;
 import com.yollo.dmlreforged.common.items.init.PacketHandler;
 import com.yollo.dmlreforged.common.network.ServerboundResultingItemPacket;
 import com.yollo.dmlreforged.common.util.MathHelper;
-import com.yollo.dmlreforged.common.util.Pagination;
 import com.yollo.dmlreforged.common.util.container.ExtractionChamberContainer;
 
 import net.minecraft.client.gui.components.Button;
