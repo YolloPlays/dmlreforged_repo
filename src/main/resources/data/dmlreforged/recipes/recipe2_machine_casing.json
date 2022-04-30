@@ -6,11 +6,11 @@
     "PIP"
   ],
   "key": {
-    "P": { "item": "deepmoblearning:soot_covered_plate" },
+    "P": { "item": "dmlreforged:soot_covered_plate" },
     "I": { "tag": "forge:ingots/iron" },
-    "C": { "item": "deepmoblearning:soot_covered_redstone" }
+    "C": { "item": "dmlreforged:soot_covered_redstone" }
   },
   "result": {
-    "item": "deepmoblearning:machine_casing"
+    "item": "dmlreforged:machine_casing"
   }
 }

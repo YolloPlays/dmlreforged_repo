@@ -6,12 +6,12 @@
     "ODO"
   ],
   "key": {
-    "O": { "item": "deepmoblearning:soot_covered_plate" },
-    "D": { "item": "deepmoblearning:soot_covered_redstone" },
+    "O": { "item": "dmlreforged:soot_covered_plate" },
+    "D": { "item": "dmlreforged:soot_covered_redstone" },
     "S": { "item": "minecraft:glass_pane" },
     "R": { "item": "minecraft:repeater" }
   },
   "result": {
-    "item": "deepmoblearning:deep_learner"
+    "item": "dmlreforged:deep_learner"
   }
 }

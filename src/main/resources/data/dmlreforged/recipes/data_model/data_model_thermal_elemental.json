@@ -8,7 +8,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     [
-      { "item": "deepmoblearning:data_model_blank" }
+      { "item": "dmlreforged:data_model_blank" }
     ],
     [
       { "item": "thermalfoundation:material1todo" },
@@ -17,6 +17,6 @@
     ]
   ],
   "result": {
-    "item": "deepmoblearning:data_model_thermal_elemental"
+    "item": "dmlreforged:data_model_thermal_elemental"
   }
 }

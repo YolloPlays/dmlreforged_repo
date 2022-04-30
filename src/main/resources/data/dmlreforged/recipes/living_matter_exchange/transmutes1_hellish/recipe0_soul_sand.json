@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "deepmoblearning:living_matter_hellish" },
+    { "item": "dmlreforged:living_matter_hellish" },
     { "item": "minecraft:sand" }
   ],
   "result": {

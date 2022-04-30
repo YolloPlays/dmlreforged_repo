@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     { "item": "minecraft:bone" },
-    { "item": "deepmoblearning:living_matter_hellish" },
-    { "item": "deepmoblearning:living_matter_hellish" }
+    { "item": "dmlreforged:living_matter_hellish" },
+    { "item": "dmlreforged:living_matter_hellish" }
   ],
   "result": {
     "item": "minecraft:blaze_rod"

@@ -8,12 +8,12 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     { "item": "minecraft:book" },
-    { "item": "deepmoblearning:soot_covered_redstone" }
+    { "item": "dmlreforged:soot_covered_redstone" }
   ],
   "result": {
     "item": "patchouli:guide_book",
     "nbt": {
-      "patchouli:book": "deepmoblearning:book"
+      "patchouli:book": "dmlreforged:book"
     }
   }
 }

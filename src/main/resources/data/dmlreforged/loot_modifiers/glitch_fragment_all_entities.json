@@ -1,10 +1,10 @@
 {
   "type": "dmlreforged:glitch_fragment_all_entities",
   "conditions": [
-  		{
-   		 "condition": "forge:loot_table_id",
-	     "loot_table_id": "minecraft:entities/zombie"
-	 	}
+  		
   ],
-  "addition": "minecraft:stick"
+  "_comment": "chance is in percentage (chance/100",
+  "chanceFragment": 3,
+  "chanceHeart": 0.5,
+  "enabled": true
 }

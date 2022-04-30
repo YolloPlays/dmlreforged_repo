@@ -6,11 +6,11 @@
     "SN "
   ],
   "key": {
-    "I": { "item": "deepmoblearning:glitch_infused_ingot" },
+    "I": { "item": "dmlreforged:glitch_infused_ingot" },
     "N": { "item": "minecraft:iron_nugget" },
     "S": { "item": "minecraft:stick" }
   },
   "result": {
-    "item": "deepmoblearning:glitch_infused_sword"
+    "item": "dmlreforged:glitch_infused_sword"
   }
 }

@@ -7,7 +7,7 @@
   ],
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "deepmoblearning:living_matter_twilight" },
+    { "item": "dmlreforged:living_matter_twilight" },
     { "item": "minecraft:beef" }
   ],
   "result": {

@@ -4,7 +4,7 @@
     { "item": "minecraft:sandstone" },
     { "item": "minecraft:sandstone" },
     { "item": "minecraft:ender_pearl" },
-    { "item": "deepmoblearning:living_matter_extraterrestrial" }
+    { "item": "dmlreforged:living_matter_extraterrestrial" }
   ],
   "result": {
     "item": "minecraft:end_stone",

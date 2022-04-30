@@ -6,9 +6,9 @@
     "I I"
   ],
   "key": {
-    "I": { "item": "deepmoblearning:glitch_infused_ingot" }
+    "I": { "item": "dmlreforged:glitch_infused_ingot" }
   },
   "result": {
-    "item": "deepmoblearning:glitch_infused_leggings"
+    "item": "dmlreforged:glitch_infused_leggings"
   }
 }

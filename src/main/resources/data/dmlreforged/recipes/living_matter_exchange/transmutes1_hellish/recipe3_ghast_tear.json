@@ -3,8 +3,8 @@
   "ingredients": [
     { "item": "minecraft:spider_eye" },
     { "item": "minecraft:sugar" },
-    { "item": "deepmoblearning:living_matter_hellish" },
-    { "item": "deepmoblearning:living_matter_hellish" }
+    { "item": "dmlreforged:living_matter_hellish" },
+    { "item": "dmlreforged:living_matter_hellish" }
   ],
   "result": {
     "item": "minecraft:ghast_tear",

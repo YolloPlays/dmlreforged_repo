@@ -4,7 +4,7 @@
     { "item": "minecraft:rotten_flesh" },
     { "item": "minecraft:apple" },
     { "item": "minecraft:red_mushroom" },
-    { "item": "deepmoblearning:living_matter_overworldian" }
+    { "item": "dmlreforged:living_matter_overworldian" }
   ],
   "result": {
     "item": "minecraft:spider_eye",

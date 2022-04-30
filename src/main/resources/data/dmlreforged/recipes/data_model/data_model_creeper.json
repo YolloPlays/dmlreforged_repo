@@ -1,10 +1,10 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "deepmoblearning:data_model_blank" },
+    { "item": "dmlreforged:data_model_blank" },
     { "item": "minecraft:gunpowder" }
   ],
   "result": {
-    "item": "deepmoblearning:data_model_creeper"
+    "item": "dmlreforged:data_model_creeper"
   }
 }

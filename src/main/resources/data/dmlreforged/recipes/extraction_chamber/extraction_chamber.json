@@ -6,14 +6,14 @@
     "YCY"
   ],
   "key": {
-    "M": { "item": "deepmoblearning:machine_casing" },
+    "M": { "item": "dmlreforged:machine_casing" },
     "G": { "item": "minecraft:gold_ingot" },
     "D": { "item": "minecraft:diamond" },
     "C": { "item": "minecraft:comparator" },
     "Y": { "item": "minecraft:dandelion_yellow" }
   },
   "result": {
-    "item": "deepmoblearning:extraction_chamber",
+    "item": "dmlreforged:extraction_chamber",
     "count": 1
   }
 }

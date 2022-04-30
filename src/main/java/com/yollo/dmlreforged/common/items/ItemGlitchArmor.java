@@ -41,7 +41,7 @@ public class ItemGlitchArmor extends ArmorItem{
 	            player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof ItemGlitchArmor;
 	}
 
-	public static void dropPristineMatter(Level level, BlockPos blockPos, ItemStack stack, ServerPlayer player) {
+	public static void dropPristineMatter(Level level, BlockPos blockPos, ItemStack stack) {
 		 if(ThreadLocalRandom.current().nextInt(1, 100) <= PRISTINE_SET_CHANCE) {
 	            MobMetaData meta = DataModelHelper.getMobMetaData(stack);
 	            ItemEntity drop = new ItemEntity(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), meta.getPristineMatterStack(PRISTINE_SET_NUMBER_OF_DROPS));
@@ -50,7 +50,7 @@ public class ItemGlitchArmor extends ArmorItem{
 	        }
 	}
 	
-	public static void dropGlitchFragment(Level level, BlockPos blockPos, ServerPlayer player) {
+	public static void dropGlitchFragment(Level level, BlockPos blockPos) {
 		 if(ThreadLocalRandom.current().nextInt(1, 100) <= FRAGMENT_SET_CHANCE) {
 	            ItemEntity drop = new ItemEntity(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(ItemInit.GLITCH_FRAGMENT.get(),1));
 	            drop.setDefaultPickUpDelay();
@@ -58,7 +58,7 @@ public class ItemGlitchArmor extends ArmorItem{
 	        }
 	}
 	
-	public static void dropGlitchHeart(Level level, BlockPos blockPos, ServerPlayer player) {
+	public static void dropGlitchHeart(Level level, BlockPos blockPos) {
 		 if(ThreadLocalRandom.current().nextInt(1, 100) <= HEART_SET_CHANCE) {
 	            ItemEntity drop = new ItemEntity(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(ItemInit.GLITCH_HEART.get(),1));
 	            drop.setDefaultPickUpDelay();

@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 @EventBusSubscriber(modid = DeepMobLearning.MOD_ID, bus = Bus.FORGE)
 public class EntityDeathHandler {
 	
-	@SubscribeEvent
+	/*@SubscribeEvent
     public static void handlePlayerKilledEntity(LivingDeathEvent event) {
 		if(event.getSource().getEntity() instanceof ServerPlayer player) {
 	        NonNullList<ItemStack> inventory = NonNullList.create();
@@ -47,16 +47,16 @@ public class EntityDeathHandler {
                 ItemGlitchArmor.dropPristineMatter(event.getEntityLiving().level, event.getEntityLiving().blockPosition(), updatedModels.get(0), player);
                 ItemGlitchArmor.dropGlitchFragment(event.getEntityLiving().level, event.getEntityLiving().blockPosition(), player);
                 ItemGlitchArmor.dropGlitchHeart(event.getEntityLiving().level, event.getEntityLiving().blockPosition(), player);
-	        }*/
-
-	        if(player.getMainHandItem().getItem() instanceof ItemGlitchSword) {
-                ItemStack sword = player.getItemInHand(InteractionHand.MAIN_HAND);
-                if(ItemGlitchSword.canIncreaseDamage(sword)) {
-                    ItemGlitchSword.increaseDamage(sword, player);
-                } 
 	        }
+
+			if(player.getMainHandItem().getItem() instanceof ItemGlitchSword) {
+			    ItemStack sword = player.getItemInHand(InteractionHand.MAIN_HAND);
+			    if(ItemGlitchSword.canIncreaseDamage(sword)) {
+			        ItemGlitchSword.increaseDamage(sword, player);
+			    } 
+			}
 	    }
-	}
+	}*/
     
     private static NonNullList<ItemStack> updateAndReturnModels(ItemStack deepLearner, LivingDeathEvent event, ServerPlayer player) {
         NonNullList<ItemStack> deepLearnerItems = ItemDeepLearner.getContainedItems(deepLearner);

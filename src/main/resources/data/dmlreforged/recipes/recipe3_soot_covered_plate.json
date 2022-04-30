@@ -6,10 +6,10 @@
   ],
   "key": {
     "O": { "item": "minecraft:obsidian" },
-    "C": { "item": "deepmoblearning:soot_covered_redstone" }
+    "C": { "item": "dmlreforged:soot_covered_redstone" }
   },
   "result": {
-    "item": "deepmoblearning:soot_covered_plate",
+    "item": "dmlreforged:soot_covered_plate",
     "count": 8
   }
 }

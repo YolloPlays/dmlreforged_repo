@@ -8,10 +8,10 @@
   "key": {
     "S": { "item": "minecraft:stone" },
     "D": { "item": "minecraft:diamond" },
-    "M": { "item": "deepmoblearning:machine_casing" },
-    "T": { "item": "deepmoblearning:trial_key" }
+    "M": { "item": "dmlreforged:machine_casing" },
+    "T": { "item": "dmlreforged:trial_key" }
   },
   "result": {
-    "item": "deepmoblearning:trial_keystone"
+    "item": "dmlreforged:trial_keystone"
   }
 }

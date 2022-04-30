@@ -3,7 +3,7 @@
   "ingredients": [
     { "tag": "minecraft:leaves" },
     { "item": "minecraft:dirt" },
-    { "item": "deepmoblearning:living_matter_overworldian" }
+    { "item": "dmlreforged:living_matter_overworldian" }
   ],
   "result": {
     "item": "minecraft:grass",

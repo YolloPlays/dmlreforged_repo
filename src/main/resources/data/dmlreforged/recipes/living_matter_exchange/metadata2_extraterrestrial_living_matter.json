@@ -7,13 +7,13 @@
   ],
   "key": {
     "H": {
-      "item": "deepmoblearning:living_matter_hellish"
+      "item": "dmlreforged:living_matter_hellish"
     },
     "E": {
       "item": "minecraft:end_stone"
     }
   },
   "result": {
-    "item": "deepmoblearning:living_matter_extraterrestrial"
+    "item": "dmlreforged:living_matter_extraterrestrial"
   }
 }

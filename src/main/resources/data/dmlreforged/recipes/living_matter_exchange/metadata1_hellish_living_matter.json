@@ -7,13 +7,13 @@
   ],
   "key": {
     "O": {
-      "item": "deepmoblearning:living_matter_overworldian"
+      "item": "dmlreforged:living_matter_overworldian"
     },
     "N": {
       "item": "minecraft:netherrack"
     }
   },
   "result": {
-    "item": "deepmoblearning:living_matter_hellish"
+    "item": "dmlreforged:living_matter_hellish"
   }
 }

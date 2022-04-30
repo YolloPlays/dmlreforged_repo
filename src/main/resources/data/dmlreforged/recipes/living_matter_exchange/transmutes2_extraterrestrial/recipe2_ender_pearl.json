@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "deepmoblearning:living_matter_extraterrestrial" },
+    { "item": "dmlreforged:living_matter_extraterrestrial" },
     { "item": "minecraft:emerald" },
     { "item": "minecraft:snowball" },
     { "item": "minecraft:slime_ball" }
