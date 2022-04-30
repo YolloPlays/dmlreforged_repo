@@ -117,7 +117,6 @@ public class DeepMobLearning {
 		ContainerInit.CONTAINERS.register(bus);
 		ItemInit.ITEMS.register(bus);
 		BlockEntityInit.BLOCK_ENTITIES.register(bus);
-		//GlobalLootModifier.GLM.register(bus);
 
 		MinecraftForge.EVENT_BUS.register(this);
 	}
