@@ -3,7 +3,7 @@ package com.yollo.dmlreforged.common.events;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemGlitchArmor;
 import com.yollo.dmlreforged.common.items.ItemGlitchHeart;
-import com.yollo.dmlreforged.common.items.init.ItemInit;
+import com.yollo.dmlreforged.core.init.ItemInit;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

@@ -1,0 +1,10 @@
+{
+  "type": "dmlreforged:glitch_fragment_all_entities",
+  "conditions": [
+  		{
+   		 "condition": "forge:loot_table_id",
+	     "loot_table_id": "minecraft:entities/creeper"
+	 	}
+  ],
+  "addition": "dmlreforged:glitch_fragment"
+}

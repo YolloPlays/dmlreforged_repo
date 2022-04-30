@@ -6,8 +6,8 @@ import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.client.screen.DeepLearnerScreen;
 import com.yollo.dmlreforged.client.screen.ExtractionChamberScreen;
 import com.yollo.dmlreforged.client.screen.SimulationChamberScreen;
-import com.yollo.dmlreforged.common.items.init.BlockInit;
-import com.yollo.dmlreforged.common.items.init.ContainerInit;
+import com.yollo.dmlreforged.core.init.BlockInit;
+import com.yollo.dmlreforged.core.init.ContainerInit;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;

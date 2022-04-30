@@ -1,7 +1,8 @@
 package com.yollo.dmlreforged.common.blocks;
 
 import com.yollo.dmlreforged.common.blocks.entity.BlockEntityExtractionChamber;
-import com.yollo.dmlreforged.common.util.container.ExtractionChamberContainer;
+import com.yollo.dmlreforged.core.container.ExtractionChamberContainer;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.TextComponent;

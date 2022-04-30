@@ -22,7 +22,6 @@ public class EntityDeathHandler {
 	
 	@SubscribeEvent
     public static void handlePlayerKilledEntity(LivingDeathEvent event) {
-		
 		if(event.getSource().getEntity() instanceof ServerPlayer player) {
 	        NonNullList<ItemStack> inventory = NonNullList.create();
 	        inventory.addAll(player.getInventory().items);
@@ -44,10 +43,12 @@ public class EntityDeathHandler {
 	        }
 	        
 	        // Chance to drop pristine matter from the model that gained data
-	        if(ItemGlitchArmor.isSetEquippedByPlayer(player)) {
+	        /*if(ItemGlitchArmor.isSetEquippedByPlayer(player)) {
                 ItemGlitchArmor.dropPristineMatter(event.getEntityLiving().level, event.getEntityLiving().blockPosition(), updatedModels.get(0), player);
-	        }
-	
+                ItemGlitchArmor.dropGlitchFragment(event.getEntityLiving().level, event.getEntityLiving().blockPosition(), player);
+                ItemGlitchArmor.dropGlitchHeart(event.getEntityLiving().level, event.getEntityLiving().blockPosition(), player);
+	        }*/
+
 	        if(player.getMainHandItem().getItem() instanceof ItemGlitchSword) {
                 ItemStack sword = player.getItemInHand(InteractionHand.MAIN_HAND);
                 if(ItemGlitchSword.canIncreaseDamage(sword)) {

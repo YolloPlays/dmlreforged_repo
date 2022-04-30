@@ -3,8 +3,9 @@ package com.yollo.dmlreforged.common.blocks.entity;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.energy.DeepEnergyStorage;
 import com.yollo.dmlreforged.common.items.ItemPristineMatter;
-import com.yollo.dmlreforged.common.items.init.BlockEntityInit;
 import com.yollo.dmlreforged.common.util.MathHelper;
+import com.yollo.dmlreforged.core.init.BlockEntityInit;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;

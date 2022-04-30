@@ -6,8 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.yollo.dmlreforged.DeepMobLearning;
-import com.yollo.dmlreforged.common.core.GlitchToolMaterial;
 import com.yollo.dmlreforged.common.util.NBTHelper;
+import com.yollo.dmlreforged.core.GlitchToolMaterial;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;

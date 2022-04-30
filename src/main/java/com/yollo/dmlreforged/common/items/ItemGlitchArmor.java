@@ -3,9 +3,10 @@ package com.yollo.dmlreforged.common.items;
 import java.util.List;
 
 import com.yollo.dmlreforged.DeepMobLearning;
-import com.yollo.dmlreforged.common.core.GlitchArmorMaterial;
 import com.yollo.dmlreforged.common.mobmetas.MobMetaData;
 import com.yollo.dmlreforged.common.util.DataModelHelper;
+import com.yollo.dmlreforged.core.GlitchArmorMaterial;
+import com.yollo.dmlreforged.core.init.ItemInit;
 
 import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.ChatFormatting;
@@ -25,6 +26,8 @@ import net.minecraft.world.level.Level;
 public class ItemGlitchArmor extends ArmorItem{
 	
 	private static final int PRISTINE_SET_CHANCE = 16;
+	private static final int FRAGMENT_SET_CHANCE = 6;
+	private static final int HEART_SET_CHANCE = 1;
     private static final int PRISTINE_SET_NUMBER_OF_DROPS = 2;
 	
 	public ItemGlitchArmor(EquipmentSlot slot) {
@@ -42,6 +45,22 @@ public class ItemGlitchArmor extends ArmorItem{
 		 if(ThreadLocalRandom.current().nextInt(1, 100) <= PRISTINE_SET_CHANCE) {
 	            MobMetaData meta = DataModelHelper.getMobMetaData(stack);
 	            ItemEntity drop = new ItemEntity(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), meta.getPristineMatterStack(PRISTINE_SET_NUMBER_OF_DROPS));
+	            drop.setDefaultPickUpDelay();
+	            level.addFreshEntity(drop);
+	        }
+	}
+	
+	public static void dropGlitchFragment(Level level, BlockPos blockPos, ServerPlayer player) {
+		 if(ThreadLocalRandom.current().nextInt(1, 100) <= FRAGMENT_SET_CHANCE) {
+	            ItemEntity drop = new ItemEntity(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(ItemInit.GLITCH_FRAGMENT.get(),1));
+	            drop.setDefaultPickUpDelay();
+	            level.addFreshEntity(drop);
+	        }
+	}
+	
+	public static void dropGlitchHeart(Level level, BlockPos blockPos, ServerPlayer player) {
+		 if(ThreadLocalRandom.current().nextInt(1, 100) <= HEART_SET_CHANCE) {
+	            ItemEntity drop = new ItemEntity(level, blockPos.getX(), blockPos.getY(), blockPos.getZ(), new ItemStack(ItemInit.GLITCH_HEART.get(),1));
 	            drop.setDefaultPickUpDelay();
 	            level.addFreshEntity(drop);
 	        }

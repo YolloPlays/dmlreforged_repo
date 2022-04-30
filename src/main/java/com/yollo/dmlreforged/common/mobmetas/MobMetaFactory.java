@@ -1,6 +1,6 @@
 package com.yollo.dmlreforged.common.mobmetas;
 
-import com.yollo.dmlreforged.common.items.init.ItemInit;
+import com.yollo.dmlreforged.core.init.ItemInit;
 
 public class MobMetaFactory {
     public static MobMetaData createMobMetaData(String key) {

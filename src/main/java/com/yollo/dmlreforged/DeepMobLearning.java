@@ -1,9 +1,10 @@
 package com.yollo.dmlreforged;
 
-import com.yollo.dmlreforged.common.items.init.BlockEntityInit;
-import com.yollo.dmlreforged.common.items.init.BlockInit;
-import com.yollo.dmlreforged.common.items.init.ContainerInit;
-import com.yollo.dmlreforged.common.items.init.ItemInit;
+import com.yollo.dmlreforged.core.init.BlockEntityInit;
+import com.yollo.dmlreforged.core.init.BlockInit;
+import com.yollo.dmlreforged.core.init.ContainerInit;
+import com.yollo.dmlreforged.core.init.GlobalLootModifier;
+import com.yollo.dmlreforged.core.init.ItemInit;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -117,6 +118,7 @@ public class DeepMobLearning {
 		ContainerInit.CONTAINERS.register(bus);
 		ItemInit.ITEMS.register(bus);
 		BlockEntityInit.BLOCK_ENTITIES.register(bus);
+		//GlobalLootModifier.GLM.register(bus);
 
 		MinecraftForge.EVENT_BUS.register(this);
 	}

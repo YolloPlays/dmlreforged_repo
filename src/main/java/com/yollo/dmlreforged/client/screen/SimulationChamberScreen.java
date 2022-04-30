@@ -16,7 +16,7 @@ import com.yollo.dmlreforged.common.mobmetas.MobMetaData;
 import com.yollo.dmlreforged.common.util.Animation;
 import com.yollo.dmlreforged.common.util.DataModelHelper;
 import com.yollo.dmlreforged.common.util.MathHelper;
-import com.yollo.dmlreforged.common.util.container.SimulationChamberContainer;
+import com.yollo.dmlreforged.core.container.SimulationChamberContainer;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;

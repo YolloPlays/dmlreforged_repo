@@ -1,7 +1,7 @@
 package com.yollo.dmlreforged.common.blocks;
 
 import com.yollo.dmlreforged.common.blocks.entity.BlockEntitySimulationChamber;
-import com.yollo.dmlreforged.common.util.container.SimulationChamberContainer;
+import com.yollo.dmlreforged.core.container.SimulationChamberContainer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
