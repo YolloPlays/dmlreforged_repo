@@ -73,7 +73,7 @@ public class ItemGlitchSword extends SwordItem{
     @Override
     public void appendHoverText(ItemStack stack, Level level, List<Component> list, TooltipFlag flag) {
     	list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_sword_1"));
-        list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_sword_2"));
+        //list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_sword_2"));
         list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_sword_3").withStyle(t->t.withColor(ChatFormatting.GOLD)));
         list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_sword_4").withStyle(t->t.withColor(ChatFormatting.GOLD)));
         list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_sword_5").withStyle(t->t.withColor(ChatFormatting.GOLD)));

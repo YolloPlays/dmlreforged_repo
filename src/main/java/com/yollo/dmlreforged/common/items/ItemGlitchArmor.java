@@ -74,7 +74,7 @@ public class ItemGlitchArmor extends ArmorItem{
     @Override
     public void appendHoverText(ItemStack p_41421_, Level p_41422_, List<Component> list, TooltipFlag p_41424_) {
         list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_armor_1"));
-        list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_armor_2"));
+        //list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_armor_2"));
         list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_armor_3", new TextComponent(Integer.toString(PRISTINE_SET_CHANCE)), new TextComponent(Integer.toString(PRISTINE_SET_NUMBER_OF_DROPS))).withStyle(t->t.withColor(ChatFormatting.GOLD)));
         list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_armor_4").withStyle(t->t.withColor(ChatFormatting.GOLD)));
         list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_infused_armor_5").withStyle(t->t.withColor(ChatFormatting.GOLD)));
