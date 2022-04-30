@@ -16,7 +16,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.item.Item;
@@ -47,45 +46,40 @@ public class GlitchFragmentModifier extends LootModifier{
 
 	@Override
 	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext ctx) {
-		if(enabled && ctx.getParamOrNull(LootContextParams.THIS_ENTITY) instanceof Enemy && ctx.getParamOrNull(LootContextParams.DIRECT_KILLER_ENTITY) instanceof ServerPlayer player) {
-			 NonNullList<ItemStack> inventory = NonNullList.create();
-		        inventory.addAll(player.getInventory().items);
-		        inventory.addAll(player.getInventory().offhand);
-		
-		        // Grab the deep learners and combat trial items from a players inventory
-		        NonNullList<ItemStack> deepLearners = getDeepLearners(inventory);
-		        NonNullList<ItemStack> updatedModels = NonNullList.create();
-		
-		        // Update every data model in every deeplearner that match the kill event
-		        deepLearners.forEach(stack -> {
-		            NonNullList<ItemStack> models = updateAndReturnModels(stack, (LivingEntity) ctx.getParamOrNull(LootContextParams.THIS_ENTITY), player);
-		            updatedModels.addAll(models);
-		        });
-		        		        
-		        if(ThreadLocalRandom.current().nextInt(1, 100) <= chanceFragment) {
-                	generatedLoot.add(new ItemStack(fragment, ThreadLocalRandom.current().nextInt(1, 3)));
-                }
-                if(ThreadLocalRandom.current().nextFloat(0, 100) <= chanceHeart) {
-                	generatedLoot.add(new ItemStack(heart, 1));
-                }
-
-		        if(player.getMainHandItem().getItem() instanceof ItemGlitchSword) {
-	                ItemStack swordStack = player.getItemInHand(InteractionHand.MAIN_HAND);
-	                if(ItemGlitchSword.canIncreaseDamage(swordStack)) {
-	                    ItemGlitchSword.increaseDamage(swordStack, player);
-	                }
-		        }
-		        
-		        // Return early if no models were affected
-		        if(updatedModels.size() == 0) {
-		            return generatedLoot;
-		        }
-		        
-		        // Chance to drop pristine matter from the model that gained data
-		        if(ItemGlitchArmor.isSetEquippedByPlayer(player) && ThreadLocalRandom.current().nextInt(1, 100) <= 16) {
-		        	MobMetaData meta = DataModelHelper.getMobMetaData(updatedModels.get(0));
-	                generatedLoot.add(meta.getPristineMatterStack(2));
-		        }
+		if(enabled && ctx.getParamOrNull(LootContextParams.THIS_ENTITY) instanceof Enemy) {
+	        
+			if(ThreadLocalRandom.current().nextInt(1, 100) <= chanceFragment) {
+				generatedLoot.add(new ItemStack(fragment, ThreadLocalRandom.current().nextInt(1, 3)));
+			}
+			if(ThreadLocalRandom.current().nextFloat(0, 100) <= chanceHeart) {
+				generatedLoot.add(new ItemStack(heart, 1));
+			}
+			if(ctx.getParamOrNull(LootContextParams.DIRECT_KILLER_ENTITY) instanceof ServerPlayer player) {
+					NonNullList<ItemStack> inventory = NonNullList.create();
+			        inventory.addAll(player.getInventory().items);
+			        inventory.addAll(player.getInventory().offhand);
+			
+			        // Grab the deep learners and combat trial items from a players inventory
+			        NonNullList<ItemStack> deepLearners = getDeepLearners(inventory);
+			        NonNullList<ItemStack> updatedModels = NonNullList.create();
+			
+			        // Update every data model in every deeplearner that match the kill event
+			        deepLearners.forEach(stack -> {
+			            NonNullList<ItemStack> models = updateAndReturnModels(stack, (LivingEntity) ctx.getParamOrNull(LootContextParams.THIS_ENTITY), player);
+			            updatedModels.addAll(models);
+			        });
+			        
+			        // Return early if no models were affected
+			        if(updatedModels.size() == 0) {
+			            return generatedLoot;
+			        }
+			        
+			        // Chance to drop pristine matter from the model that gained data
+			        if(ItemGlitchArmor.isSetEquippedByPlayer(player) && ThreadLocalRandom.current().nextInt(1, 100) <= 16) {
+			        	MobMetaData meta = DataModelHelper.getMobMetaData(updatedModels.get(0));
+		                generatedLoot.add(meta.getPristineMatterStack(2));
+			        }
+			}
 		}
         return generatedLoot;
 	}
