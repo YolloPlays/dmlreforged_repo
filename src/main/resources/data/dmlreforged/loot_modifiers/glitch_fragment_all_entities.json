@@ -3,8 +3,8 @@
   "conditions": [
   		{
    		 "condition": "forge:loot_table_id",
-	     "loot_table_id": "minecraft:entities/creeper"
+	     "loot_table_id": "minecraft:entities/zombie"
 	 	}
   ],
-  "addition": "dmlreforged:glitch_fragment"
+  "addition": "minecraft:stick"
 }

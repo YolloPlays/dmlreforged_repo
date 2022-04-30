@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerChangeGameModeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,6 +48,25 @@ public class PlayerHandler {
     
     @SubscribeEvent
     public static void playerLogIn(PlayerLoggedInEvent event) {
+    	if(event.getEntity() instanceof Player player) {
+	    	Abilities cap = player.getAbilities();
+	        if(!player.level.isClientSide) {
+	            if(!cap.mayfly && ItemGlitchArmor.isSetEquippedByPlayer((ServerPlayer) player)) {
+	                cap.mayfly = true;
+	                player.onUpdateAbilities();
+	            }
+	
+	            if(!ItemGlitchArmor.isSetEquippedByPlayer((ServerPlayer) player) && cap.mayfly && !player.isSpectator() && !player.isCreative()) {
+                    cap.mayfly = false;
+                    cap.flying = false;
+                    player.onUpdateAbilities();
+	            }
+	        }
+	    }
+    }
+    
+    @SubscribeEvent
+    public static void playerChangeGamemode(PlayerChangeGameModeEvent event) {
     	if(event.getEntity() instanceof Player player) {
 	    	Abilities cap = player.getAbilities();
 	        if(!player.level.isClientSide) {

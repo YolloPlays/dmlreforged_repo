@@ -3,7 +3,6 @@ package com.yollo.dmlreforged;
 import com.yollo.dmlreforged.core.init.BlockEntityInit;
 import com.yollo.dmlreforged.core.init.BlockInit;
 import com.yollo.dmlreforged.core.init.ContainerInit;
-import com.yollo.dmlreforged.core.init.GlobalLootModifier;
 import com.yollo.dmlreforged.core.init.ItemInit;
 
 import net.minecraft.world.item.CreativeModeTab;

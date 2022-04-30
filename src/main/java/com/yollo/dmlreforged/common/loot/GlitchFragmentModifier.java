@@ -41,7 +41,7 @@ public class GlitchFragmentModifier extends LootModifier{
 		    @Override
 		    public JsonObject write(GlitchFragmentModifier instance) {
 		      JsonObject json = makeConditions(instance.conditions);
-		      json.addProperty("replacement", ForgeRegistries.ITEMS.getKey(instance.addition).toString());
+		      json.addProperty("addition", ForgeRegistries.ITEMS.getKey(instance.addition).toString());
 		      return json;
 		    }
 		  }
