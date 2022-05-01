@@ -1,6 +1,8 @@
 package com.yollo.dmlreforged.common.util;
 
-import com.yollo.dmlreforged.DeepMobLearning;
+
+
+import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.MutableComponent;
@@ -11,10 +13,10 @@ public class TierHelper {
     public static int getPristineChance(int tier) {
         switch(tier) {
             case 0: return 0;
-            case 1: return DeepMobLearning.tier1;
-            case 2: return DeepMobLearning.tier2;
-            case 3: return DeepMobLearning.tier3;
-            case 4: return DeepMobLearning.tier4;
+            case 1: return BalanceConfigs.tier1.get();
+            case 2: return BalanceConfigs.tier2.get();
+            case 3: return BalanceConfigs.tier3.get();
+            case 4: return BalanceConfigs.tier4.get();
             default: return 0;
         }
     }

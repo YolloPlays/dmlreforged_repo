@@ -3,6 +3,7 @@ package com.yollo.dmlreforged.core.init;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.blocks.entity.BlockEntityExtractionChamber;
 import com.yollo.dmlreforged.common.blocks.entity.BlockEntitySimulationChamber;
+
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

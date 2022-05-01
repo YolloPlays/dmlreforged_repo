@@ -1,6 +1,7 @@
 package com.yollo.dmlreforged.core.container;
 
 import com.yollo.dmlreforged.common.blocks.entity.BlockEntityExtractionChamber;
+import com.yollo.dmlreforged.common.util.BaseStackHandler;
 import com.yollo.dmlreforged.core.container.slots.SlotExtractionChamber;
 import com.yollo.dmlreforged.core.container.sync.ExtractionChamberContainerData;
 import com.yollo.dmlreforged.core.init.BlockInit;
@@ -18,23 +19,22 @@ import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class ExtractionChamberContainer extends AbstractContainerMenu{
 	
 	private final ContainerLevelAccess containerAccess;
 	public final ContainerData data;
-	public IItemHandler handler;
+	public BaseStackHandler handler;
 	public static final int PRISTINE_SLOT = 0;
 	public BlockPos pos;
 	
 	// Client
 	public ExtractionChamberContainer(int id, Inventory playerInv, FriendlyByteBuf buf) {
-		this(id, playerInv, new ItemStackHandler(17), buf.readBlockPos(), new SimpleContainerData(5));
+		this(id, playerInv, new BaseStackHandler(17), buf.readBlockPos(), new SimpleContainerData(5));
 	}
 
 	// Server
-	public ExtractionChamberContainer(int pContainerId, Inventory pInventory, IItemHandler handler, BlockPos pPos,
+	public ExtractionChamberContainer(int pContainerId, Inventory pInventory, BaseStackHandler handler, BlockPos pPos,
 			ContainerData data) {
 		super(ContainerInit.EXTRACTION_CHAMBER.get(), pContainerId);
 		this.handler = handler;
@@ -64,11 +64,11 @@ public class ExtractionChamberContainer extends AbstractContainerMenu{
 	}
 	
 	private void addSlotsToHandler(IItemHandler handler) {
-		addSlot(new SlotExtractionChamber(handler, PRISTINE_SLOT, 79, 62));
+		addSlot(new SlotExtractionChamber(handler, PRISTINE_SLOT, 81, 62));
 		int index = 1;
 		for (int row = 0; row < 4; row++) {
 			for (int column = 0; column < 4; column++) {
-				int x = 100 + column * 18;
+				int x = 102 + column * 18;
 				int y = 7 + row * 18;
 				Slot slot = new SlotExtractionChamber(handler, index, x, y);
 				addSlot(slot);

@@ -3,7 +3,6 @@ package com.yollo.dmlreforged.client.screen;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -13,6 +12,8 @@ import com.yollo.dmlreforged.client.screen.buttons.SelectButton;
 import com.yollo.dmlreforged.common.items.ItemPristineMatter;
 import com.yollo.dmlreforged.common.network.ServerboundResultingItemPacket;
 import com.yollo.dmlreforged.common.util.MathHelper;
+import com.yollo.dmlreforged.core.configs.EnergyCostConfig;
+import com.yollo.dmlreforged.core.configs.MobConfig;
 import com.yollo.dmlreforged.core.container.ExtractionChamberContainer;
 import com.yollo.dmlreforged.core.init.PacketHandler;
 
@@ -23,6 +24,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,15 +40,20 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
 	private NonNullList<SelectButton> buttons = NonNullList.create();
 	private int selectedIndex;
 	private boolean tileSelectData;
+	private boolean scrolling;
+	private float scrollOffs;
 	
 	public ExtractionChamberScreen(ExtractionChamberContainer pMenu, Inventory pPlayerInventory, Component pTitle) {
 		super(pMenu, pPlayerInventory, pTitle);
+		pMenu.handler.registerUpdateListener(this::containerChanged);
 	}
 
 	@Override
 	protected void renderBg(PoseStack pose, float pPartialTick, int pMouseX, int pMouseY) {
 		int left = getGuiLeft();
 		int top = getGuiTop();
+		int x = pMouseX - getGuiLeft();
+        int y = pMouseY - getGuiTop();
 		selectedIndex = this.menu.data.get(3);
 		tileSelectData = this.menu.data.get(4)==1 ? true: false;
 		
@@ -54,10 +61,23 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 		RenderSystem.setShaderTexture(0, base);
-		blit(pose, left , top , 0, 0, 176, 83);
+		blit(pose, left , top , 0, 0, 178, 83);
+		
+		// Render scrollbar
+		int k = (int)(41.0F * this.scrollOffs);
+		int o = 0;
+		if(12+k <= y && y < 31+k) {
+			if(76 <= x && x < 82) {
+				if(isScrollBarActive()) {
+					o=6;
+				}
+			}
+		}
+		blit(pose, left + 76, top + 12 + k, 178 + (this.isScrollBarActive() ? 0 : 12)+o, 0, 6, 19);
+		
 		
 		// Render current energy
-        int energyBarHeight = MathHelper.ensureRange((int) ((float) this.menu.data.get(1) / (this.menu.data.get(2) - DeepMobLearning.rfCostExtractionChamber) * 53), 0, 53);
+        int energyBarHeight = MathHelper.ensureRange((int) ((float) this.menu.data.get(1) / (this.menu.data.get(2) - EnergyCostConfig.FECOSTEXTRACTIONCHAMBER.get()) * 53), 0, 53);
         int energyBarOffset = 53 - energyBarHeight;
         blit(pose, left + 6,  top + 10 + energyBarOffset, 0, 83, 7, energyBarHeight);
         
@@ -77,14 +97,13 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
 		final int energyStored = this.menu.data.get(1);
 		final int maxEnergy = this.menu.data.get(2);
 		
-        int x = pMouseX - getGuiLeft();
-        int y = pMouseY - getGuiTop();
+
         if(10 <= y && y < 63) {
             if(6 <= x && x < 13) {
                 // Tooltip for energy
             	List<Component> tooltip = new ArrayList<>();
                 tooltip.add(new TextComponent(f.format(energyStored) + "/" + f.format(maxEnergy) + " RF"));
-                tooltip.add(new TextComponent("Operational cost: " + f.format(DeepMobLearning.rfCostExtractionChamber) + " RF/t"));
+                tooltip.add(new TextComponent("Operational cost: " + f.format(EnergyCostConfig.FECOSTEXTRACTIONCHAMBER.get()) + " RF/t"));
                 renderComponentTooltip(pose, tooltip, pMouseX + 1, pMouseY - 11);
             }
         } 
@@ -95,7 +114,6 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
 	            renderComponentTooltip(pose, tooltip, pMouseX + 1, pMouseY - 11);
         	}
         }
-        
         if(!getPristine().isEmpty()) {
     		renderLootList();
     		if(!elementsAdded) {
@@ -104,6 +122,7 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
     		}
         }
         else {
+        	
         	if(elementsAdded) {
         		buttons.forEach((Button btn) -> {
         			removeWidget(btn);
@@ -118,19 +137,22 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
     }
     
     private void renderButtons() {
-        for(int i = this.startIndex ; i < getLootFromPristine().size(); i++) {
-        	int l = i / 3 * 18;
+        for(int i = this.startIndex ; i < this.startIndex + 9 && i < getLootFromPristine().size(); i++) {
+        	int j = i - this.startIndex;
+        	int l = j / 3 * 18;
+        	int k = j % 3 * 19;
         	int resultingIndex = i;
         	SelectButton btn;
         	System.out.println(getLootFromPristine().size());
         	if(selectedIndex == resultingIndex && tileSelectData) {
-        		btn = new SelectButton(getGuiLeft()+ 16 + i % 3 * 19, 8 + getGuiTop() + l, 18, 18, 0, 0, 18, 18, true, extras, button -> {
+        		btn = new SelectButton(getGuiLeft()+ 16 + k, 8 + getGuiTop() + l, 18, 18, 0, 0, 18, 18, true, extras, button -> {
             		if(!((SelectButton) button).isSelected()) {
             			PacketHandler.INSTANCE.sendToServer(new ServerboundResultingItemPacket(this.menu.pos, getItemFromList(resultingIndex), resultingIndex, true));
             			buttons.forEach((SelectButton buuton) -> {
             				buuton.setSelected(false);
             			});
             			((SelectButton) button).selection();
+            			this.scrolling = false;
             		}
             		else if(((SelectButton) button).isSelected()){
             			PacketHandler.INSTANCE.sendToServer(new ServerboundResultingItemPacket(this.menu.pos, ItemStack.EMPTY, resultingIndex, false));
@@ -147,10 +169,12 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
             				buuton.setSelected(false);
             			});
             			((SelectButton) button).selection();
+            			this.scrolling = false;
             		}
             		else if(((SelectButton) button).isSelected()){
             			PacketHandler.INSTANCE.sendToServer(new ServerboundResultingItemPacket(this.menu.pos, ItemStack.EMPTY, resultingIndex, false));
             			((SelectButton) button).selection();
+            			this.scrolling = false;
             		}
             		
                 });
@@ -160,13 +184,21 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
          }
      }
     
+    protected int getOffscreenRows() {
+        return (getLootFromPristine().size() + 2 - 1) / 2 - 1;
+     }
+    
+    private boolean isScrollBarActive() {
+        return !getPristine().isEmpty() && getLootFromPristine().size() > 9;
+     }
+
+    
     private void renderLootList() {
-    	int index = 0;
-    	for(int row = 0; row < 3; row++) {
-    		for(int column = 0; column < 3; column++) {
-    			renderItemStackWithCount(getItemFromList(index), 17 + getGuiLeft() + 19 * column, 8+ getGuiTop() + 18 * row, getItemFromList(index).getCount());
-    			index++;
-    		}
+    	for(int i = this.startIndex ;i < this.startIndex + 9 && i < getLootFromPristine().size(); i++) {
+    		int j = i - this.startIndex;
+        	int l = j / 3 * 18;
+        	int k = j % 3 * 19;
+        	renderItemStackWithCount(getItemFromList(i), 17 + getGuiLeft() + k, 8+ getGuiTop() + l, getItemFromList(i).getCount());
     	}
     }
     
@@ -192,7 +224,7 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
         NonNullList<ItemStack> list = NonNullList.create();
 
         List<? extends String> toParseList;
-        toParseList = Arrays.asList(DeepMobLearning.getPristineLoot(key));
+        toParseList = MobConfig.getPristineLoot(key);
 
         for (String line : toParseList) {
             if (!getStackFromConfigLine(line).isEmpty()) {
@@ -234,7 +266,63 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
     	getMinecraft().getItemRenderer().renderAndDecorateItem(stack, x, y);
     	getMinecraft().getItemRenderer().renderGuiItemDecorations(font, stack, x - 1, y - 1, count != 1 ? count + ""  : "");
     }
-	
+    
+    /**
+     * Called every time this screen's container is changed (is marked as dirty).
+     */
+    private void containerChanged() {
+       if (getPristine().isEmpty()) {
+          this.scrollOffs = 0.0F;
+          this.startIndex = 0;
+       }
+    }
+    
+    @Override
+    public boolean mouseClicked(double pMouseX, double pMouseY, int pButton) {
+    	int k = (int)(41.0F * this.scrollOffs);
+    	double x = pMouseX - getGuiLeft();
+        double y = pMouseY - getGuiTop();
+        if(12+k <= y && y < 31+k) {
+			if(76 <= x && x < 82) {
+        		this.scrolling = true;
+        	}
+        }
+    	return super.mouseClicked(pMouseX, pMouseY, pButton);
+    }
+    
+    @Override
+    public boolean mouseDragged(double pMouseX, double pMouseY, int pButton, double pDragX, double pDragY) {
+        if (this.scrolling && this.isScrollBarActive()) {
+            int i = this.topPos + 14;
+            int j = i + 54;
+            this.scrollOffs = ((float)pMouseY - (float)i - 7.5F) / ((float)(j - i) - 15.0F);
+            this.scrollOffs = Mth.clamp(this.scrollOffs, 0.0F, 1.0F);
+            this.startIndex = (int)((double)(this.scrollOffs * (float)this.getOffscreenRows()) + 0.5D) * 3;
+            buttons.forEach((Button btn) -> {
+    			removeWidget(btn);
+    		});
+    		this.elementsAdded = false;
+            return true;
+         } else {
+            return super.mouseDragged(pMouseX, pMouseY, pButton, pDragX, pDragY);
+         }
+    }
+    
+    @Override
+    public boolean mouseScrolled(double pMouseX, double pMouseY, double pDelta) {
+        if (this.isScrollBarActive()) {
+            int i = this.getOffscreenRows();
+            float f = (float)pDelta / (float)i;
+            this.scrollOffs = Mth.clamp(this.scrollOffs - f, 0.0F, 1.0F);
+            this.startIndex = (int)((double)(this.scrollOffs * (float)i) + 0.5D) * 3;
+            buttons.forEach((Button btn) -> {
+    			removeWidget(btn);
+    		});
+    		this.elementsAdded = false;
+         }
+         return true;
+    }
+
 	@Override
 	protected void renderLabels(PoseStack pPoseStack, int pMouseX, int pMouseY) {
 	}

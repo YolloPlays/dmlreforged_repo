@@ -3,7 +3,7 @@ package com.yollo.dmlreforged.common.blocks.entity;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.energy.DeepEnergyStorage;
 import com.yollo.dmlreforged.common.items.ItemPristineMatter;
-import com.yollo.dmlreforged.common.util.MathHelper;
+import com.yollo.dmlreforged.core.configs.EnergyCostConfig;
 import com.yollo.dmlreforged.core.init.BlockEntityInit;
 
 import net.minecraft.core.BlockPos;
@@ -28,7 +28,7 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
     private ItemStack resultingItem = ItemStack.EMPTY;
     private int resultingIndex;
     private boolean selected;
-	public int energyCost = MathHelper.ensureRange(DeepMobLearning.rfCostExtractionChamber, 1, 18000);
+	public int energyCost = EnergyCostConfig.FECOSTEXTRACTIONCHAMBER.get();
 
 	public BlockEntityExtractionChamber(BlockPos pos, BlockState state) {
 		super(BlockEntityInit.ENTITY_EXTRACTION_CHAMBER.get(), pos, state, 17);

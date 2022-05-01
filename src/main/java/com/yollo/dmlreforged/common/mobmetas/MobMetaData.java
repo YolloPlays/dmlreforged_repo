@@ -1,9 +1,9 @@
 package com.yollo.dmlreforged.common.mobmetas;
 
-import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemLivingMatter;
 import com.yollo.dmlreforged.common.items.ItemPristineMatter;
-import com.yollo.dmlreforged.common.util.MathHelper;
+import com.yollo.dmlreforged.core.configs.EnergyCostConfig;
+import com.yollo.dmlreforged.core.configs.MobConfig;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -38,8 +38,7 @@ public abstract class MobMetaData {
     }
 
     public int getSimulationTickCost() {
-        int cost = DeepMobLearning.getCost(getKey());
-        cost = MathHelper.ensureRange(cost, 1, DeepMobLearning.MAX_DATA_MODEL_COST);
+        int cost = EnergyCostConfig.getCost(getKey());
         return cost;
     }
     public ItemStack getLivingMatterStack(int amount) {
@@ -98,7 +97,7 @@ public abstract class MobMetaData {
         ResourceLocation registryName = entity.getType().getRegistryName();
         if (registryName != null) {
             String name = registryName.toString();
-            for (String mobRegname : DeepMobLearning.getMobs(getKey())) {
+            for (String mobRegname : MobConfig.getMobs(getKey())) {
                 if (mobRegname.equals(name)) {
                     return true;
                 }

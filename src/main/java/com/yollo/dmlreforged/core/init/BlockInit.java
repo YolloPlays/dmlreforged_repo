@@ -4,6 +4,7 @@ import com.google.common.base.Supplier;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.blocks.BlockExtractionChamber;
 import com.yollo.dmlreforged.common.blocks.BlockSimulationChamber;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;

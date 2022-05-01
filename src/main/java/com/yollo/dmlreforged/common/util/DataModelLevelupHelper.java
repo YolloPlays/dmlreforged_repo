@@ -1,22 +1,23 @@
 package com.yollo.dmlreforged.common.util;
 
 import com.yollo.dmlreforged.DeepMobLearning;
+import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 
 public class DataModelLevelupHelper {
     // Simulations have no multipliers, they are always 1x
     private static final int[] killMultiplier = {
-        MathHelper.ensureRange(DeepMobLearning.killMultiplierTier0, 1, 100),
-        MathHelper.ensureRange(DeepMobLearning.killMultiplierTier1, 1, 100),
-        MathHelper.ensureRange(DeepMobLearning.killMultiplierTier2, 1, 100),
-        MathHelper.ensureRange(DeepMobLearning.killMultiplierTier3, 1, 100),
+        BalanceConfigs.killMultiplierTier0.get(), 1, 100,
+        BalanceConfigs.killMultiplierTier1.get(), 1, 100,
+        BalanceConfigs.killMultiplierTier2.get(), 1, 100,
+        BalanceConfigs.killMultiplierTier3.get(), 1, 100,
         0 // Max tier, no kill multiplier
     };
 
     private static final int[] maxExperience = {
-        MathHelper.ensureRange(DeepMobLearning.killsToTier1, 1, 500) * killMultiplier[0],
-        MathHelper.ensureRange(DeepMobLearning.killsToTier2, 1, 500) * killMultiplier[1],
-        MathHelper.ensureRange(DeepMobLearning.killsToTier3, 1, 500) * killMultiplier[2],
-        MathHelper.ensureRange(DeepMobLearning.killsToTier4, 1, 500) * killMultiplier[3],
+        BalanceConfigs.killsToTier1.get(), 1, 500 * killMultiplier[0],
+        BalanceConfigs.killsToTier2.get(), 1, 500 * killMultiplier[1],
+        BalanceConfigs.killsToTier3.get(), 1, 500 * killMultiplier[2],
+        BalanceConfigs.killsToTier4.get(), 1, 500 * killMultiplier[3],
     };
 
     /* tier is CURRENT tier, kc is kill count for CURRENT tier, sc is simulation count for CURRENT  tier */

@@ -3,6 +3,7 @@ package com.yollo.dmlreforged.common.items;
 import java.util.List;
 
 import com.yollo.dmlreforged.DeepMobLearning;
+import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -19,7 +20,7 @@ public class ItemGlitchIngot extends Item{
  
     @Override
     public void appendHoverText(ItemStack stack, Level world, List<Component> list, TooltipFlag flagIn) {
-    	if(DeepMobLearning.isSootedRedstoneCraftingEnabled) {
+    	if(BalanceConfigs.isSootedRedstoneCraftingEnabled.get()) {
     		list.add(new TranslatableComponent("dmlreforged.hover_text.glitchingot_1", new TranslatableComponent("item.dmlreforged.glitch_heart").withStyle(t->t.withColor(ChatFormatting.AQUA))).withStyle(t->t.withColor(ChatFormatting.GRAY)));
             list.add(new TranslatableComponent("dmlreforged.hover_text.more_info").withStyle(t->t.withColor(ChatFormatting.GRAY)));
     	}

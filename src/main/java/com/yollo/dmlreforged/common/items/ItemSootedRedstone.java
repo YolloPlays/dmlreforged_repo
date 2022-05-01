@@ -3,6 +3,8 @@ package com.yollo.dmlreforged.common.items;
 import java.util.List;
 
 import com.yollo.dmlreforged.DeepMobLearning;
+import com.yollo.dmlreforged.core.configs.BalanceConfigs;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
@@ -21,7 +23,7 @@ public class ItemSootedRedstone extends Item{
 	
 	@Override
 	public void appendHoverText(ItemStack p_41421_, Level p_41422_, List<Component> list, TooltipFlag p_41424_) {
-		if(DeepMobLearning.isSootedRedstoneCraftingEnabled) {
+		if(BalanceConfigs.isSootedRedstoneCraftingEnabled.get()) {
 			list.add(new TranslatableComponent("dmlreforged.hover_text.soot_covered_redstone_1", new TextComponent(new ItemStack(Items.REDSTONE).getHoverName().getString()).withStyle(t->t.withColor(ChatFormatting.RED))).withStyle(t->t.withColor(ChatFormatting.GRAY)));
 	        list.add(new TranslatableComponent("dmlreforged.hover_text.soot_covered_redstone_2", new TextComponent(new ItemStack(Items.COAL_BLOCK).getHoverName().getString()).withStyle(t->t.withColor(ChatFormatting.WHITE))).withStyle(t->t.withColor(ChatFormatting.GRAY)));
 		}

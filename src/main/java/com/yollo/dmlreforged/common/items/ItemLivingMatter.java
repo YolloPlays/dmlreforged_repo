@@ -3,7 +3,7 @@ package com.yollo.dmlreforged.common.items;
 import java.util.List;
 
 import com.yollo.dmlreforged.DeepMobLearning;
-import com.yollo.dmlreforged.common.util.MathHelper;
+import com.yollo.dmlreforged.core.configs.LivingExpConfig;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -34,13 +34,13 @@ public class ItemLivingMatter extends Item{
 	public void appendHoverText(ItemStack stack, Level world, List<Component> list, TooltipFlag flag) {
 		list.add(new TranslatableComponent("dmlreforged.living_matter.exp_consume", new TextComponent("(Right-Click)").withStyle(t -> t.withColor(ChatFormatting.WHITE))).withStyle(t -> t.withColor(ChatFormatting.GRAY)));
 		list.add(new TranslatableComponent("dmlreforged.living_matter.exp_consume_stack", new TextComponent("SHIFT").withStyle(t -> t.withColor(ChatFormatting.WHITE))).withStyle(t -> t.withColor(ChatFormatting.GRAY)));
-		list.add(new TranslatableComponent("dmlreforged.living_matter.exp", new TextComponent(Integer.toString(DeepMobLearning.getExp(getType()))).withStyle(t -> t.withColor(ChatFormatting.GREEN))));
+		list.add(new TranslatableComponent("dmlreforged.living_matter.exp", new TextComponent(Integer.toString(LivingExpConfig.getExp(getType()))).withStyle(t -> t.withColor(ChatFormatting.GREEN))));
 	}
 	
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 		if(!world.isClientSide()) {
-			int exp = MathHelper.ensureRange(DeepMobLearning.getExp(getType()), 1, 999);
+			int exp = LivingExpConfig.getExp(getType());
 			if(player.isCrouching()) {
 				int size = player.getItemInHand(hand).getCount();
 				player.getItemInHand(hand).shrink(size);

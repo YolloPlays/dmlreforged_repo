@@ -105,8 +105,6 @@ public class InventoryBlockEntity extends BlockEntity {
 	        	update();
 	        	super.onContentsChanged(slot);
 	        }
-	        
-	        
 	    };
 	}
 }

@@ -6,7 +6,9 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class BaseStackHandler extends ItemStackHandler{
 	int size;
-	
+    Runnable slotUpdateListener = () -> {
+    };
+	   
 	public BaseStackHandler(int size) {
 		super(size);
 		this.size = size;
@@ -50,4 +52,8 @@ public class BaseStackHandler extends ItemStackHandler{
         return remainder;
 
     }
+    
+    public void registerUpdateListener(Runnable pListener) {
+        this.slotUpdateListener = pListener;
+     }
 }
