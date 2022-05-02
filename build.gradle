@@ -38,6 +38,8 @@ minecraft {
     
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             property 'forge.enabledGameTestNamespaces', 'dmlreforged'
 
             mods {
@@ -88,12 +90,13 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-  
+	maven { url 'https://maven.blamejared.com' }
 }
 
 dependencies {
-   
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.40'   
+    minecraft 'net.minecraftforge:forge:1.18.2-40.0.40'
+	compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67:api")
+	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67")
 }
 jar {
     manifest {
