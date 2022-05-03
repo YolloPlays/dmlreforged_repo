@@ -13,10 +13,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemDataModel;
 import com.yollo.dmlreforged.common.mobmetas.MobMetaData;
-import com.yollo.dmlreforged.common.util.Animation;
-import com.yollo.dmlreforged.common.util.DataModelHelper;
-import com.yollo.dmlreforged.common.util.MathHelper;
 import com.yollo.dmlreforged.core.container.SimulationChamberContainer;
+import com.yollo.dmlreforged.core.util.Animation;
+import com.yollo.dmlreforged.core.util.DataModelHelper;
+import com.yollo.dmlreforged.core.util.MathHelper;
 
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;

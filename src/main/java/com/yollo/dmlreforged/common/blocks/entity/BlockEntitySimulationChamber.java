@@ -7,10 +7,10 @@ import com.yollo.dmlreforged.common.energy.DeepEnergyStorage;
 import com.yollo.dmlreforged.common.items.ItemDataModel;
 import com.yollo.dmlreforged.common.mobmetas.MobMetaData;
 import com.yollo.dmlreforged.common.mobmetas.MobMetaFactory;
-import com.yollo.dmlreforged.common.util.DataModelHelper;
-import com.yollo.dmlreforged.common.util.MathHelper;
 import com.yollo.dmlreforged.core.init.BlockEntityInit;
 import com.yollo.dmlreforged.core.init.ItemInit;
+import com.yollo.dmlreforged.core.util.DataModelHelper;
+import com.yollo.dmlreforged.core.util.MathHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

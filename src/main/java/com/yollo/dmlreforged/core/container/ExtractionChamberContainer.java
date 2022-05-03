@@ -1,11 +1,11 @@
 package com.yollo.dmlreforged.core.container;
 
 import com.yollo.dmlreforged.common.blocks.entity.BlockEntityExtractionChamber;
-import com.yollo.dmlreforged.common.util.BaseStackHandler;
 import com.yollo.dmlreforged.core.container.slots.SlotExtractionChamber;
 import com.yollo.dmlreforged.core.container.sync.ExtractionChamberContainerData;
 import com.yollo.dmlreforged.core.init.BlockInit;
 import com.yollo.dmlreforged.core.init.ContainerInit;
+import com.yollo.dmlreforged.core.util.BaseStackHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

@@ -4,9 +4,9 @@ import java.util.List;
 
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.mobmetas.MobMetaData;
-import com.yollo.dmlreforged.common.util.DataModelHelper;
 import com.yollo.dmlreforged.core.GlitchArmorMaterial;
 import com.yollo.dmlreforged.core.init.ItemInit;
+import com.yollo.dmlreforged.core.util.DataModelHelper;
 
 import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.ChatFormatting;

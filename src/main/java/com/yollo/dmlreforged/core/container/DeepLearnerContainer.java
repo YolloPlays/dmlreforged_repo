@@ -3,9 +3,9 @@ package com.yollo.dmlreforged.core.container;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemDataModel;
 import com.yollo.dmlreforged.common.items.ItemDeepLearner;
-import com.yollo.dmlreforged.common.util.ItemBackedInventory;
 import com.yollo.dmlreforged.core.init.ContainerInit;
 import com.yollo.dmlreforged.core.init.ItemInit;
+import com.yollo.dmlreforged.core.util.ItemBackedInventory;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;

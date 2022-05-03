@@ -1,6 +1,6 @@
 package com.yollo.dmlreforged.common.blocks.entity;
 
-import com.yollo.dmlreforged.common.util.BaseStackHandler;
+import com.yollo.dmlreforged.core.util.BaseStackHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

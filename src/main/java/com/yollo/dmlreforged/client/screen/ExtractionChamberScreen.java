@@ -11,11 +11,11 @@ import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.client.screen.buttons.SelectButton;
 import com.yollo.dmlreforged.common.items.ItemPristineMatter;
 import com.yollo.dmlreforged.common.network.ServerboundResultingItemPacket;
-import com.yollo.dmlreforged.common.util.MathHelper;
 import com.yollo.dmlreforged.core.configs.EnergyCostConfig;
 import com.yollo.dmlreforged.core.configs.MobConfig;
 import com.yollo.dmlreforged.core.container.ExtractionChamberContainer;
 import com.yollo.dmlreforged.core.init.PacketHandler;
+import com.yollo.dmlreforged.core.util.MathHelper;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

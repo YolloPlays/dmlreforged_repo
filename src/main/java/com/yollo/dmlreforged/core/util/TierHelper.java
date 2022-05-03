@@ -1,4 +1,4 @@
-package com.yollo.dmlreforged.common.util;
+package com.yollo.dmlreforged.core.util;
 
 
 

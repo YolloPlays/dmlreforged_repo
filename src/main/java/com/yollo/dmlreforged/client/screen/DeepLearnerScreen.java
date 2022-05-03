@@ -17,8 +17,8 @@ import com.yollo.dmlreforged.common.mobmetas.SlimeMeta;
 import com.yollo.dmlreforged.common.mobmetas.SpiderMeta;
 import com.yollo.dmlreforged.common.mobmetas.WitchMeta;
 import com.yollo.dmlreforged.common.mobmetas.WitherMeta;
-import com.yollo.dmlreforged.common.util.DataModelHelper;
 import com.yollo.dmlreforged.core.container.DeepLearnerContainer;
+import com.yollo.dmlreforged.core.util.DataModelHelper;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.ImageButton;

@@ -10,7 +10,7 @@
     "G": { "item": "minecraft:gold_ingot" },
     "D": { "item": "minecraft:diamond" },
     "C": { "item": "minecraft:comparator" },
-    "Y": { "item": "minecraft:dandelion_yellow" }
+    "Y": { "item": "minecraft:dandelion" }
   },
   "result": {
     "item": "dmlreforged:extraction_chamber",

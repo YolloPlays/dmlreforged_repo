@@ -1,11 +1,11 @@
 package com.yollo.dmlreforged.core.container;
 
 import com.yollo.dmlreforged.common.blocks.entity.BlockEntitySimulationChamber;
-import com.yollo.dmlreforged.common.util.DataModelHelper;
 import com.yollo.dmlreforged.core.container.slots.SlotSimulationChamber;
 import com.yollo.dmlreforged.core.container.sync.SimulationChamberContainerData;
 import com.yollo.dmlreforged.core.init.BlockInit;
 import com.yollo.dmlreforged.core.init.ContainerInit;
+import com.yollo.dmlreforged.core.util.DataModelHelper;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;

@@ -3,8 +3,8 @@ package com.yollo.dmlreforged.common.items;
 import java.util.List;
 
 import com.yollo.dmlreforged.DeepMobLearning;
-import com.yollo.dmlreforged.common.util.DataModelHelper;
-import com.yollo.dmlreforged.common.util.DataModelLevelupHelper;
+import com.yollo.dmlreforged.core.util.DataModelHelper;
+import com.yollo.dmlreforged.core.util.DataModelLevelupHelper;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;

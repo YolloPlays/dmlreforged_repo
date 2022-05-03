@@ -8,8 +8,8 @@ import com.yollo.dmlreforged.common.items.ItemDeepLearner;
 import com.yollo.dmlreforged.common.items.ItemGlitchArmor;
 import com.yollo.dmlreforged.common.items.ItemGlitchSword;
 import com.yollo.dmlreforged.common.mobmetas.MobMetaData;
-import com.yollo.dmlreforged.common.util.DataModelHelper;
 import com.yollo.dmlreforged.core.init.ItemInit;
+import com.yollo.dmlreforged.core.util.DataModelHelper;
 
 import io.netty.util.internal.ThreadLocalRandom;
 import net.minecraft.core.NonNullList;

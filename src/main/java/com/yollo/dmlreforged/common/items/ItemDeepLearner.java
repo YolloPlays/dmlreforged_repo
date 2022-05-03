@@ -3,9 +3,9 @@ package com.yollo.dmlreforged.common.items;
 import javax.annotation.Nonnull;
 
 import com.yollo.dmlreforged.DeepMobLearning;
-import com.yollo.dmlreforged.common.util.InventoryItemStack;
-import com.yollo.dmlreforged.common.util.ItemBackedInventory;
 import com.yollo.dmlreforged.core.container.DeepLearnerContainer;
+import com.yollo.dmlreforged.core.util.InventoryItemStack;
+import com.yollo.dmlreforged.core.util.ItemBackedInventory;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.NonNullList;

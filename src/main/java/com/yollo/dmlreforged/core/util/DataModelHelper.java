@@ -1,4 +1,4 @@
-package com.yollo.dmlreforged.common.util;
+package com.yollo.dmlreforged.core.util;
 
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemDataModel;
