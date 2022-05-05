@@ -91,12 +91,16 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
 	maven { url 'https://maven.blamejared.com' }
+  	maven { url = "https://dvs1.progwml6.com/files/maven/" }
+  	maven { url = "https://modmaven.dev" }
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.0.40'
 	compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67:api")
 	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67")
+  	compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174:api")
+  	runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174")
 }
 jar {
     manifest {

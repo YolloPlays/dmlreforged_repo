@@ -26,9 +26,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionChamberContainer>{
 	
@@ -214,51 +212,9 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
         ItemStack stack = getPristine();
 
         if(stack.getItem() instanceof ItemPristineMatter pristine) {
-            return getLootTable(pristine.getMobKey());
+            return MobConfig.getLootTable(pristine.getMobKey());
         } else {
            return NonNullList.create();
-        }
-    }
-    
-    private static NonNullList<ItemStack> getLootTable(String key) {
-        NonNullList<ItemStack> list = NonNullList.create();
-
-        List<? extends String> toParseList;
-        toParseList = MobConfig.getPristineLoot(key);
-
-        for (String line : toParseList) {
-            if (!getStackFromConfigLine(line).isEmpty()) {
-                list.add(getStackFromConfigLine(line));
-            }
-        }
-
-        return list;
-    }
-    
-    private static ItemStack getStackFromConfigLine(String line) {
-        String[] vals = line.split(",");
-
-        if (vals.length < 2) {
-            return ItemStack.EMPTY;
-        }
-
-
-        ResourceLocation itemLocation = new ResourceLocation(vals[0]);
-        int amount;
-
-        try {
-            amount = Integer.parseInt(vals[1]);
-        } catch (NumberFormatException e) {
-            System.out.println("Not a valid number for amount");
-            return ItemStack.EMPTY;
-        }
-
-
-        Item item = ForgeRegistries.ITEMS.getValue(itemLocation);
-        if(item != null) {
-            return new ItemStack(item, amount);
-        } else {
-            return ItemStack.EMPTY;
         }
     }
     

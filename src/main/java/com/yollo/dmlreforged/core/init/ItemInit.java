@@ -1,5 +1,7 @@
 package com.yollo.dmlreforged.core.init;
 
+import java.util.List;
+
 import com.google.common.base.Supplier;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemDataModel;
@@ -24,8 +26,8 @@ public class ItemInit {
 
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, DeepMobLearning.MOD_ID);
 	
-    public static NonNullList<ItemDataModel> dataModels = NonNullList.create();
-    public static NonNullList<ItemPristineMatter> pristineMatter = NonNullList.create();
+    public static List<ItemDataModel> dataModels = NonNullList.create();
+    public static List<ItemPristineMatter> pristineMatter = NonNullList.create();
 
 
 	//Items  

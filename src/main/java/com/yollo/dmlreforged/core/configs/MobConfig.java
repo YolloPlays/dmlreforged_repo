@@ -4,7 +4,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class MobConfig {
 	
@@ -206,5 +211,47 @@ public class MobConfig {
 
 		public static List<? extends String> getPristineLoot(String key) {
 			return PRISTINELOOT.get(key).get();
+		}
+
+		public static ItemStack getStackFromConfigLine(String line) {
+		    String[] vals = line.split(",");
+		
+		    if (vals.length < 2) {
+		        return ItemStack.EMPTY;
+		    }
+		
+		
+		    ResourceLocation itemLocation = new ResourceLocation(vals[0]);
+		    int amount;
+		
+		    try {
+		        amount = Integer.parseInt(vals[1]);
+		    } catch (NumberFormatException e) {
+		        System.out.println("Not a valid number for amount");
+		        return ItemStack.EMPTY;
+		    }
+		
+		
+		    Item item = ForgeRegistries.ITEMS.getValue(itemLocation);
+		    if(item != null) {
+		        return new ItemStack(item, amount);
+		    } else {
+		        return ItemStack.EMPTY;
+		    }
+		}
+
+		public static NonNullList<ItemStack> getLootTable(String key) {
+		    NonNullList<ItemStack> list = NonNullList.create();
+		
+		    List<? extends String> toParseList;
+		    toParseList = getPristineLoot(key);
+		
+		    for (String line : toParseList) {
+		        if (!getStackFromConfigLine(line).isEmpty()) {
+		            list.add(getStackFromConfigLine(line));
+		        }
+		    }
+		
+		    return list;
 		}
 }
