@@ -1,6 +1,7 @@
 package com.yollo.dmlreforged.common.blocks.entity;
 
 import com.yollo.dmlreforged.core.util.BaseStackHandler;
+import com.yollo.dmlreforged.core.util.OutputStackHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -9,7 +10,6 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,7 +25,7 @@ public class InventoryBlockEntity extends BlockEntity {
 	public final BaseStackHandler inventory;
 	protected LazyOptional<ItemStackHandler> handler;
 
-    public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int size) {
+    public InventoryBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, int size, Integer[] arr) {
         super(type, pos, state);
         if (size <= 0) {
             size = 1;
@@ -33,22 +33,21 @@ public class InventoryBlockEntity extends BlockEntity {
         
         this.size = size;
         this.inventory = createInventory();
-        this.handler = LazyOptional.of(() -> this.inventory);
+        this.handler = LazyOptional.of(() -> new OutputStackHandler(this.inventory, arr));
     }
     
     @Override
     public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-        return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.handler.cast()
-            : super.getCapability(cap, side);
+        return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.handler.cast() : super.getCapability(cap, side);
     }
 
-    public LazyOptional<ItemStackHandler> getHandler() {
-        return this.handler;
-    }
-
-    public ItemStack getItemInSlot(int slot) {
-        return this.handler.map(inv -> inv.getStackInSlot(slot)).orElse(ItemStack.EMPTY);
-    }
+//    public LazyOptional<ItemStackHandler> getHandler() {
+//        return this.handler;
+//    }
+//
+//    public ItemStack getItemInSlot(int slot) {
+//        return this.handler.map(inv -> inv.getStackInSlot(slot)).orElse(ItemStack.EMPTY);
+//    }
 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {

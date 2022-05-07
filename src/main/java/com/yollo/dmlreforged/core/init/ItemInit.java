@@ -92,7 +92,7 @@ public class ItemInit {
 		return ITEMS.register(name, item);
 	}
 	
-	public void populateLists() {
+	public static void populateLists() {
 	    dataModels.add(new ItemDataModel.Blaze());
 	    dataModels.add(new ItemDataModel.Creeper());
 	    dataModels.add(new ItemDataModel.Dragon());

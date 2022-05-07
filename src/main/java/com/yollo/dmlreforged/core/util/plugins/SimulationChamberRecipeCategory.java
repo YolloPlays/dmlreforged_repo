@@ -13,44 +13,39 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class SimulationChamberRecipeCategory implements IRecipeCategory<ExtractionChamberRecipeCategory>{
+public class SimulationChamberRecipeCategory implements IRecipeCategory<SimulationChamberRecipes>{
 	
 	public static TranslatableComponent title = new TranslatableComponent("block.dmlreforged.simulation_chamber");
-	private static ResourceLocation id = new ResourceLocation(DeepMobLearning.MOD_ID, "simulation_chamber");
-	private IDrawable catalyst;
+	public static ResourceLocation id = new ResourceLocation(DeepMobLearning.MOD_ID, "simulation_chamber");
+	public static RecipeType<SimulationChamberRecipes> type = RecipeType.create(DeepMobLearning.MOD_ID, "simulation_chamber", SimulationChamberRecipes.class);
+	private IDrawable icon;
     private IDrawable background;
     private IDrawableAnimated progress;
 
 	public SimulationChamberRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation base = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/jei/simulation_chamber.png");
-        this.catalyst = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ItemInit.SIMULATION_CHAMBER_ITEM.get()));
-
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ItemInit.SIMULATION_CHAMBER_ITEM.get()));
+        
         background = guiHelper.createDrawable(base, 0, 0, 116, 43);
-        IDrawableStatic progress = guiHelper.createDrawable(base, 0, 43, 35, 6);
-        this.progress = guiHelper.createAnimatedDrawable(progress, 120, IDrawableAnimated.StartDirection.LEFT, false);
-	}
-
-	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, ExtractionChamberRecipeCategory recipe, IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.INPUT, 3, 3);
-		builder.addSlot(RecipeIngredientRole.INPUT, 27, 3);
-		builder.addSlot(RecipeIngredientRole.INPUT, 95, 3);
-		builder.addSlot(RecipeIngredientRole.INPUT, 75, 25);
-		IRecipeCategory.super.setRecipe(builder, recipe, focuses);
+        IDrawableStatic progressStatic = guiHelper.createDrawable(base, 0, 43, 35, 6);
+        this.progress = guiHelper.createAnimatedDrawable(progressStatic, 120, IDrawableAnimated.StartDirection.LEFT, false);
 	}
 	
 	@Override
-	public void draw(ExtractionChamberRecipeCategory recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		progress.draw(stack);
-		IRecipeCategory.super.draw(recipe, recipeSlotsView, stack, mouseX, mouseY);
+	public void setRecipe(IRecipeLayoutBuilder builder, SimulationChamberRecipes recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.CATALYST, 4, 4).addItemStack(recipe.getDataModel());
+		builder.addSlot(RecipeIngredientRole.INPUT, 28, 4).addItemStack(new ItemStack(ItemInit.POLYEMR_CLAY.get()));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 96, 4).addItemStack(recipe.getMatter());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 76, 26).addItemStack(recipe.getPristine());
 	}
-
+	
 	@Override
 	public Component getTitle() {
 		return title;
@@ -63,17 +58,27 @@ public class SimulationChamberRecipeCategory implements IRecipeCategory<Extracti
 
 	@Override
 	public IDrawable getIcon() {
-		return catalyst;
+		return icon;
+	}
+	
+	@Override
+	public void draw(SimulationChamberRecipes recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
+		progress.draw(stack,52,9);
 	}
 
 	@Override
 	public ResourceLocation getUid() {
 		return id;
 	}
+	
+	@Override
+	public RecipeType<SimulationChamberRecipes> getRecipeType() {
+		return type;
+	}
 
 	@Override
-	public Class<? extends ExtractionChamberRecipeCategory> getRecipeClass() {
-		return ExtractionChamberRecipeCategory.class;
+	public Class<? extends SimulationChamberRecipes> getRecipeClass() {
+		return SimulationChamberRecipes.class;
 	}
 
 }

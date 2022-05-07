@@ -29,9 +29,11 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
     private int resultingIndex;
     private boolean selected;
 	public int energyCost = EnergyCostConfig.FECOSTEXTRACTIONCHAMBER.get();
+	private static Integer[] bannSlot = {0};
 
 	public BlockEntityExtractionChamber(BlockPos pos, BlockState state) {
-		super(BlockEntityInit.ENTITY_EXTRACTION_CHAMBER.get(), pos, state, 17);
+		
+		super(BlockEntityInit.ENTITY_EXTRACTION_CHAMBER.get(), pos, state, 17, bannSlot);
 		this.energyStorage = createEnergyStorage();
 		this.energy = LazyOptional.of(() -> this.energyStorage);
 	}
@@ -55,8 +57,6 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
     public boolean pristineChanged() {
         return !getPristine().isEmpty() && !currentPristineMatter.equals(((ItemPristineMatter) getPristine().getItem()).getMobKey());
     }
-    
-
     
     private boolean canStartCraft() {
         return canContinueCraft() && canInsertItem();
@@ -205,5 +205,4 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
 		return cap == CapabilityEnergy.ENERGY ? this.energy.cast() : super.getCapability(cap, side);
 	}
-
 }

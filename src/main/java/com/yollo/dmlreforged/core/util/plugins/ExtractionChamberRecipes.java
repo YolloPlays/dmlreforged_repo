@@ -1,10 +1,9 @@
 package com.yollo.dmlreforged.core.util.plugins;
 
-import java.util.ArrayList;
 import net.minecraft.world.item.ItemStack;
 
 public class ExtractionChamberRecipes {
-    public static ArrayList<ExtractionChamberRecipes> recipes = new ArrayList<>();
+	
     public final ItemStack input;
     public final ItemStack output;
 
@@ -13,8 +12,13 @@ public class ExtractionChamberRecipes {
         this.input = input;
         this.output = output;
     }
-
-    public static void addRecipe(ItemStack input, ItemStack output) {
-        recipes.add(new ExtractionChamberRecipes(input, output));
+   
+    public ItemStack getInputs() {
+        return input;
     }
+
+    public ItemStack getOutput() {
+        return output;
+    }
+
 }

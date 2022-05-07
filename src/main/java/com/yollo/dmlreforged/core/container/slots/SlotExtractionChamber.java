@@ -24,5 +24,4 @@ public class SlotExtractionChamber extends SlotItemHandler{
                 return false;
         }
 	}
-
 }

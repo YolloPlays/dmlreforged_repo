@@ -13,33 +13,35 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class ExtractionChamberRecipeCategory implements IRecipeCategory<ExtractionChamberRecipeCategory>{
+public class ExtractionChamberRecipeCategory implements IRecipeCategory<ExtractionChamberRecipes>{
 	
 	public static TranslatableComponent title = new TranslatableComponent("block.dmlreforged.extraction_chamber");
 	public static ResourceLocation id = new ResourceLocation(DeepMobLearning.MOD_ID, "extraction_chamber");
-	private IDrawable catalyst;
+	public static RecipeType<ExtractionChamberRecipes> type = RecipeType.create(DeepMobLearning.MOD_ID, "extraction_chamber", ExtractionChamberRecipes.class);
+	private IDrawable icon;
     private IDrawable background;
     private IDrawableAnimated progress;
 
 	public ExtractionChamberRecipeCategory(IGuiHelper guiHelper) {
         ResourceLocation base = new ResourceLocation(DeepMobLearning.MOD_ID, "textures/gui/jei/extraction_chamber.png");
-        this.catalyst = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ItemInit.EXTRACTION_CHAMBER_ITEM.get()));
-
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(ItemInit.EXTRACTION_CHAMBER_ITEM.get()));
+        
         background = guiHelper.createDrawable(base, 0, 0, 103, 30);
-        IDrawableStatic progress = guiHelper.createDrawable(base, 0, 30, 35, 6);
-        this.progress = guiHelper.createAnimatedDrawable(progress, 120, IDrawableAnimated.StartDirection.LEFT, false);
+        IDrawableStatic progressStatic = guiHelper.createDrawable(base, 0, 30, 35, 6);
+        this.progress = guiHelper.createAnimatedDrawable(progressStatic, 120, IDrawableAnimated.StartDirection.LEFT, false);
 	}
 	
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, ExtractionChamberRecipeCategory recipe, IFocusGroup focuses) {
-		builder.addSlot(RecipeIngredientRole.INPUT, 8, 6);
-		builder.addSlot(RecipeIngredientRole.OUTPUT, 76, 6);
+	public void setRecipe(IRecipeLayoutBuilder builder, ExtractionChamberRecipes recipe, IFocusGroup focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 9, 7).addItemStack(recipe.getInputs());
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 77, 7).addItemStack(recipe.getOutput());
 	}
 
 	@Override
@@ -54,22 +56,27 @@ public class ExtractionChamberRecipeCategory implements IRecipeCategory<Extracti
 
 	@Override
 	public IDrawable getIcon() {
-		return catalyst;
+		return icon;
 	}
 	
 	@Override
-	public void draw(ExtractionChamberRecipeCategory recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-		progress.draw(stack);
+	public void draw(ExtractionChamberRecipes recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
+		progress.draw(stack,34,12);
 	}
 
 	@Override
 	public ResourceLocation getUid() {
 		return id;
 	}
+	
+	@Override
+	public RecipeType<ExtractionChamberRecipes> getRecipeType() {
+		return type;
+	}
 
 	@Override
-	public Class<? extends ExtractionChamberRecipeCategory> getRecipeClass() {
-		return ExtractionChamberRecipeCategory.class;
+	public Class<? extends ExtractionChamberRecipes> getRecipeClass() {
+		return ExtractionChamberRecipes.class;
 	}
 
 }

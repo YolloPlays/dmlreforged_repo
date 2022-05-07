@@ -38,9 +38,10 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
 	private LazyOptional<DeepEnergyStorage> energy;
     private String currentDataModelType = "";
     private MobMetaData mobMetaData;
+    private static Integer[]bannSlot = {0,1};
     
 	public BlockEntitySimulationChamber(BlockPos pWorldPosition, BlockState pBlockState) {
-		super(BlockEntityInit.ENTITY_SIMULATION_CHAMBER.get(), pWorldPosition, pBlockState, 4);
+		super(BlockEntityInit.ENTITY_SIMULATION_CHAMBER.get(), pWorldPosition, pBlockState, 4, bannSlot);
 		this.energyStorage = createEnergyStorage();
 		this.energy = LazyOptional.of(() -> this.energyStorage);
 	}
@@ -95,7 +96,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
         
         if(!pLevel.isClientSide) {
         	// Used for dev purpose due to not having an in-build generator.
-            //energyStorage.receiveEnergy(520, false);
+            energyStorage.receiveEnergy(520, false);
             if(!isCrafting()) {
                 if(canStartSimulation()) {
                     startSimulation(be);

@@ -3,12 +3,15 @@ package com.yollo.dmlreforged.common.items;
 import java.util.List;
 
 import com.yollo.dmlreforged.DeepMobLearning;
+import com.yollo.dmlreforged.common.items.entity.ItemEntityGlitchFragment;
 import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -33,4 +36,16 @@ public class ItemGlitchFragment extends Item {
     public Component getName(ItemStack p_41458_) {
     	return new TranslatableComponent(super.getName(p_41458_).getString()).withStyle(t -> t.withColor(ChatFormatting.AQUA));
     }
+    
+    @Override
+    public boolean hasCustomEntity(ItemStack stack) {
+    	return true;
+    }
+   
+    @Override
+    public Entity createEntity(Level level, Entity location, ItemStack stack) {
+        ItemEntity result = new ItemEntityGlitchFragment(level, location.position().x, location.position().y, location.position().z, new ItemStack(this, stack.getCount()), location.getDeltaMovement().x(), location.getDeltaMovement().y(), location.getDeltaMovement().z());
+        return result;
+    }
+    
 }

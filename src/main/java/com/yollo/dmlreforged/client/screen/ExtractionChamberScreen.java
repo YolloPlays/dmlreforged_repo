@@ -23,6 +23,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -82,7 +83,7 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
         // Render crafting progress
         int craftingBarHeight = (int) (((float) this.menu.data.get(0) / 50 * 36));
         int craftingBarOffset = 36 - craftingBarHeight;
-        blit(pose, left + 84,  top + 22 + craftingBarOffset, 7, 83, 6, craftingBarHeight);
+        blit(pose, left + 86,  top + 22 + craftingBarOffset, 7, 83, 6, craftingBarHeight);
         
 		// Render playerInv
 		RenderSystem.setShaderTexture(0, defaultGui);
@@ -100,8 +101,8 @@ public class ExtractionChamberScreen extends AbstractContainerScreen<ExtractionC
             if(6 <= x && x < 13) {
                 // Tooltip for energy
             	List<Component> tooltip = new ArrayList<>();
-                tooltip.add(new TextComponent(f.format(energyStored) + "/" + f.format(maxEnergy) + " RF"));
-                tooltip.add(new TextComponent("Operational cost: " + f.format(EnergyCostConfig.FECOSTEXTRACTIONCHAMBER.get()) + " RF/t"));
+                tooltip.add(new TranslatableComponent("dmlreforged.gui.energy.energystored", f.format(energyStored), f.format(maxEnergy)));
+                tooltip.add(new TranslatableComponent("dmlreforged.gui.extraction_chamber.opcost", f.format(EnergyCostConfig.FECOSTEXTRACTIONCHAMBER.get())));
                 renderComponentTooltip(pose, tooltip, pMouseX + 1, pMouseY - 11);
             }
         } 

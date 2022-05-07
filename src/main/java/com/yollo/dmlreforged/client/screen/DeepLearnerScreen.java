@@ -155,14 +155,14 @@ public class DeepLearnerScreen extends AbstractContainerScreen<DeepLearnerContai
         if(DataModelHelper.getTier(stack) != DeepMobLearning.DATA_MODEL_MAXIMUM_TIER) {
             drawString(pose, font, new TranslatableComponent("dmlreforged.tiers.tier_next", f.format(killsToNextTier), nextTier), leftStart, topStart + (spacing * 10), 0xFFFFFF);
         } else {
-            drawString(pose, font, "Maximum tier achieved", leftStart, topStart + (spacing * 10), 0xFFFFFF);
+            drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.max"), leftStart, topStart + (spacing * 10), 0xFFFFFF);
         }
         // Draw heart
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 		RenderSystem.setShaderTexture(0, base);
         blit(pose, left + 154, topStart + (spacing * 2) - 2, 0, 140, 9, 9);
-        drawString(pose, font, "Life points", left + 154, topStart + spacing, 0x55FFFF);
+        drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.hp"), left + 154, topStart + spacing, 0x55FFFF);
         int numOfHearts = meta.getNumberOfHearts();
         if(numOfHearts == 0) {
             // Obfuscate if hearts is 0, use for models with multiple mobmetas
