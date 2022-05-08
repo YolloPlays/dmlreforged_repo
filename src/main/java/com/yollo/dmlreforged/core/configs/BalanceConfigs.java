@@ -17,6 +17,7 @@ public class BalanceConfigs {
     public static ForgeConfigSpec.IntValue tier3; //24;
     public static ForgeConfigSpec.IntValue tier4; //42;
     public static ForgeConfigSpec.BooleanValue isSootedRedstoneCraftingEnabled; // true;
+    public static ForgeConfigSpec.BooleanValue isGlitchArmorCreativeFlightEnabled; //true
 
     
     public static void registerServerConfig(ForgeConfigSpec.Builder SERVER_BUILDER) {
@@ -34,6 +35,7 @@ public class BalanceConfigs {
     	tier3 = SERVER_BUILDER.defineInRange("tier3", 24, 1, 100);
     	tier4 = SERVER_BUILDER.defineInRange("tier4", 42, 1, 100);
     	isSootedRedstoneCraftingEnabled = SERVER_BUILDER.define("sootedRedstoneCraftingEnabled", true);
+    	isGlitchArmorCreativeFlightEnabled = SERVER_BUILDER.define("isGlitchArmorCreativeFlightEnabled", true);
     	SERVER_BUILDER.pop();
     }
 }

@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemDeepLearner;
+import com.yollo.dmlreforged.core.configs.ClientConfig;
 import com.yollo.dmlreforged.core.util.DataModelHelper;
 import com.yollo.dmlreforged.core.util.PlayerHelper;
 
@@ -55,23 +56,23 @@ public class DataOverlay extends Screen{
         }
 
 
-        int x = 0;
-        int y = 0;
-        String position = "topleft";
+        int x = ClientConfig.guiOverlayHorizontalSpacing.get();
+        int y = ClientConfig.guiOverlayVerticalSpacing.get();
+        int position = ClientConfig.guiOverlaySide.get();
         switch (position) {
-            case "topleft":
+            case 0:
                 x = x + getLeftCornerX() + 18;
                 y = y + 5;
                 break;
-            case "topright":
+            case 1:
                 x = x + getRightCornerX();
                 y = y + 5;
                 break;
-            case "bottomleft":
+            case 2:
                 x = x + getLeftCornerX() + 18;
                 y = y + getBottomY(dataModels.size()) - 5;
                 break;
-            case "bottomright":
+            case 3:
                 x = x + getRightCornerX();
                 y = y + getBottomY(dataModels.size()) - 5;
                 break;
