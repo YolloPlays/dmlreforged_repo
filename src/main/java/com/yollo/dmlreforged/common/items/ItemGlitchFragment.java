@@ -29,6 +29,7 @@ public class ItemGlitchFragment extends Item {
     		list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_fragment_1", new TranslatableComponent("item.dmlreforged.glitch_heart").withStyle(t->t.withColor(ChatFormatting.AQUA))).withStyle(t->t.withColor(ChatFormatting.GRAY)));
             list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_fragment_2", new TextComponent(new ItemStack(Items.OBSIDIAN).getHoverName().getString()).withStyle(t->t.withColor(ChatFormatting.DARK_PURPLE))).withStyle(t->t.withColor(ChatFormatting.GRAY)));
             list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_fragment_3").withStyle(t->t.withColor(ChatFormatting.GRAY)));
+            list.add(new TranslatableComponent("dmlreforged.hover_text.glitch_fragment_4").withStyle(t->t.withColor(ChatFormatting.GRAY)));
     	}
     }
     

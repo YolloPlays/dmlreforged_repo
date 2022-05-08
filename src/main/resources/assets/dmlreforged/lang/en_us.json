@@ -90,6 +90,8 @@
   "dmlreforged.trial_key.affixes": "Affixes: %1$s",
   "dmlreforged.trial_key.affix_go_to_jei": "Read more about each affix in the Guidebook",
   
+  "dmlreforged.gui.deep_learner.overlay": "%1$s Model",
+  
   "dmlreforged.gui.deep_learner.not_found": "No Data Model Found",
   "dmlreforged.gui.deep_learner.insert": "Please insert a Data Model!",
   "dmlreforged.gui.deep_learner.collect_data": "Your data models will collect data",
@@ -138,6 +140,7 @@
   "dmlreforged.hover_text.glitch_fragment_1": "Crafted by crushing a %1$s",
   "dmlreforged.hover_text.glitch_fragment_2": "against some %1$s (Right click)",
   "dmlreforged.hover_text.glitch_fragment_3": "Yields 3 fragments per crushed heart",
+  "dmlreforged.hover_text.glitch_fragment_4": "Can rarly drop from hostile mobs.",
   "dmlreforged.hover_text.glitch_heart": "Drops from System Glitches",
   "dmlreforged.hover_text.glitch_infused_sword_1": "Bonus: Quick learner",
   "dmlreforged.hover_text.glitch_infused_sword_2": "(Bonuses are disabled during Trials)",

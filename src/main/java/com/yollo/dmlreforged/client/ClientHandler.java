@@ -3,6 +3,7 @@ package com.yollo.dmlreforged.client;
 import org.apache.commons.lang3.function.TriFunction;
 
 import com.yollo.dmlreforged.DeepMobLearning;
+import com.yollo.dmlreforged.client.screen.DataOverlay;
 import com.yollo.dmlreforged.client.screen.DeepLearnerScreen;
 import com.yollo.dmlreforged.client.screen.ExtractionChamberScreen;
 import com.yollo.dmlreforged.client.screen.SimulationChamberScreen;
@@ -13,10 +14,12 @@ import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -33,6 +36,7 @@ public class ClientHandler {
             MenuScreens.register(ContainerInit.DEEP_LEARNER.get(), DeepLearnerScreen::new);
             MenuScreens.register(ContainerInit.SIMULATION_CHAMBER.get(), SimulationChamberScreen::new);
             MenuScreens.register(ContainerInit.EXTRACTION_CHAMBER.get(), ExtractionChamberScreen::new);
+            MinecraftForge.EVENT_BUS.register(new DataOverlay(TextComponent.EMPTY));
         });
 
         ItemBlockRenderTypes.setRenderLayer(BlockInit.SIMULATION_CHAMBER.get(), RenderType.solid());
