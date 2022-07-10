@@ -37,6 +37,6 @@ public class InventoryItemStack extends ItemStackHandler implements ICapabilityP
 	
 	@Override
 	public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
-		return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.handler.cast() : null;
+		return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY ? this.handler.cast() : LazyOptional.empty();
 	}
 }

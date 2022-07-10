@@ -54,7 +54,7 @@ public class GlitchFragmentModifier extends LootModifier{
 			if(ThreadLocalRandom.current().nextFloat(0, 100) <= chanceHeart) {
 				generatedLoot.add(new ItemStack(heart, 1));
 			}
-			if(ctx.getParamOrNull(LootContextParams.DIRECT_KILLER_ENTITY) instanceof ServerPlayer player) {
+			if(ctx.getParamOrNull(LootContextParams.KILLER_ENTITY) instanceof ServerPlayer player) {
 					NonNullList<ItemStack> inventory = NonNullList.create();
 			        inventory.addAll(player.getInventory().items);
 			        inventory.addAll(player.getInventory().offhand);
