@@ -54,6 +54,7 @@ public class GlitchFragmentModifier extends LootModifier{
 			if(ThreadLocalRandom.current().nextFloat(0, 100) <= chanceHeart) {
 				generatedLoot.add(new ItemStack(heart, 1));
 			}
+			//Bow works
 			if(ctx.getParamOrNull(LootContextParams.KILLER_ENTITY) instanceof ServerPlayer player) {
 					NonNullList<ItemStack> inventory = NonNullList.create();
 			        inventory.addAll(player.getInventory().items);
