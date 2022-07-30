@@ -8,6 +8,7 @@ import com.yollo.dmlreforged.common.items.ItemDeepLearner;
 import com.yollo.dmlreforged.common.items.ItemGlitchArmor;
 import com.yollo.dmlreforged.common.items.ItemGlitchSword;
 import com.yollo.dmlreforged.common.mobmetas.MobMetaData;
+import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 import com.yollo.dmlreforged.core.init.ItemInit;
 import com.yollo.dmlreforged.core.util.DataModelHelper;
 
@@ -76,7 +77,8 @@ public class GlitchFragmentModifier extends LootModifier{
 			        }
 			        
 			        // Chance to drop pristine matter from the model that gained data
-			        if(ItemGlitchArmor.isSetEquippedByPlayer(player) && ThreadLocalRandom.current().nextInt(1, 100) <= 16) {
+			        // Can be toggled in Configs	        
+			        if(BalanceConfigs.isGlitchArmorExtraDropsEnabled.get() && ItemGlitchArmor.isSetEquippedByPlayer(player) && ThreadLocalRandom.current().nextInt(1, 100) <= 16) {
 			        	MobMetaData meta = DataModelHelper.getMobMetaData(updatedModels.get(0));
 		                generatedLoot.add(meta.getPristineMatterStack(2));
 			        }
