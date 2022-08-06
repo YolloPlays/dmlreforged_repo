@@ -104,10 +104,11 @@ public class PlayerHandler {
 					event.getItemStack().shrink(1);
 					event.getPlayer().getLevel().playSound(null, blockPos, SoundEvents.ANCIENT_DEBRIS_BREAK,
 							SoundSource.NEUTRAL, 1f, 1.1f);
+					event.getPlayer().getLevel().addParticle(ParticleTypes.POOF, (double) blockPos.getX() + 0.5d,
+							(double) blockPos.getY() + 1, (double) blockPos.getZ() + 0.5d, 0d, 0.03d, 0d);
+					event.setCanceled(true);
 				}
-				event.getPlayer().getLevel().addParticle(ParticleTypes.POOF, (double) blockPos.getX() + 0.5d,
-						(double) blockPos.getY() + 1, (double) blockPos.getZ() + 0.5d, 0d, 0.03d, 0d);
-				event.setCanceled(true);
+				
 			} else if (event.getItemStack().getItem() == Items.REDSTONE) {
 				BlockPos blockPos = event.getPos();
 				if (event.getPlayer().getLevel().getBlockState(event.getPos()).getBlock() == Blocks.COAL_BLOCK
@@ -119,11 +120,12 @@ public class PlayerHandler {
 					event.getItemStack().shrink(1);
 					event.getPlayer().getLevel().playSound(null, blockPos, SoundEvents.AMETHYST_CLUSTER_BREAK,
 							SoundSource.NEUTRAL, 1f, 0.1f);
+					event.getPlayer().getLevel().addParticle(ParticleTypes.FLAME,
+							(double) blockPos.getX() + rand.nextDouble(0, 1), (double) blockPos.getY() + 1,
+							(double) blockPos.getZ() + rand.nextDouble(0, 1), 0d, 0.03d, 0d);
+					event.setCanceled(true);
 				}
-				event.getPlayer().getLevel().addParticle(ParticleTypes.FLAME,
-						(double) blockPos.getX() + rand.nextDouble(0, 1), (double) blockPos.getY() + 1,
-						(double) blockPos.getZ() + rand.nextDouble(0, 1), 0d, 0.03d, 0d);
-				event.setCanceled(true);
+				
 			}
 		}
 	}
