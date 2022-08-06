@@ -5,6 +5,7 @@ import java.util.List;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.mobmetas.MobMetaData;
 import com.yollo.dmlreforged.core.GlitchArmorMaterial;
+import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 import com.yollo.dmlreforged.core.init.ItemInit;
 import com.yollo.dmlreforged.core.util.DataModelHelper;
 
@@ -39,6 +40,10 @@ public class ItemGlitchArmor extends ArmorItem{
 	            player.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof ItemGlitchArmor &&
 	            player.getItemBySlot(EquipmentSlot.LEGS).getItem() instanceof ItemGlitchArmor &&
 	            player.getItemBySlot(EquipmentSlot.FEET).getItem() instanceof ItemGlitchArmor;
+	}
+	
+	public static boolean isFlyEnabledAndFullSet(ServerPlayer player) {
+		return isSetEquippedByPlayer(player) && BalanceConfigs.isGlitchArmorCreativeFlightEnabled.get();
 	}
 
 	public static void dropPristineMatter(Level level, BlockPos blockPos, ItemStack stack) {

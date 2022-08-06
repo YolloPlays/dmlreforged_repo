@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemGlitchArmor;
 import com.yollo.dmlreforged.common.items.ItemGlitchHeart;
+import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 import com.yollo.dmlreforged.core.init.ItemInit;
 
 import net.minecraft.core.BlockPos;
@@ -34,12 +35,12 @@ public class PlayerHandler {
 		if (event.getEntity() instanceof Player player) {
 			Abilities cap = player.getAbilities();
 			if (!player.level.isClientSide) {
-				if (!cap.mayfly && ItemGlitchArmor.isSetEquippedByPlayer((ServerPlayer) player)) {
+				if (!cap.mayfly && ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player)) {
 					cap.mayfly = true;
 					player.onUpdateAbilities();
 				}
 
-				if (!ItemGlitchArmor.isSetEquippedByPlayer((ServerPlayer) player) && cap.mayfly && !player.isSpectator()
+				if (!ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player) && cap.mayfly && !player.isSpectator()
 						&& !player.isCreative()) {
 					cap.mayfly = false;
 					cap.flying = false;
@@ -54,12 +55,12 @@ public class PlayerHandler {
 		if (event.getEntity() instanceof Player player) {
 			Abilities cap = player.getAbilities();
 			if (!player.level.isClientSide) {
-				if (!cap.mayfly && ItemGlitchArmor.isSetEquippedByPlayer((ServerPlayer) player)) {
+				if (!cap.mayfly && ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player)) {
 					cap.mayfly = true;
 					player.onUpdateAbilities();
 				}
 
-				if (!ItemGlitchArmor.isSetEquippedByPlayer((ServerPlayer) player) && cap.mayfly && !player.isSpectator()
+				if (!ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player) && cap.mayfly && !player.isSpectator()
 						&& !player.isCreative()) {
 					cap.mayfly = false;
 					cap.flying = false;
@@ -74,12 +75,12 @@ public class PlayerHandler {
 		if (event.getEntity() instanceof Player player) {
 			Abilities cap = player.getAbilities();
 			if (!player.level.isClientSide) {
-				if (ItemGlitchArmor.isSetEquippedByPlayer((ServerPlayer) player)) {
+				if (ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player)) {
 					cap.mayfly = true;
 					player.onUpdateAbilities();
 				}
 
-				if (!ItemGlitchArmor.isSetEquippedByPlayer((ServerPlayer) player) && cap.mayfly && !player.isSpectator()
+				if (!ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player) && cap.mayfly && !player.isSpectator()
 						&& !player.isCreative()) {
 					cap.mayfly = false;
 					cap.flying = false;
@@ -91,7 +92,7 @@ public class PlayerHandler {
 
 	@SubscribeEvent
 	public static void playerRightClickedBlock(PlayerInteractEvent.RightClickBlock event) {
-		if (!event.getPlayer().isCrouching()) {
+		if (!event.getPlayer().isCrouching() && BalanceConfigs.isSootedRedstoneCraftingEnabled.get()) {
 			ThreadLocalRandom rand = ThreadLocalRandom.current();
 			if (event.getItemStack().getItem() instanceof ItemGlitchHeart && rand.nextInt(0, 10) <= 3) {
 				BlockPos blockPos = event.getPos();

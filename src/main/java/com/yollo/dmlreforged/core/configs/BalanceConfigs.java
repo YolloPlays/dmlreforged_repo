@@ -16,9 +16,9 @@ public class BalanceConfigs {
     public static ForgeConfigSpec.IntValue tier2; //11;
     public static ForgeConfigSpec.IntValue tier3; //24;
     public static ForgeConfigSpec.IntValue tier4; //42;
-    public static ForgeConfigSpec.BooleanValue isSootedRedstoneCraftingEnabled; // true;
     public static ForgeConfigSpec.BooleanValue isGlitchArmorCreativeFlightEnabled; //true
     public static ForgeConfigSpec.BooleanValue isGlitchArmorExtraDropsEnabled; //true
+    public static ForgeConfigSpec.BooleanValue isSootedRedstoneCraftingEnabled; // true;
 
     
     public static void registerServerConfig(ForgeConfigSpec.Builder SERVER_BUILDER) {
@@ -35,9 +35,10 @@ public class BalanceConfigs {
     	tier2 = SERVER_BUILDER.defineInRange("tier2", 11, 1, 100);
     	tier3 = SERVER_BUILDER.defineInRange("tier3", 24, 1, 100);
     	tier4 = SERVER_BUILDER.defineInRange("tier4", 42, 1, 100);
-    	isSootedRedstoneCraftingEnabled = SERVER_BUILDER.define("sootedRedstoneCraftingEnabled", true);
     	isGlitchArmorCreativeFlightEnabled = SERVER_BUILDER.define("isGlitchArmorCreativeFlightEnabled", true);
     	isGlitchArmorExtraDropsEnabled = SERVER_BUILDER.define("isGlitchArmorExtraDropsEnabled", true);
+    	isSootedRedstoneCraftingEnabled = SERVER_BUILDER.comment("Not advised to make false. Datapack for diffrent recipes must be written in order for mod to work correctly")
+    			.define("sootedRedstoneCraftingEnabled", true);
     	SERVER_BUILDER.pop();
     }
 }
