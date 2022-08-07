@@ -1,8 +1,10 @@
 package com.yollo.dmlreforged.common.loot;
 
-import java.util.List;
+import org.jetbrains.annotations.NotNull;
 
-import com.google.gson.JsonObject;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.yollo.dmlreforged.DeepMobLearning;
 import com.yollo.dmlreforged.common.items.ItemDataModel;
 import com.yollo.dmlreforged.common.items.ItemDeepLearner;
 import com.yollo.dmlreforged.common.items.ItemGlitchArmor;
@@ -12,10 +14,9 @@ import com.yollo.dmlreforged.core.init.ItemInit;
 import com.yollo.dmlreforged.core.util.DataModelHelper;
 
 import io.netty.util.internal.ThreadLocalRandom;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.item.Item;
@@ -23,8 +24,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class GlitchFragmentModifier extends LootModifier{
 	
@@ -33,6 +37,7 @@ public class GlitchFragmentModifier extends LootModifier{
 	private final int chanceFragment;
 	private final float chanceHeart;
 	private final boolean enabled;
+	
 
 	protected GlitchFragmentModifier(LootItemCondition[] conditionsIn, int chanceFragment, float chanceHeart,boolean enabled) {
 		super(conditionsIn);
@@ -45,7 +50,8 @@ public class GlitchFragmentModifier extends LootModifier{
 	}
 
 	@Override
-	protected List<ItemStack> doApply(List<ItemStack> generatedLoot, LootContext ctx) {
+	protected @NotNull ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> generatedLoot,
+			LootContext ctx) {
 		if(enabled && ctx.getParamOrNull(LootContextParams.THIS_ENTITY) instanceof Enemy) {
 	        
 			if(ThreadLocalRandom.current().nextInt(1, 100) <= chanceFragment) {
@@ -111,27 +117,24 @@ public class GlitchFragmentModifier extends LootModifier{
                 result.add(stack);
             }
         });
-
         return result;
     }
+    
+	public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> GLM = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, DeepMobLearning.MOD_ID);
 	
-	  public static class Serializer extends GlobalLootModifierSerializer<GlitchFragmentModifier> {
-
-		    @Override
-		    public GlitchFragmentModifier read(ResourceLocation name, JsonObject object, LootItemCondition[] conditions) {
-		      int chanceFragment = GsonHelper.getAsInt(object, "chanceFragment");
-		      float chanceHeart = GsonHelper.getAsFloat(object, "chanceHeart");
-		      boolean enabled = GsonHelper.getAsBoolean(object, "enabled");
-		      return new GlitchFragmentModifier(conditions, chanceFragment, chanceHeart, enabled);
-		    }
-
-		    @Override
-		    public JsonObject write(GlitchFragmentModifier instance) {
-		      JsonObject json = makeConditions(instance.conditions);
-		      json.addProperty("chanceFragment", instance.chanceFragment);
-		      json.addProperty("chanceHeart", instance.chanceHeart);
-		      json.addProperty("enabled", instance.enabled);
-		      return json;
-		    }
-		  }
+	public static final RegistryObject<Codec<GlitchFragmentModifier>> glitchCodec = GLM.register("glitch_codec",() -> 
+		RecordCodecBuilder.create(
+			inst -> LootModifier.codecStart(inst).and(
+				      inst.group(
+				    	Codec.INT.fieldOf("chanceFragment").forGetter(m -> m.chanceFragment),
+				    	Codec.FLOAT.fieldOf("chanceHeart").forGetter(m -> m.chanceHeart),
+				    	Codec.BOOL.fieldOf("enabled").forGetter(m -> m.enabled)
+				    	)
+				
+		).apply(inst, GlitchFragmentModifier::new)));
+	
+	@Override
+	public Codec<? extends IGlobalLootModifier> codec() {
+		return glitchCodec.get();
+	}
 }

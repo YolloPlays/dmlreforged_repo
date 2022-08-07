@@ -7,7 +7,6 @@ import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -21,13 +20,13 @@ public class ItemGlitchIngot extends Item{
     @Override
     public void appendHoverText(ItemStack stack, Level world, List<Component> list, TooltipFlag flagIn) {
     	if(BalanceConfigs.isSootedRedstoneCraftingEnabled.get()) {
-    		list.add(new TranslatableComponent("dmlreforged.hover_text.glitchingot_1", new TranslatableComponent("item.dmlreforged.glitch_heart").withStyle(t->t.withColor(ChatFormatting.AQUA))).withStyle(t->t.withColor(ChatFormatting.GRAY)));
-            list.add(new TranslatableComponent("dmlreforged.hover_text.more_info").withStyle(t->t.withColor(ChatFormatting.GRAY)));
+    		list.add(Component.translatable("dmlreforged.hover_text.glitchingot_1", Component.translatable("item.dmlreforged.glitch_heart").withStyle(t->t.withColor(ChatFormatting.AQUA))).withStyle(t->t.withColor(ChatFormatting.GRAY)));
+            list.add(Component.translatable("dmlreforged.hover_text.more_info").withStyle(t->t.withColor(ChatFormatting.GRAY)));
     	}
     }
     
     @Override
     public Component getName(ItemStack p_41458_) {
-    	return new TranslatableComponent(super.getName(p_41458_).getString()).withStyle(t -> t.withColor(ChatFormatting.AQUA));
+    	return Component.translatable(super.getName(p_41458_).getString()).withStyle(t -> t.withColor(ChatFormatting.AQUA));
     }
 }

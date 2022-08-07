@@ -1,25 +1,11 @@
-buildscript {
-    repositories {
-        
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.parchmentmc:librarian:1.+'
-    }
-}
-
 plugins {
     id 'eclipse'
     id 'maven-publish'
+    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
-
-version = '1.0'
+version = '1.0.0'
 group = 'com.yollo.dmlreforged' 
 archivesBaseName = 'dmlreforged'
 
@@ -28,7 +14,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
  
-    mappings channel: 'parchment', version: '2022.03.13-1.18.2'
+    mappings channel: 'parchment', version: '1.18.2-2022.08.07-1.19.2'
 
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') 
     
@@ -96,11 +82,11 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.0.40'
-	compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67:api")
-	runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.18.2-67")
-  	compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174:api")
-  	runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174")
+    minecraft 'net.minecraftforge:forge:1.19.2-43.0.0'
+	//compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.19.2-75:api")
+	//runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.19.2-75")
+  	//compileOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174:api")
+  	//runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174")
 }
 jar {
     manifest {
@@ -132,5 +118,5 @@ publishing {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' 
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
 }

@@ -25,7 +25,7 @@ public class ItemBackedInventory extends SimpleContainer {
 			this.stack = iStack;
 		}
 		else if(tempObj instanceof BlockEntity bEntity) {
-			ListTag lst = bEntity.getTileData().getList(TAG_ITEMS, Tag.TAG_COMPOUND);
+			ListTag lst = bEntity.getPersistentData().getList(TAG_ITEMS, Tag.TAG_COMPOUND);
 			int i = 0;
 			for (; i < expectedSize && i < lst.size(); i++) {
 				setItem(i, ItemStack.of(lst.getCompound(i)));
@@ -47,7 +47,7 @@ public class ItemBackedInventory extends SimpleContainer {
 			iStack.getOrCreateTag().put(TAG_ITEMS, list);
 		}
 		else if(stack instanceof BlockEntity bEntity) {
-			bEntity.getTileData().put(TAG_ITEMS, list);
+			bEntity.getPersistentData().put(TAG_ITEMS, list);
 		}
 		
 	}

@@ -22,7 +22,7 @@ public final class PacketHandler {
 		int index = 0;
 		INSTANCE.messageBuilder(ServerboundResultingItemPacket.class, index++, NetworkDirection.PLAY_TO_SERVER)
 		.encoder(ServerboundResultingItemPacket::encode).decoder(ServerboundResultingItemPacket::new)
-		.consumer(ServerboundResultingItemPacket::handle).add();
+		.consumerNetworkThread(ServerboundResultingItemPacket::handle).add();
 	}
 
 }

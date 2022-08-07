@@ -13,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class ContainerInit {
 	
-	public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, DeepMobLearning.MOD_ID);
+	public static final DeferredRegister<MenuType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, DeepMobLearning.MOD_ID);
 	
 	//Container
 	public static final RegistryObject<MenuType<DeepLearnerContainer>> DEEP_LEARNER = CONTAINERS.register("deep_learner", () -> ClientHandler.createMenuType(DeepLearnerContainer::fromNetwork));

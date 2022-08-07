@@ -1,5 +1,5 @@
 modLoader="javafml" 
-loaderVersion="[40,)" 
+loaderVersion="[40,44)" 
 license="MIT"
 
 [[mods]] 
@@ -10,14 +10,14 @@ logoFile="dmlreforgedlogo.png"
 credits="Deep Mob Learning Authors" 
 authors="YolloPlays" 
 description='''
-A 1.18.2 port of the 1.12 Mod
+A 1.19.2 port of the 1.12 Mod
 Deep Mob Learning
 '''
 
 [[dependencies.dmlreforged]]     
     modId="forge"    
     mandatory=true   
-    versionRange="[40,)"    
+    versionRange="[40,44)"    
     ordering="NONE"   
     side="BOTH"
 
@@ -25,6 +25,6 @@ Deep Mob Learning
 [[dependencies.dmlreforged]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.18.2,1.19)"
+    versionRange="[1.18.2,1.20)"
     ordering="NONE"
     side="BOTH"

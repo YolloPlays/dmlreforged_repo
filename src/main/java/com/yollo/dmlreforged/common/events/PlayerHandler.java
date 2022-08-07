@@ -52,75 +52,71 @@ public class PlayerHandler {
 
 	@SubscribeEvent
 	public static void playerLogIn(PlayerLoggedInEvent event) {
-		if (event.getEntity() instanceof Player player) {
-			Abilities cap = player.getAbilities();
-			if (!player.level.isClientSide) {
-				if (!cap.mayfly && ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player)) {
+			Abilities cap = event.getEntity().getAbilities();
+			if (!event.getEntity().level.isClientSide) {
+				if (!cap.mayfly && ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) event.getEntity())) {
 					cap.mayfly = true;
-					player.onUpdateAbilities();
+					event.getEntity().onUpdateAbilities();
 				}
 
-				if (!ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player) && cap.mayfly && !player.isSpectator()
-						&& !player.isCreative()) {
+				if (!ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) event.getEntity()) && cap.mayfly && !event.getEntity().isSpectator()
+						&& !event.getEntity().isCreative()) {
 					cap.mayfly = false;
 					cap.flying = false;
-					player.onUpdateAbilities();
+					event.getEntity().onUpdateAbilities();
 				}
 			}
-		}
 	}
 
 	@SubscribeEvent
 	public static void playerChangeGamemode(PlayerChangeGameModeEvent event) {
-		if (event.getEntity() instanceof Player player) {
-			Abilities cap = player.getAbilities();
-			if (!player.level.isClientSide) {
-				if (ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player)) {
-					cap.mayfly = true;
-					player.onUpdateAbilities();
-				}
+		Abilities cap = event.getEntity().getAbilities();
+		if (!event.getEntity().level.isClientSide) {
+			if (ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) event.getEntity())) {
+				cap.mayfly = true;
+				event.getEntity().onUpdateAbilities();
+			}
 
-				if (!ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) player) && cap.mayfly && !player.isSpectator()
-						&& !player.isCreative()) {
-					cap.mayfly = false;
-					cap.flying = false;
-					player.onUpdateAbilities();
-				}
+			if (!ItemGlitchArmor.isFlyEnabledAndFullSet((ServerPlayer) event.getEntity()) && cap.mayfly && !event.getEntity().isSpectator()
+					&& !event.getEntity().isCreative()) {
+				cap.mayfly = false;
+				cap.flying = false;
+				event.getEntity().onUpdateAbilities();
 			}
 		}
 	}
 
 	@SubscribeEvent
 	public static void playerRightClickedBlock(PlayerInteractEvent.RightClickBlock event) {
-		if (!event.getPlayer().isCrouching() && BalanceConfigs.isSootedRedstoneCraftingEnabled.get()) {
+		if (!event.getEntity().isCrouching() && BalanceConfigs.isSootedRedstoneCraftingEnabled.get()) {
 			ThreadLocalRandom rand = ThreadLocalRandom.current();
 			if (event.getItemStack().getItem() instanceof ItemGlitchHeart && rand.nextInt(0, 10) <= 3) {
 				BlockPos blockPos = event.getPos();
-				if (event.getPlayer().getLevel().getBlockState(event.getPos()).getBlock() == Blocks.OBSIDIAN) {
-					ItemEntity drop = new ItemEntity(event.getPlayer().getLevel(), blockPos.getX(), blockPos.getY(),
+				if (event.getEntity().getLevel().getBlockState(event.getPos()).getBlock() == Blocks.OBSIDIAN) {
+					ItemEntity drop = new ItemEntity(event.getEntity().getLevel(), blockPos.getX(), blockPos.getY(),
 							blockPos.getZ(), new ItemStack(ItemInit.GLITCH_FRAGMENT.get(), 3));
 					drop.setDefaultPickUpDelay();
-					event.getPlayer().getLevel().addFreshEntity(drop);
+					event.getEntity().getLevel().addFreshEntity(drop);
 					event.getItemStack().shrink(1);
-					event.getPlayer().getLevel().playSound(null, blockPos, SoundEvents.ANCIENT_DEBRIS_BREAK,
+					event.getEntity().getLevel().playSound(null, blockPos, SoundEvents.ANCIENT_DEBRIS_BREAK,
 							SoundSource.NEUTRAL, 1f, 1.1f);
-					event.getPlayer().getLevel().addParticle(ParticleTypes.POOF, (double) blockPos.getX() + 0.5d,
+					event.getEntity().getLevel().addParticle(ParticleTypes.POOF, (double) blockPos.getX() + 0.5d,
 							(double) blockPos.getY() + 1, (double) blockPos.getZ() + 0.5d, 0d, 0.03d, 0d);
 					event.setCanceled(true);
 				}
 				
 			} else if (event.getItemStack().getItem() == Items.REDSTONE) {
 				BlockPos blockPos = event.getPos();
-				if (event.getPlayer().getLevel().getBlockState(event.getPos()).getBlock() == Blocks.COAL_BLOCK
+				if (event.getEntity().getLevel().getBlockState(event.getPos()).getBlock() == Blocks.COAL_BLOCK
 						&& rand.nextInt(0, 10) <= 3) {
-					ItemEntity drop = new ItemEntity(event.getPlayer().getLevel(), blockPos.getX(), blockPos.getY(),
+					ItemEntity drop = new ItemEntity(event.getEntity().getLevel(), blockPos.getX(), blockPos.getY(),
 							blockPos.getZ(), new ItemStack(ItemInit.SOOT_COVERED_REDSTONE.get(), 1));
 					drop.setDefaultPickUpDelay();
-					event.getPlayer().getLevel().addFreshEntity(drop);
+					event.getEntity().getLevel().addFreshEntity(drop);
 					event.getItemStack().shrink(1);
-					event.getPlayer().getLevel().playSound(null, blockPos, SoundEvents.AMETHYST_CLUSTER_BREAK,
+					event.getEntity().getLevel().playSound(null, blockPos, SoundEvents.AMETHYST_CLUSTER_BREAK,
 							SoundSource.NEUTRAL, 1f, 0.1f);
-					event.getPlayer().getLevel().addParticle(ParticleTypes.FLAME,
+					event.getEntity().getLevel().addParticle(ParticleTypes.FLAME,
 							(double) blockPos.getX() + rand.nextDouble(0, 1), (double) blockPos.getY() + 1,
 							(double) blockPos.getZ() + rand.nextDouble(0, 1), 0d, 0.03d, 0d);
 					event.setCanceled(true);

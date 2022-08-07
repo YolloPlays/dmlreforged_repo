@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.yollo.dmlreforged.common.items.ItemDeepLearner;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,9 +22,10 @@ public class PlayerHelper {
     }
 
 
-    public static void sendMessage(ServerPlayer player, TextComponent component) {
+    public static void sendMessage(ServerPlayer player, Component component) {
         if(player != null) {
-            player.sendMessage(component, player.getUUID());
+            //player.sendMessage(component, player.getUUID());
+            player.displayClientMessage(component, false);
         }
     }
 

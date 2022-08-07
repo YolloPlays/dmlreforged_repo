@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public abstract class MobMetaData {
     protected String name;
@@ -94,7 +95,7 @@ public abstract class MobMetaData {
     }
 
     public boolean entityLivingMatchesMob(LivingEntity entity) {      
-        ResourceLocation registryName = entity.getType().getRegistryName();
+        ResourceLocation registryName = ForgeRegistries.ENTITY_TYPES.getKey(entity.getType());
         if (registryName != null) {
             String name = registryName.toString();
             for (String mobRegname : MobConfig.getMobs(getKey())) {

@@ -29,7 +29,6 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
@@ -125,12 +124,12 @@ public class DeepLearnerScreen extends AbstractContainerScreen<DeepLearnerContai
 		int leftStart = getGuiLeft() - 32;
         int top = getGuiTop() - 32;
         int spacing = 12;
-		drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.not_found"), leftStart, top + spacing, 0x55FFFF);
-		drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.insert"), leftStart, top + (spacing*2), 0xFFFFFF);
-		drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.collect_data"), leftStart, top + (spacing*3), 0xFFFFFF);
-		drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.when_placed"), leftStart, top + (spacing*4), 0xFFFFFF);
-		drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.in_order"), leftStart, top + (spacing*6), 0xFFFFFF);
-		drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.killing_blow"), leftStart, top + (spacing*7), 0xFFFFFF);		
+		drawString(pose, font, Component.translatable("dmlreforged.gui.deep_learner.not_found"), leftStart, top + spacing, 0x55FFFF);
+		drawString(pose, font, Component.translatable("dmlreforged.gui.deep_learner.insert"), leftStart, top + (spacing*2), 0xFFFFFF);
+		drawString(pose, font, Component.translatable("dmlreforged.gui.deep_learner.collect_data"), leftStart, top + (spacing*3), 0xFFFFFF);
+		drawString(pose, font, Component.translatable("dmlreforged.gui.deep_learner.when_placed"), leftStart, top + (spacing*4), 0xFFFFFF);
+		drawString(pose, font, Component.translatable("dmlreforged.gui.deep_learner.in_order"), leftStart, top + (spacing*6), 0xFFFFFF);
+		drawString(pose, font, Component.translatable("dmlreforged.gui.deep_learner.killing_blow"), leftStart, top + (spacing*7), 0xFFFFFF);		
 	}
 	
     private void renderMetaDataText(MobMetaData meta, int left, int top, ItemStack stack, PoseStack pose) {
@@ -150,23 +149,23 @@ public class DeepLearnerScreen extends AbstractContainerScreen<DeepLearnerContai
         String pluralMobName = DataModelHelper.getMobMetaData(stack).getPluralName();        
         int totalKills = DataModelHelper.getTotalKillCount(stack);
         double killsToNextTier = DataModelHelper.getKillsToNextTier(stack);
-        drawString(pose, font, new TranslatableComponent("dmlreforged.tiers.tier", dataModelTier), leftStart, topStart + (spacing * 8), 0xFFFFFF);
+        drawString(pose, font, Component.translatable("dmlreforged.tiers.tier", dataModelTier), leftStart, topStart + (spacing * 8), 0xFFFFFF);
         drawString(pose, font, pluralMobName + " defeated: " + totalKills, leftStart, topStart + (spacing * 9), 0xFFFFFF);
         if(DataModelHelper.getTier(stack) != DeepMobLearning.DATA_MODEL_MAXIMUM_TIER) {
-            drawString(pose, font, new TranslatableComponent("dmlreforged.tiers.tier_next", f.format(killsToNextTier), nextTier), leftStart, topStart + (spacing * 10), 0xFFFFFF);
+            drawString(pose, font, Component.translatable("dmlreforged.tiers.tier_next", f.format(killsToNextTier), nextTier), leftStart, topStart + (spacing * 10), 0xFFFFFF);
         } else {
-            drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.max"), leftStart, topStart + (spacing * 10), 0xFFFFFF);
+            drawString(pose, font, Component.translatable("dmlreforged.gui.deep_learner.max"), leftStart, topStart + (spacing * 10), 0xFFFFFF);
         }
         // Draw heart
 		RenderSystem.setShader(GameRenderer::getPositionTexShader);
 		RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 		RenderSystem.setShaderTexture(0, base);
         blit(pose, left + 154, topStart + (spacing * 2) - 2, 0, 140, 9, 9);
-        drawString(pose, font, new TranslatableComponent("dmlreforged.gui.deep_learner.hp"), left + 154, topStart + spacing, 0x55FFFF);
+        drawString(pose, font, Component.translatable("dmlreforged.gui.deep_learner.hp"), left + 154, topStart + spacing, 0x55FFFF);
         int numOfHearts = meta.getNumberOfHearts();
         if(numOfHearts == 0) {
             // Obfuscate if hearts is 0, use for models with multiple mobmetas
-            drawString(pose, font, "§k10§r", left + 164, topStart + (spacing * 2) - 1, 0xFFFFFF);
+            drawString(pose, font, "ï¿½k10ï¿½r", left + 164, topStart + (spacing * 2) - 1, 0xFFFFFF);
         } else {
             drawString(pose, font, "" + meta.getNumberOfHearts(), left + 164, topStart + (spacing * 2) - 1, 0xFFFFFF);
         }

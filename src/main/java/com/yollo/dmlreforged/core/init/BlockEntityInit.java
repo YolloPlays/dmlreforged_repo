@@ -11,7 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class BlockEntityInit {
 	
-	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, DeepMobLearning.MOD_ID);
+	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, DeepMobLearning.MOD_ID);
 
 	 public static final RegistryObject<BlockEntityType<BlockEntitySimulationChamber>> ENTITY_SIMULATION_CHAMBER = BLOCK_ENTITIES
 	            .register("simulation_chamber", () -> BlockEntityType.Builder

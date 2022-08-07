@@ -7,14 +7,11 @@ import com.yollo.dmlreforged.client.screen.DataOverlay;
 import com.yollo.dmlreforged.client.screen.DeepLearnerScreen;
 import com.yollo.dmlreforged.client.screen.ExtractionChamberScreen;
 import com.yollo.dmlreforged.client.screen.SimulationChamberScreen;
-import com.yollo.dmlreforged.core.init.BlockInit;
 import com.yollo.dmlreforged.core.init.ContainerInit;
 
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -36,10 +33,9 @@ public class ClientHandler {
             MenuScreens.register(ContainerInit.DEEP_LEARNER.get(), DeepLearnerScreen::new);
             MenuScreens.register(ContainerInit.SIMULATION_CHAMBER.get(), SimulationChamberScreen::new);
             MenuScreens.register(ContainerInit.EXTRACTION_CHAMBER.get(), ExtractionChamberScreen::new);
-            MinecraftForge.EVENT_BUS.register(new DataOverlay(TextComponent.EMPTY));
+            MinecraftForge.EVENT_BUS.register(new DataOverlay(Component.empty()));
         });
 
-        ItemBlockRenderTypes.setRenderLayer(BlockInit.SIMULATION_CHAMBER.get(), RenderType.solid());
     }
 	
 	public static <T extends AbstractContainerMenu> MenuType<T> createMenuType(TriFunction<Integer, Inventory, FriendlyByteBuf, T> constructor) {

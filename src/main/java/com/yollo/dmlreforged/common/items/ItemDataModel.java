@@ -9,8 +9,6 @@ import com.yollo.dmlreforged.core.util.DataModelLevelupHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -31,7 +29,7 @@ public class ItemDataModel extends Item{
 	
 	@Override
 	public Component getName(ItemStack p_41458_) {
-		return new TranslatableComponent(super.getName(p_41458_).getString()).withStyle(t -> t.withColor(ChatFormatting.AQUA));
+		return Component.translatable(super.getName(p_41458_).getString()).withStyle(t -> t.withColor(ChatFormatting.AQUA));
 	}
 	
 	
@@ -39,27 +37,27 @@ public class ItemDataModel extends Item{
 	public void appendHoverText(ItemStack stack, Level world, List<Component> list, TooltipFlag flagIn) {
 		if(!Screen.hasShiftDown())
 		{
-			list.add(new TranslatableComponent("dmlreforged.holdshift", new TextComponent("SHIFT").withStyle(t -> t.withColor(ChatFormatting.WHITE).withItalic(true))).withStyle(t -> t.withColor(ChatFormatting.GRAY)));
+			list.add(Component.translatable("dmlreforged.holdshift", Component.literal("SHIFT").withStyle(t -> t.withColor(ChatFormatting.WHITE).withItalic(true))).withStyle(t -> t.withColor(ChatFormatting.GRAY)));
 		}
 		else {
-			list.add(new TranslatableComponent("dmlreforged.data_model.tier", DataModelHelper.getTierName(stack, false)));
+			list.add(Component.translatable("dmlreforged.data_model.tier", DataModelHelper.getTierName(stack, false)));
 			int tier = DataModelHelper.getTier(stack);
 			if(tier != DeepMobLearning.DATA_MODEL_MAXIMUM_TIER) {
-				list.add(new TranslatableComponent("dmlreforged.data_model.data.collected", 
-						new TextComponent(Integer.toString(DataModelHelper.getCurrentTierSimulationCountWithKills(stack))).withStyle(t -> t.withColor(ChatFormatting.GRAY)), 
-						new TextComponent(Integer.toString(DataModelHelper.getTierRoof(stack))).withStyle(t -> t.withColor(ChatFormatting.GRAY))));
-				list.add(new TranslatableComponent("dmlreforged.data_model.data.killmultiplier", 
-						new TextComponent(Integer.toString(DataModelLevelupHelper.getKillMultiplier(DataModelHelper.getTier(stack)))).withStyle(t -> t.withColor(ChatFormatting.GRAY))));
+				list.add(Component.translatable("dmlreforged.data_model.data.collected", 
+						Component.literal(Integer.toString(DataModelHelper.getCurrentTierSimulationCountWithKills(stack))).withStyle(t -> t.withColor(ChatFormatting.GRAY)), 
+						Component.literal(Integer.toString(DataModelHelper.getTierRoof(stack))).withStyle(t -> t.withColor(ChatFormatting.GRAY))));
+				list.add(Component.translatable("dmlreforged.data_model.data.killmultiplier", 
+						Component.literal(Integer.toString(DataModelLevelupHelper.getKillMultiplier(DataModelHelper.getTier(stack)))).withStyle(t -> t.withColor(ChatFormatting.GRAY))));
 			}
-			list.add(new TranslatableComponent("dmlreforged.data_model.rfcost", new TextComponent(Integer.toString(DataModelHelper.getSimulationTickCost(stack))).withStyle(t -> t.withColor(ChatFormatting.GRAY))));
+			list.add(Component.translatable("dmlreforged.data_model.rfcost", Component.literal(Integer.toString(DataModelHelper.getSimulationTickCost(stack))).withStyle(t -> t.withColor(ChatFormatting.GRAY))));
 			if(DataModelHelper.getMatterTypeName(stack) == "living_matter_hellish") {
-				list.add(new TranslatableComponent("dmlreforged.data_model.type_text", new TranslatableComponent("dmlreforged.living_matter.hellish").withStyle(t -> t.withColor(ChatFormatting.DARK_RED))));
+				list.add(Component.translatable("dmlreforged.data_model.type_text", Component.translatable("dmlreforged.living_matter.hellish").withStyle(t -> t.withColor(ChatFormatting.DARK_RED))));
 			}
 			if(DataModelHelper.getMatterTypeName(stack) == "living_matter_extraterrestrial") {
-				list.add(new TranslatableComponent("dmlreforged.data_model.type_text", new TranslatableComponent("dmlreforged.living_matter.extraterrestrial").withStyle(t -> t.withColor(ChatFormatting.LIGHT_PURPLE))));
+				list.add(Component.translatable("dmlreforged.data_model.type_text", Component.translatable("dmlreforged.living_matter.extraterrestrial").withStyle(t -> t.withColor(ChatFormatting.LIGHT_PURPLE))));
 			}
 			if (DataModelHelper.getMatterTypeName(stack) == "living_matter_overworldian"){
-				list.add(new TranslatableComponent("dmlreforged.data_model.type_text", new TranslatableComponent("dmlreforged.living_matter.overworldian").withStyle(t -> t.withColor(ChatFormatting.GREEN))));
+				list.add(Component.translatable("dmlreforged.data_model.type_text", Component.translatable("dmlreforged.living_matter.overworldian").withStyle(t -> t.withColor(ChatFormatting.GREEN))));
 			}
 			
 		}

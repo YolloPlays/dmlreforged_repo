@@ -1,5 +1,6 @@
 package com.yollo.dmlreforged;
 
+import com.yollo.dmlreforged.common.loot.GlitchFragmentModifier;
 import com.yollo.dmlreforged.core.configs.Config;
 import com.yollo.dmlreforged.core.init.BlockEntityInit;
 import com.yollo.dmlreforged.core.init.BlockInit;
@@ -45,6 +46,8 @@ public class DeepMobLearning {
 		ContainerInit.CONTAINERS.register(bus);
 		ItemInit.ITEMS.register(bus);
 		BlockEntityInit.BLOCK_ENTITIES.register(bus);
+		GlitchFragmentModifier.GLM.register(bus);
+		
 
 		MinecraftForge.EVENT_BUS.register(this);
 	}

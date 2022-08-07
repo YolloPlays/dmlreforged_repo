@@ -21,8 +21,6 @@ import com.yollo.dmlreforged.core.util.MathHelper;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
@@ -102,22 +100,22 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
 				if (!getMenu().getDataModel().isEmpty()) {
 					if (DataModelHelper
 							.getTier(getMenu().getDataModel()) != DeepMobLearning.DATA_MODEL_MAXIMUM_TIER) {
-						tooltip.add(new TranslatableComponent("dmlreforged.gui.simulation_chamber.collected", DataModelHelper
+						tooltip.add(Component.translatable("dmlreforged.gui.simulation_chamber.collected", DataModelHelper
 								.getCurrentTierSimulationCountWithKills(getMenu().getDataModel()),
 								DataModelHelper.getTierRoof(getMenu().getDataModel())));
 					} else {
-						tooltip.add(new TranslatableComponent("dmlreforged.gui.simulation_chamber.max_tier"));
+						tooltip.add(Component.translatable("dmlreforged.gui.simulation_chamber.max_tier"));
 					}
 				} else {
-					tooltip.add(new TranslatableComponent("dmlreforged.gui.simulation_chamber.missing"));
+					tooltip.add(Component.translatable("dmlreforged.gui.simulation_chamber.missing"));
 				}
 				renderComponentTooltip(pose, tooltip, pMouseX + 2, pMouseY + 2);
 			} else if(182 <= x && x < 191) {
 				// Tooltip for energy
-				tooltip.add(new TranslatableComponent("dmlreforged.gui.energy.energystored", f.format(energyStored), f.format(maxEnergy)));
+				tooltip.add(Component.translatable("dmlreforged.gui.energy.energystored", f.format(energyStored), f.format(maxEnergy)));
 				if (!getMenu().getDataModel().isEmpty()) {
 					MobMetaData meta = DataModelHelper.getMobMetaData(getMenu().getDataModel());
-					tooltip.add(new TranslatableComponent("dmlreforged.gui.simulation_chamber.drain", f.format(meta.getSimulationTickCost())));
+					tooltip.add(Component.translatable("dmlreforged.gui.simulation_chamber.drain", f.format(meta.getSimulationTickCost())));
 				}
 				renderComponentTooltip(pose, tooltip, pMouseX - 90, pMouseY - 16);
 			}
@@ -128,7 +126,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
 
 		int leftTopConsole = left - 11;
 		if(!(getMenu().getDataModel().getItem() instanceof ItemDataModel)) {
-            lines = new Component[] {new TranslatableComponent("dmlreforged.gui.simulation_chamber.insert"), new TranslatableComponent("dmlreforged.gui.simulation_chamber.to_begin")};
+            lines = new Component[] {Component.translatable("dmlreforged.gui.simulation_chamber.insert"), Component.translatable("dmlreforged.gui.simulation_chamber.to_begin")};
 
             Animation a1 = getAnimation("pleaseInsert1");
             Animation a2 = getAnimation("pleaseInsert2");
@@ -138,7 +136,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
 
         } else if(DataModelHelper.getTier(getMenu().getDataModel()) == 0) {
 
-            lines = new Component[] {new TextComponent("Insufficient data in model"), new TextComponent("please insert a basic model"), new TextComponent("or better ")};
+            lines = new Component[] {Component.literal("Insufficient data in model"), Component.literal("please insert a basic model"), Component.literal("or better ")};
 
             Animation insufData = getAnimation("insufData1");
             Animation insufData2 = getAnimation("insufData2");
@@ -161,7 +159,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
                 blit(pose, leftTopConsole + 6,  top + 48 + experienceBarOffset, 18, 141, 7, experienceBarHeight);
             }
 
-            drawString(pose, font, new TranslatableComponent("dmlreforged.tiers.tier", DataModelHelper.getTierName(getMenu().getDataModel(), false)), leftTopConsole, topStart + spacing, 0xFFFFFF);
+            drawString(pose, font, Component.translatable("dmlreforged.tiers.tier", DataModelHelper.getTierName(getMenu().getDataModel(), false)), leftTopConsole, topStart + spacing, 0xFFFFFF);
             drawString(pose, font, "Iterations: " + f.format(DataModelHelper.getTotalSimulationCount(getMenu().getDataModel())), leftTopConsole, topStart + spacing * 2, 0xFFFFFF);
             drawString(pose, font, "Pristine chance: " + DataModelHelper.getPristineChance(getMenu().getDataModel()) + "%", leftTopConsole, topStart + spacing * 3, 0xFFFFFF);
         }
@@ -175,9 +173,9 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
         int leftStart = getGuiLeft();
         int topStart = getGuiTop()+14;
         if(getMenu().getDataModel().isEmpty() || DataModelHelper.getTier(getMenu().getDataModel()) == 0) {
-            animateString(pose, new TextComponent("_"), getAnimation("blinkingUnderline"), null, 16, true, leftStart, topStart, 0xFFFFFF);
+            animateString(pose, Component.literal("_"), getAnimation("blinkingUnderline"), null, 16, true, leftStart, topStart, 0xFFFFFF);
         } else if(getMenu().getPolymerClay().isEmpty() && this.menu.data.get(0) == 0) {
-            lines = new Component[] {new TextComponent("Cannot begin simulation"), new TextComponent("Missing polymer medium"), new TextComponent("_")};
+            lines = new Component[] {Component.literal("Cannot begin simulation"), Component.literal("Missing polymer medium"), Component.literal("_")};
             Animation a1 = getAnimation("inputSlotEmpty1");
             Animation a2 = getAnimation("inputSlotEmpty2");
             Animation a3 = getAnimation("blinkingUnderline1");
@@ -187,7 +185,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             animateString(pose, lines[2], a3, a2, 16, true, leftStart, topStart + (spacing * 2), 0xFFFFFF);
 
         } else if(getMenu().data.get(1) < (300 * DataModelHelper.getSimulationTickCost(getMenu().getDataModel())) && this.menu.data.get(0) == 0) {
-            lines = new Component[] {new TextComponent("Cannot begin simulation"), new TextComponent("System energy levels critical"), new TextComponent("_")};
+            lines = new Component[] {Component.literal("Cannot begin simulation"), Component.literal("System energy levels critical"), Component.literal("_")};
             Animation a1 = getAnimation("lowEnergy1");
             Animation a2 = getAnimation("lowEnergy2");
             Animation a3 = getAnimation("blinkingUnderline2");
@@ -196,7 +194,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             animateString(pose, lines[1], a2, a1, 1, false, leftStart, topStart + spacing, 0xFFFFFF);
             animateString(pose, lines[2], a3, a2, 16, true, leftStart, topStart + (spacing * 2), 0xFFFFFF);
         } else if(getMenu().outputIsFull() || getMenu().pristineIsFull() && this.menu.data.get(0) == 0) {
-            lines = new Component[] {new TextComponent("Cannot begin simulation"), new TextComponent("Output or pristine buffer is full"), new TextComponent("_")};
+            lines = new Component[] {Component.literal("Cannot begin simulation"), Component.literal("Output or pristine buffer is full"), Component.literal("_")};
             Animation a1 = getAnimation("outputSlotFilled1");
             Animation a2 = getAnimation("outputSlotFilled2");
             Animation a3 = getAnimation("blinkingUnderline3");
@@ -225,7 +223,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
             drawString(pose, font, getSimulationText("blinkingDots1"), getGuiLeft() + 109, topStart + (spacing * 6), 0xFFFFFF);
             
         } else {
-            animateString(pose, new TextComponent("_"), getAnimation("blinkingUnderline"), null, 16, true, leftStart, topStart + 49, 0xFFFFFF);
+            animateString(pose, Component.literal("_"), getAnimation("blinkingUnderline"), null, 16, true, leftStart, topStart + 49, 0xFFFFFF);
         }
     }
 
@@ -299,24 +297,24 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
 		boolean byproductSuccess = succesInt == 1;
 //		Component byproductPrinter;
 //		if(byproductSuccess) {
-//			byproductPrinter = new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.8_succeeded").withStyle(t -> t.withColor(ChatFormatting.GREEN));
+//			byproductPrinter = Component.translatable("dmlreforged.gui.simulation_chamber.console.8_succeeded").withStyle(t -> t.withColor(ChatFormatting.GREEN));
 //		}else {
-//			byproductPrinter = new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.8_failed").withStyle(t -> t.withColor(ChatFormatting.RED));
+//			byproductPrinter = Component.translatable("dmlreforged.gui.simulation_chamber.console.8_failed").withStyle(t -> t.withColor(ChatFormatting.RED));
 //		}
 		Component[] lines = new Component[] {
-                new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.1"),
-                new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.2"),
-                new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.3", (DataModelHelper.getTotalSimulationCount(stack) + 1)),
-	    		new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.4"),
-				new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.5"),
-				new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.6"),
-				new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.7"),
-				new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.8_" + (byproductSuccess ? "succeeded" : "failed")),
-				new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.9"),
-				new TranslatableComponent("dmlreforged.gui.simulation_chamber.console.10")
+                Component.translatable("dmlreforged.gui.simulation_chamber.console.1"),
+                Component.translatable("dmlreforged.gui.simulation_chamber.console.2"),
+                Component.translatable("dmlreforged.gui.simulation_chamber.console.3", (DataModelHelper.getTotalSimulationCount(stack) + 1)),
+	    		Component.translatable("dmlreforged.gui.simulation_chamber.console.4"),
+				Component.translatable("dmlreforged.gui.simulation_chamber.console.5"),
+				Component.translatable("dmlreforged.gui.simulation_chamber.console.6"),
+				Component.translatable("dmlreforged.gui.simulation_chamber.console.7"),
+				Component.translatable("dmlreforged.gui.simulation_chamber.console.8_" + (byproductSuccess ? "succeeded" : "failed")),
+				Component.translatable("dmlreforged.gui.simulation_chamber.console.9"),
+				Component.translatable("dmlreforged.gui.simulation_chamber.console.10")
         };
 
-        String resultPrefix = byproductSuccess ? "§a" : "§c";
+        String resultPrefix = byproductSuccess ? "ï¿½a" : "ï¿½c";
 
         Animation aLine1 = getAnimation("simulationProgressLine1");
         Animation aLine1Version = getAnimation("simulationProgressLine1Version");
@@ -334,7 +332,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
         Animation aLine8 = getAnimation("blinkingDots1");
 
         simulationText.put("simulationProgressLine1", animate(lines[0], aLine1, null, 1, false, level));
-        simulationText.put("simulationProgressLine1Version", "§6" + animate(lines[1], aLine1Version, aLine1, 1, false, level));
+        simulationText.put("simulationProgressLine1Version", "ï¿½6" + animate(lines[1], aLine1Version, aLine1, 1, false, level));
 
         simulationText.put("simulationProgressLine2", animate(lines[2], aLine2, aLine1Version, 1, false, level));
 
@@ -343,7 +341,7 @@ public class SimulationChamberScreen extends AbstractContainerScreen<SimulationC
         simulationText.put("simulationProgressLine5", animate(lines[5], aLine5, aLine4, 2, false, level));
 
         simulationText.put("simulationProgressLine6", animate(lines[6], aLine6, aLine5, 2, false, level));
-        simulationText.put("simulationProgressLine6Result", animate(new TextComponent(resultPrefix + lines[7].getString()), aLine6Result, aLine6, 2, false, level));
+        simulationText.put("simulationProgressLine6Result", animate(Component.literal(resultPrefix + lines[7].getString()), aLine6Result, aLine6, 2, false, level));
 
         simulationText.put("simulationProgressLine7", animate(lines[8], aLine7, aLine6Result, 1, false, level));
         simulationText.put("blinkingDots1", animate(lines[9], aLine8, aLine7, 8, true, level));
