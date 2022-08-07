@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.yollo.dmlreforged.common.items.ItemDataModel;
 import com.yollo.dmlreforged.common.items.ItemDeepLearner;
 import com.yollo.dmlreforged.common.items.ItemGlitchArmor;
-import com.yollo.dmlreforged.common.items.ItemGlitchSword;
 import com.yollo.dmlreforged.common.mobmetas.MobMetaData;
 import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 import com.yollo.dmlreforged.core.init.ItemInit;
@@ -95,9 +94,6 @@ public class GlitchFragmentModifier extends LootModifier{
             if (stack.getItem() instanceof ItemDataModel) {
                 MobMetaData meta = DataModelHelper.getMobMetaData(stack);
                 if(meta.entityLivingMatchesMob(entity)) {
-                	if(player.getMainHandItem().getItem() instanceof ItemGlitchSword) {
-                    	DataModelHelper.increaseMobKillCount(stack, player);
-                    }
                     DataModelHelper.increaseMobKillCount(stack, player);
                     result.add(stack);
                 }

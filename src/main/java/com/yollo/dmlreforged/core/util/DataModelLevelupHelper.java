@@ -6,18 +6,18 @@ import com.yollo.dmlreforged.core.configs.BalanceConfigs;
 public class DataModelLevelupHelper {
     // Simulations have no multipliers, they are always 1x
     private static final int[] killMultiplier = {
-        BalanceConfigs.killMultiplierTier0.get(), 1, 100,
-        BalanceConfigs.killMultiplierTier1.get(), 1, 100,
-        BalanceConfigs.killMultiplierTier2.get(), 1, 100,
-        BalanceConfigs.killMultiplierTier3.get(), 1, 100,
+        BalanceConfigs.killMultiplierTier0.get(),
+        BalanceConfigs.killMultiplierTier1.get(),
+        BalanceConfigs.killMultiplierTier2.get(),
+        BalanceConfigs.killMultiplierTier3.get(),
         0 // Max tier, no kill multiplier
     };
 
     private static final int[] maxExperience = {
-        BalanceConfigs.killsToTier1.get(), 1, 500 * killMultiplier[0],
-        BalanceConfigs.killsToTier2.get(), 1, 500 * killMultiplier[1],
-        BalanceConfigs.killsToTier3.get(), 1, 500 * killMultiplier[2],
-        BalanceConfigs.killsToTier4.get(), 1, 500 * killMultiplier[3],
+        BalanceConfigs.killsToTier1.get() * killMultiplier[0],
+        BalanceConfigs.killsToTier2.get() * killMultiplier[1],
+        BalanceConfigs.killsToTier3.get() * killMultiplier[2],
+        BalanceConfigs.killsToTier4.get() * killMultiplier[3],
     };
 
     /* tier is CURRENT tier, kc is kill count for CURRENT tier, sc is simulation count for CURRENT  tier */

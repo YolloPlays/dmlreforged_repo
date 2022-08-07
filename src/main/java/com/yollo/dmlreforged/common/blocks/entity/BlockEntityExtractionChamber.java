@@ -83,7 +83,8 @@ public class BlockEntityExtractionChamber extends InventoryBlockEntity{
         }
         if(!pLevel.isClientSide) {
         	// Used for dev purpose due to not having an in-build generator.
-            //energyStorage.receiveEnergy(520, false);
+        	// energyStorage.receiveEnergy(520, false);
+        	// energyStorage.setEnergy(520);
             if(pristineChanged()) {
                 finishCraft(true);
                 this.selected = false;
