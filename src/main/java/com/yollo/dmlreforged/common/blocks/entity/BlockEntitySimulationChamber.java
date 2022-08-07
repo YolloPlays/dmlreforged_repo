@@ -96,7 +96,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
         
         if(!pLevel.isClientSide) {
         	// Used for dev purpose due to not having an in-build generator.
-            //energyStorage.receiveEnergy(520, false);
+            // energyStorage.receiveEnergy(520, false);
             if(!isCrafting()) {
                 if(canStartSimulation()) {
                     startSimulation(be);
@@ -190,7 +190,7 @@ public class BlockEntitySimulationChamber extends InventoryBlockEntity {
     }
 
     private boolean canContinueSimulation() {
-        return hasEnergyForSimulation() && hasDataModel() && DataModelHelper.getTier(getDataModel()) != 0;
+        return hasDataModel() && DataModelHelper.getTier(getDataModel()) != 0;
     }
 
     private boolean dataModelTypeChanged() {
