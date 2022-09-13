@@ -154,7 +154,7 @@
     "dmlreforged.hover_text.glitch_infused_armor_4": "    当数据模型获得数据时。",
     "dmlreforged.hover_text.glitch_infused_armor_5": "  2、飞行与对坠落伤害的免疫",
     "dmlreforged.hover_text.soot_covered_redstone_1": "通过粉碎 %1$s 合成",
-    "dmlreforged.hover_text.soot_covered_redstone_2": "a %1$s (左键单击)",
+    "dmlreforged.hover_text.soot_covered_redstone_2": "%1$s (左键单击)",
 
     "dmlreforged.messages.sword_levelup.max": "您的 %1$s 现在已经达到了最佳性能！",
     "dmlreforged.messages.sword_levelup": "您的 %1$s 的力量在增长！",
